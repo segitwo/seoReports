@@ -33,7 +33,7 @@ class ReportController extends Controller
     function create(ReportFormRequest $request){
 
         $siteKey = $request->input('siteid');
-        $allpKey = $request->input('allpid');
+        $rinkingKey = $request->input('se_ranking');
 
 
         $today = Carbon::parse($request->input('date'));
@@ -49,7 +49,7 @@ class ReportController extends Controller
 
         $dataOutput["prevDay"] = $prevDay->format('d.m.Y');
 
-        $MetrikData = new MetricStats($siteKey, $allpKey, $today);
+        $MetrikData = new MetricStats($siteKey, $rinkingKey, $today);
 
         //Общая посещаемость сайта--------------------------------------------------------------------------------------------------------------------------------------------------------------
         $dataOutput["totalVisitsTable"] = $MetrikData->getTotalVisitsData();
@@ -140,14 +140,14 @@ class ReportController extends Controller
         }
 
         $resultData = $MetrikData->getSEData();
-        $generalStatistic["prevSEGuests"] = $resultData["total"][1];
-        $generalStatistic["nextSEGuests"] = $resultData["total"][2];
+        $generalStatistic["prevSEGuests"] = $resultData["total"][0];
+        $generalStatistic["nextSEGuests"] = $resultData["total"][1];
 
-        $generalStatisticSEChange = $resultData["total"][2] - $resultData["total"][1];
+        $generalStatisticSEChange = $resultData["total"][1] - $resultData["total"][0];
 
         $generalStatistic["SEgrouth"] = "down";
         if($generalStatisticSEChange > 0){
-            $generalStatisticChangeSEPercent = round(($generalStatisticSEChange * 100) / $resultData["total"][2], 2);
+            $generalStatisticChangeSEPercent = round(($generalStatisticSEChange * 100) / $resultData["total"][1], 2);
             $generalStatistic["SEpercent"] = $generalStatisticChangeSEPercent;
             if($generalStatisticChangeSEPercent > 10){
                 $generalStatistic["SEgrouth"] = "up";
@@ -281,10 +281,10 @@ class ReportController extends Controller
         $today = Carbon::parse($request->input('date'));
 
         $siteKey = $request->input('siteid');
-        $allpKey = $request->input('allpid');
+        $rinkingKey = $request->input('se_ranking');
 
 
-        $MetrikData = new MetricStats($siteKey, $allpKey, $today);
+        $MetrikData = new MetricStats($siteKey, $rinkingKey, $today);
 
         $statsData = [];
 

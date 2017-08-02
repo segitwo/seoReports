@@ -40,7 +40,7 @@ class ProjectsController extends Controller
         $project->name = $request->get('name');
         $project->url = $request->get('url');
         $project->metric = $request->get('metric');
-        $project->allp = $request->get('allp');
+        $project->se_ranking = $request->get('se_ranking');
 
         $project->save();
 
@@ -86,7 +86,7 @@ class ProjectsController extends Controller
         $project->name = $request->get('name');
         $project->url = $request->get('url');
         $project->metric = $request->get('metric');
-        $project->allp = $request->get('allp');
+        $project->se_ranking = $request->get('se_ranking');
 
         $project->save();
 

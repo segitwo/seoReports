@@ -284,7 +284,7 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
     );
 
     public static $classMap = array (
-        'AddAllpAndLastupdateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_07_17_140625_add_allp_and_lastupdate_to_project.php',
+        'AddSerankingAndLastupdateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -311,8 +311,11 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Stats\\AllPositions' => __DIR__ . '/../..' . '/app/Stats/AllPositions.php',
         'App\\Stats\\AutoText' => __DIR__ . '/../..' . '/app/Stats/AutoText.php',
-        'App\\Stats\\MetrikData' => __DIR__ . '/../..' . '/app/Stats/MetricStats.php',
+        'App\\Stats\\MetricStats' => __DIR__ . '/../..' . '/app/Stats/MetricStats.php',
+        'App\\Stats\\MetrikData' => __DIR__ . '/../..' . '/app/Stats/MetrikData.php',
+        'App\\Stats\\SERanking' => __DIR__ . '/../..' . '/app/Stats/SERanking.php',
         'App\\Stats\\Word' => __DIR__ . '/../..' . '/app/Stats/Word.php',
+        'App\\Stats\\YMarket' => __DIR__ . '/../..' . '/app/Stats/YMarket.php',
         'App\\Stats\\YMetric' => __DIR__ . '/../..' . '/app/Stats/YMetric.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',

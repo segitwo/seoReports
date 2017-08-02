@@ -17,7 +17,7 @@
                                 @endforeach
                             </select>
                             <input type="hidden" name="id" value="">
-                            <input type="hidden" name="allpid" value="">
+                            <input type="hidden" name="se_ranking" value="">
                             <input type="hidden" name="sitename" value="">
                         </div>
                     </div>

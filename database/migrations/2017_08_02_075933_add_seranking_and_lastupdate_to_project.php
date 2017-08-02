@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 use Carbon\Carbon;
 
-class AddAllpAndLastupdateToProject extends Migration
+class AddSerankingAndLastupdateToProject extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class AddAllpAndLastupdateToProject extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->integer('allp');
+            $table->integer('se_ranking');
             $table->date('last_update')->default(Carbon::now());
         });
     }
@@ -29,7 +29,7 @@ class AddAllpAndLastupdateToProject extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('allp');
+            $table->dropColumn('se_ranking');
             $table->dropColumn('last_update');
         });
     }

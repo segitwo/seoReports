@@ -14,8 +14,8 @@ $(document).ready(function(){
     $('select[name="siteid"]').select2({dropdownCssClass: 'show-select-search'});
     
     $("select[name='siteid']").change(function(){
-        var allp = $("select[name='siteid'] option:selected").data("allp");
-        $("input[name='allpid']").val(allp);
+        var se_ranking = $("select[name='siteid'] option:selected").data("se_ranking");
+        $("input[name='se_ranking']").val(se_ranking);
         
         var sitename = $("select[name='siteid'] option:selected").data("name");
         $("input[name='sitename']").val(sitename);

@@ -8,16 +8,16 @@ use Carbon\Carbon;
 class MetricStats {
 
     private $siteKey = "";
-    private $allpKey = "";
+    private $rankingKey = "";
     private $montharr = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
     private $today;
     private $prevDay;
     private $days;
 
-    public function __construct($siteKey, $allpKey = "", Carbon $today) {
+    public function __construct($siteKey, $rinkingKey = "", Carbon $today) {
         $this->siteKey = $siteKey;
-        $this->allpKey = $allpKey;
+        $this->rankingKey = $rinkingKey;
 
         $this->today = $today;
         $this->prevDay = clone $today;
@@ -73,7 +73,7 @@ class MetricStats {
 
 
         $prevDay = clone $this->today;
-        $prevDay->modify('-3 month');
+        $prevDay->modify('-2 month')->modify('+1 day');
 
         $days = [$prevDay->format('Y-m-d'), $this->today->format('Y-m-d')];
 
@@ -81,14 +81,18 @@ class MetricStats {
             'preset' => 'search_engines',
             'days' => $days,
             'sort' => 'ym:s:date',
-            'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:lastSearchEngine,ym:s:lastSearchPhrase,ym:s:date',
-            'filters' => 'ym:s:date!=null'
+            'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:date',
+            'filters' => 'ym:s:date!=null',
+            'metric' => 'ym:s:visits'
         ]);
+        //'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:lastSearchEngine,ym:s:lastSearchPhrase,ym:s:date',
+        //dd($metricData->data);
+
+
 
         $preResultData = [];
-
         foreach($metricData->data as $idx => $data) {
-            $dateArray = (array)$data->dimensions[3];
+            $dateArray = (array)$data->dimensions[1];
 
             $SEData = (array)$data->dimensions[0];
             $metricVals = $data->metrics;
@@ -328,7 +332,7 @@ class MetricStats {
         $keyWordsStat = SERanking::getData($params = [
             'method' => 'stat',
             'data' => [
-                'siteid' => '222246',
+                'siteid' => $this->rankingKey,
                 'dateStart' => $this->prevDay->format('Y-m-d'),
                 'dateEnd' => $this->today->format('Y-m-d'),
             ]

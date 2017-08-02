@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'AddAllpAndLastupdateToProject' => $baseDir . '/database/migrations/2017_07_17_140625_add_allp_and_lastupdate_to_project.php',
+    'AddSerankingAndLastupdateToProject' => $baseDir . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -33,8 +33,11 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Stats\\AllPositions' => $baseDir . '/app/Stats/AllPositions.php',
     'App\\Stats\\AutoText' => $baseDir . '/app/Stats/AutoText.php',
-    'App\\Stats\\MetrikData' => $baseDir . '/app/Stats/MetricStats.php',
+    'App\\Stats\\MetricStats' => $baseDir . '/app/Stats/MetricStats.php',
+    'App\\Stats\\MetrikData' => $baseDir . '/app/Stats/MetrikData.php',
+    'App\\Stats\\SERanking' => $baseDir . '/app/Stats/SERanking.php',
     'App\\Stats\\Word' => $baseDir . '/app/Stats/Word.php',
+    'App\\Stats\\YMarket' => $baseDir . '/app/Stats/YMarket.php',
     'App\\Stats\\YMetric' => $baseDir . '/app/Stats/YMetric.php',
     'App\\User' => $baseDir . '/app/User.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',

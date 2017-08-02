@@ -25,7 +25,7 @@ class ReportFormRequest extends FormRequest
     {
         return [
             'siteid' => 'required',
-            'allpid' => 'required'
+            'se_ranking' => 'required'
         ];
     }
 }

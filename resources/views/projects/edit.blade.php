@@ -27,8 +27,8 @@
             </div>
 
             <div class="form-group">
-                {!! Form::label('note', 'ID allpositions') !!}
-                {!! Form::text('allp', null, ['class' => 'form-control', 'placeholder' => '']) !!}
+                {!! Form::label('note', 'ID SEranking') !!}
+                {!! Form::text('se_ranking', null, ['class' => 'form-control', 'placeholder' => '']) !!}
             </div>
 
             <div class="form-group">
