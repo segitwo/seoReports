@@ -12,7 +12,7 @@
             break;
     }
 
-    $growthStatement = 'В период с ' . $prevDay  . ' по ' . $today . 'наблюдается ' . $growthStatement . ':';
+    $growthStatement = 'В период с ' . $prevDay  . ' по ' . $today . ' наблюдается ' . $growthStatement . ':';
 @endphp
 @include('reports.xml.paragraph', ['val' => $growthStatement])
 

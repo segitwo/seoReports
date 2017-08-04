@@ -86,7 +86,7 @@ class ReportController extends Controller
         //Текст ------------------------------------------------------------------------------------------------------------------------------
         $dataOutput['autotext'] = "";
 
-        $autotext = new AutoText();
+        $autotext = new AutoText($today);
 
         if (!empty($request->input('period'))) {
             $dataOutput['autotext'] .= $autotext->getAutoText();
@@ -103,16 +103,23 @@ class ReportController extends Controller
         /*-----------------------------------------------------------------------------*/
         $generalStatistic = [];
         $generalStatistic["firstHalf"] = 0;
-        $resultData = $MetrikData->getTotalVisitsData();
+        //текущий месяц
+        $resultData = [];
+        $resultData[] = $MetrikData->getTotalVisitsData();
 
-        $generalStatisticChange = $resultData["guests"][2] - $resultData["guests"][1];
-        $generalStatistic["prevGuests"] = $resultData["guests"][1];
-        $generalStatistic["nextGuests"] = $resultData["guests"][2];
+        //прошлый месяц
+        $prePrevDay = clone $prevDay;
+        $prePrevDay->modify('-1 month');
+        $resultData[] = $MetrikData->getTotalVisitsData([$prePrevDay->format('Y-m-d'), $prevDay->format('Y-m-d')]);
+
+        $generalStatisticChange = $resultData['1']['guests'] - $resultData['0']['guests'];
+        $generalStatistic["prevGuests"] = $resultData['0']['guests'];
+        $generalStatistic["nextGuests"] = $resultData['1']['guests'];
         $generalStatistic["period"] = 0;
 
         $generalStatistic["grouth"] = "down";
         if($generalStatisticChange > 0){
-            $generalStatisticChangePercent = round(($generalStatisticChange * 100) / $resultData["guests"][2], 2);
+            $generalStatisticChangePercent = round(($generalStatisticChange * 100) / $resultData['1']['guests'], 2);
             $generalStatistic["percent"] = $generalStatisticChangePercent;
             if($generalStatisticChangePercent > 10){
                 $generalStatistic["grouth"] = "up";

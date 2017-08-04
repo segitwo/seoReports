@@ -26,11 +26,15 @@ class MetricStats {
         $this->days = [$this->prevDay->format('Y-m-d'), $today->format('Y-m-d')];
     }
 
-    public function getTotalVisitsData() {
+    public function getTotalVisitsData($days = []) {
+
+        if(!count($days)){
+            $days = $this->days;
+        }
 
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'traffic',
-            'days' => $this->days,
+            'days' => $days,
             'sort' => 'ym:s:date'
         ]);
 
