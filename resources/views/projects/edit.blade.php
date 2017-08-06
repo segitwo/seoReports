@@ -23,12 +23,17 @@
 
             <div class="form-group">
                 {!! Form::label('note', 'ID метрики') !!}
-                {!! Form::text('metric', null, ['class' => 'form-control', 'placeholder' => '']) !!}
+                {!! Form::text('metric', null, ['class' => 'form-control', 'placeholder' => '', 'readonly']) !!}
             </div>
 
             <div class="form-group">
                 {!! Form::label('note', 'ID SEranking') !!}
-                {!! Form::text('se_ranking', null, ['class' => 'form-control', 'placeholder' => '']) !!}
+                {!! Form::text('se_ranking', null, ['class' => 'form-control', 'placeholder' => '', 'readonly']) !!}
+            </div>
+
+            <div class="form-group">
+                {!! Form::label('note', 'Отчетное число') !!}
+                {!! Form::number('', null, ['class' => 'form-control', 'max' => '31', 'min' => '1']) !!}
             </div>
 
             <div class="form-group">

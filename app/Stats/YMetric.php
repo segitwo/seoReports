@@ -37,6 +37,13 @@ class YMetric
         return json_decode($metrika);
     }
 
+    public static function getMetricsList(){
+        $metrika_url = 'https://api-metrika.yandex.ru/management/v1/counters?oauth_token=AQAAAAAFr1TtAANPEBXXD8EmGk0ymRXroOa0etg';
+        $metrika = (new self)->curlData($metrika_url);
+
+        return json_decode($metrika);
+    }
+
     private function curlData($metrika_url){
         $ch = curl_init();
         curl_setopt ($ch, CURLOPT_URL, $metrika_url);

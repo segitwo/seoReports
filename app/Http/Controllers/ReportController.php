@@ -235,7 +235,7 @@ class ReportController extends Controller
         $output = view('reports.xml.newReport', $dataOutput)->render();
 
         $output = str_replace('<desyatov_mv@mail.ru>', '', $output);
-        //dd($output);
+
         $xml = simplexml_load_string($output);
 
         $xml->asXML(app_path('Stats/' . $unicId . '/word/document.xml'));

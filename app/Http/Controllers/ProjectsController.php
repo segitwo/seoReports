@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Stats\SERanking;
+use App\Stats\YMetric;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -104,5 +106,45 @@ class ProjectsController extends Controller
         Project::destroy($id);
 
         return \Redirect::route('projects.index')->with('message', 'Проект удален!');
+    }
+
+    public function metricsList(){
+
+        //Сайты уже добавленные
+        $projectsList = Project::all();
+
+        $projects = [];
+        foreach ($projectsList as $project) {
+            $projects[] = $project->metric;
+        }
+
+        //Сайты из SERanking
+        $rankingList = SERanking::getData($params = [
+            'method' => 'sites'
+        ]);
+        $ranking = [];
+        foreach ($rankingList as $site) {
+            $ranking[$site->name] = $site->id;
+        }
+
+        //Сайты из метрики
+        $countersList = YMetric::getMetricsList();
+        $list = [];
+        foreach ($countersList->counters as $counter) {
+            if(isset($ranking[$counter->site])) {
+
+                $list[] = [
+                    'id' => $counter->id,
+                    'name' => $counter->name,
+                    'site' => $counter->site,
+                    'se_ranking' => $ranking[$counter->site],
+                    'added' => (in_array($counter->id, $projects)) ? true : false
+                ];
+            }
+
+
+        }
+
+        return view('metric.list')->with('list', $list);
     }
 }

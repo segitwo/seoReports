@@ -16,6 +16,12 @@ Route::get('/', [
     'uses' => 'ReportController@index'
 ]);
 
+
+Route::get('projects/metrics', [
+    'as' => 'metrics',
+    'uses' => 'ProjectsController@metricsList'
+]);
+
 Route::resource('projects', 'ProjectsController');
 
 Route::post('create', [

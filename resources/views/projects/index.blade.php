@@ -32,7 +32,7 @@
         @endif
 
         <!-- Button trigger modal -->
-        <a type="button" class="btn btn-primary btn-lg" href="{{ route('projects.create') }}">Добавить сайт</a>
-
+        {{-- <a type="button" class="btn btn-primary btn-lg" href="{{ route('projects.create') }}">Добавить сайт</a> --}}
+        <a type="button" class="btn btn-primary btn-lg" href="{{ route('metrics') }}">Добавить сайт</a>
     </div>
 @endsection
