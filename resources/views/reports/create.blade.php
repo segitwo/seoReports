@@ -27,7 +27,7 @@
 
             <div class="row">
                 <div class="center-block" style="width: 50%">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h4>Отчетная дата</h4>
                         <div class="form-group">
                             <div class="input-group">
@@ -35,17 +35,6 @@
                                         <button class="btn" type="button"><span class="fui-calendar"></span></button>
                                     </span>
                                 <input type="text" name="date" class="form-control timepicker-with-dropdowns datapicker" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Прошлый апдейт</h4>
-                        <div class="form-group">
-                            <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <button class="btn" type="button"><span class="fui-calendar"></span></button>
-                                    </span>
-                                <input type="text" name="lastUpdate" class="form-control timepicker-with-dropdowns datapicker" />
                             </div>
                         </div>
                     </div>

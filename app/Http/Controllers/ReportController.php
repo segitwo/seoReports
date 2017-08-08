@@ -82,6 +82,8 @@ class ReportController extends Controller
         /*Популярные посадочные страницы*/
         $dataOutput["mostPopularPages"] = $MetrikData->getMostPopularPages();
 
+        //Позиции
+        $dataOutput["positionRows"] = $MetrikData->getPositionsTable();
 
         //Текст ------------------------------------------------------------------------------------------------------------------------------
         $dataOutput['autotext'] = "";
@@ -227,6 +229,27 @@ class ReportController extends Controller
                 $dataOutput['averageCharts'][] = ['searchEngine' => $key, 'seKey' => $seKey, 'chartId' => $xmlId];
             }
 
+            $lines = $MetrikData->getConversionData();
+            foreach ($lines as $key => $line) {
+
+                //id для названия картинки
+                $imageId = random_int(1000, 9999);
+
+                //создаем график с именем $imageId . '.png'
+                $this->makeLineChart([$key => $line['charts']], $imageId . '.png', $unicId, $today);
+
+                //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
+                $xmlId = 'rId' . $imageId;
+                $relationshipXML = new \SimpleXMLElement('<Relationship/>');
+                $relationshipXML->addAttribute('Type', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image');
+                $relationshipXML->addAttribute('Id', $xmlId);
+                $relationshipXML->addAttribute('Target', 'media/' . $imageId . '.png');
+
+                $this->sxml_append($rels, $relationshipXML);
+                $rels->asXml($relsPath);
+
+                $dataOutput['conversionsCharts'][] = ['conversion' => $key, 'chartId' => $xmlId, 'total' => $line['totals']];
+            }
 
         } else {
             exit('Не удалось открыть файл ' . $relsPath);

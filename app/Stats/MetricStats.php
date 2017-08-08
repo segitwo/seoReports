@@ -139,7 +139,7 @@ class MetricStats {
 
         $monthOffset = 0;
         $notFirst = 0;
-        $firstDayInMonth = new \DateTime();
+        $firstDayInMonth = new Carbon();
         $resultData = [];
         $totalYandex = 0;
         $totalGoogle = 0;
@@ -148,19 +148,20 @@ class MetricStats {
         $idx = 0;
         foreach($preResultData as $date => $data) {
 
-            $date = new \DateTime($date);
+            $date = new Carbon($date);
 
             if($notFirst == 0){
                 $notFirst = 1;
                 $firstDayInMonth = $date;
             }
 
-            if($firstDayInMonth->format('d') == $date->format('d') && $idx != 0){
+            if($firstDayInMonth->diffInMonths($date) && $idx != 0){
+
                 $monthOffset = 1;
                 if(intval($firstDayInMonth->format('d')) > 15){
                     $monthOffset = 0;
                 }
-                $resultData["periods"][] = $this->montharr[$firstDayInMonth->format("m") - $monthOffset] . " (" . $firstDayInMonth->format('d.m') . " – " . $date->format('d.m') . ")";
+                $resultData["periods"][] = $this->montharr[$firstDayInMonth->format("m") - $monthOffset] . " (" . $firstDayInMonth->format('d.m') . " – " . $firstDayInMonth->modify('+1 month')->format('d.m') . ")";
                 $resultData["yandex"][] = $totalYandex;
                 $resultData["google"][] = $totalGoogle;
                 $resultData["other"][] = $totalOther;
@@ -171,6 +172,7 @@ class MetricStats {
                 $totalOther = 0;
                 $totalTotal = 0;
 
+                //$firstDayInMonth->modify('+1 month');
             }
 
             if(array_key_exists("yandex", $data)){
@@ -197,7 +199,7 @@ class MetricStats {
             $resultData["other"][] = $totalOther;
             $resultData["total"][] = $totalTotal;
         }
-
+//dd($resultData);
         return $resultData;
 
     }
@@ -383,8 +385,111 @@ class MetricStats {
                 }
                 //$output[$key . ' (' . $region . ')'][] = $positionsRow;
                 foreach ($positionsRow as $val) {
-                    $output[$key . ' (' . $region . ')']['charts'][] = round($val / count($stat->keywords), 2);
-                    $output[$key . ' (' . $region . ')']['se'] = $key;
+                    $region_key = (isset($region)) ? $key . ' (' . $region . ')' : $key;
+                    $output[$region_key]['charts'][] = round($val / count($stat->keywords), 2);
+                    $output[$region_key]['se'] = $key;
+                }
+            }
+
+        }
+
+        return $output;
+    }
+
+    public function getConversionData(){
+
+        $golas = YGoals::getList($this->siteKey);
+
+        $output = [];
+        foreach ($golas->goals as $goal) {
+            //$goal->name;
+
+            $conversion = YMetric::getData($this->siteKey, [
+                'days' => $this->days,
+                'metric' => 'ym:s:goal' . $goal->id . 'conversionRate',
+            ]);
+
+            $goalReaches = YMetric::getData($this->siteKey, [
+                'days' => $this->days,
+                'metric' => 'ym:s:goal' . $goal->id . 'reaches',
+            ]);
+
+            if($conversion->totals['0'] == 0 && $goalReaches->totals['0'] == 0){
+                continue;
+            }
+
+            usort($conversion->data, function($a, $b) {
+                $ad = new \DateTime($a->dimensions['0']->name);
+                $bd = new \DateTime($b->dimensions['0']->name);
+
+                if ($ad == $bd) {
+                    return 0;
+                }
+
+                return $ad < $bd ? -1 : 1;
+            });
+
+            foreach ($conversion->data as $data) {
+                $output[$goal->name]['charts'][] = $data->metrics['0'];
+            }
+
+            $output[$goal->name]['totals']['conversions'] = round($conversion->totals['0'], 2) . '%';
+            $output[$goal->name]['totals']['goals'] = round($goalReaches->totals['0'], 2);
+
+        }
+
+        return $output;
+    }
+
+    public function getPositionsTable(){
+
+        //Так как статистика по ключевым словам не содержит поисковой запрос, а только его id, то тащим еще и список запросов.
+        $keyWordsData = SERanking::getData($params = [
+            'method' => 'siteKeywords',
+            'data' => [
+                'siteid' => $this->rankingKey,
+            ]
+        ]);
+
+        //Приводим к виду ['id запроса' => 'Имя запроса']
+        $keyWords = [];
+        foreach ($keyWordsData as $data) {
+            $keyWords[$data->id] = $data->name;
+        }
+
+        //Статистика по запросам
+        $keyWordsStat = SERanking::getData($params = [
+            'method' => 'stat',
+            'data' => [
+                'siteid' => $this->rankingKey,
+                'dateStart' => $this->prevDay->format('Y-m-d'),
+                'dateEnd' => $this->today->format('Y-m-d'),
+            ]
+        ]);
+
+        $output = [];
+        foreach($keyWordsStat as $stat){
+            if($stat->seID == 411){
+                $key = 'Яндекс';
+            } elseif(in_array($stat->seID, [474, 339])) {
+                $key = 'Google';
+            }
+
+            if(isset($key)){
+                foreach ($stat->keywords as $keyword) {
+                    if(isset($keyWords[$keyword->id])){
+
+                        $positions = $keyword->positions;
+
+                        reset($positions);
+                        $lastPosition = intval(current($positions)->pos);
+                        end($positions);
+                        $currentPosition = intval(current($positions)->pos);
+
+                        $change = $lastPosition - $currentPosition;
+
+                        $output[$keyWords[$keyword->id]][$key] = ['change' => $change, 'pos' => $currentPosition, 'last_position' => $lastPosition];
+                    }
                 }
             }
 
@@ -399,7 +504,7 @@ class MetricStats {
         $keyWordsData = SERanking::getData($params = [
             'method' => 'siteKeywords',
             'data' => [
-                'siteid' => '222246'
+                'siteid' => $this->rankingKey,
             ]
         ]);
 
@@ -413,9 +518,9 @@ class MetricStats {
         $keyWordsStat = SERanking::getData($params = [
             'method' => 'stat',
             'data' => [
-                'siteid' => '222246',
-                'dateStart' => '2017-07-10',
-                'dateEnd' => '2017-07-17'
+                'siteid' => $this->rankingKey,
+                'dateStart' => $this->prevDay->format('Y-m-d'),
+                'dateEnd' => $this->today->format('Y-m-d'),
             ]
         ]);
 
