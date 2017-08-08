@@ -135,11 +135,11 @@ class ReportController extends Controller
         if (!empty($_POST['period'])) {
             $generalStatistic["period"] = $_POST['period'];
             if($generalStatistic["grouth"] == "up"){
-                if(in_array([2,3,4,5,6], $_POST['period'])){
+                if(in_array($_POST['period'], [2,3,4,5,6])){
                     $generalStatistic["firstHalf"] = 1;
                     $firstHalfText = ["Как видно", "Из поисковой статистики следует, что", "Мы наблюдаем, что", "Заметно, что", "Мы видим, что"];
-                    $rand_keys = array_rand($firstHalfText, 1);
-                    $generalStatistic["firstHalfText"] = $firstHalfText[$rand_keys[0]];
+                    $rand_key = array_rand($firstHalfText, 1);
+                    $generalStatistic["firstHalfText"] = $firstHalfText[$rand_key];
                 }
 
                 if($_POST['period'] == 2){
