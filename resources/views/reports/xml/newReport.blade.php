@@ -998,7 +998,7 @@
                 </w:rPr>
             </w:pPr>
         </w:p>
-        @include('reports.xml.breakPage')
+
         <w:p w:rsidR="00685116" w:rsidRDefault="00685116" w:rsidP="00685116">
             <w:pPr>
                 <w:spacing w:after="0" w:line="240" w:lineRule="auto" />
@@ -1151,7 +1151,7 @@
             </w:pPr>
         </w:p>
         @include('reports.xml.chart.averageChart', $averageCharts);
-        @include('reports.xml.breakPage')
+
         <w:p w:rsidR="00561B65" w:rsidRDefault="00561B65" w:rsidP="00561B65" />
         <w:p w:rsidR="00561B65" w:rsidRPr="00561B65" w:rsidRDefault="00561B65" w:rsidP="00561B65">
             <w:pPr>

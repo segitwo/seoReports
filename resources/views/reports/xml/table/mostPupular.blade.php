@@ -41,7 +41,6 @@
     <w:tr w:rsidR="00330ACF" w:rsidRPr="00F6228D" w:rsidTr="00104A38">
         <w:trPr>
             <w:trHeight w:val="567" />
-            <w:tblHeader />
         </w:trPr>
         <w:tc>
             <w:tcPr>

@@ -47,7 +47,7 @@
         </w:trPr>
         <w:tc>
             <w:tcPr>
-                <w:tcW w:w="421" w:type="dxa" />
+                <w:tcW w:w="600" w:type="dxa" />
                 <w:shd w:val="clear" w:color="auto" w:fill="D9E2F3" w:themeFill="accent5" w:themeFillTint="33" />
                 <w:vAlign w:val="center" />
             </w:tcPr>

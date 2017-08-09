@@ -267,6 +267,8 @@ class MetricStats {
         foreach($metricData->data as $data){
             if($data->metrics['1'] > 20){
                 $outputRow = array_prepend(array_prepend($data->metrics, $data->dimensions['0']->name), $idx);
+                $outputRow['3'] = round($outputRow['3'], 2);
+                $outputRow['4'] = round($outputRow['4'], 2);
                 $outputRow['5'] = str_pad(floor(($outputRow['5']) / 60), 2, '0', STR_PAD_LEFT) . ':' . str_pad((ceil($outputRow['5']) % 60), 2, '0', STR_PAD_LEFT);
                 $output[] = $outputRow;
                 $idx ++;

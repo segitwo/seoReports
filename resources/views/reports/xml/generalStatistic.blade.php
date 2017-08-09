@@ -60,5 +60,3 @@
 {{-- [[$xml.P? &val=`[[+period:mod:is=`1`:then=`Сайт`:else=`На данный момент сайт`]] [[+allpPercent:ge=`0.85`:then=`стабильно находится в ТОПе`]] [[+allpPercent:le=`0.85`:and:if=`[[+allpPercent]]`:gt=`0`:then=`уже занял позиции в ТОП-10`]]
 по [[+allpPercent:ge=`0.85`:then=`большинству поисковых запросов`]] [[+allpPercent:le=`0.85`:and:if=`[[+allpPercent]]`:gt=`0`:then=`запросам: [[+allpPhrases10]]`]] в поисковых системах.`]]
 [[$xml.P? &val=``]] --}}
-
-@include('reports.xml.paragraph')
