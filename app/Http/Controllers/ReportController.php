@@ -170,7 +170,7 @@ class ReportController extends Controller
         $commoninfo = "";
         if($request->input('commoninfo')){
             $commoninfo = view('reports.xml.paragraph', ['val' => 'Каждый месяц мы продолжаем вести постоянный мониторинг сайта на наличие технических ошибок, вирусов, взломов, нарушений и сбоев со стороны хостинга, наличие дублей и ошибок сканирования. Проводится периодическая проверка позиций сайта, анализ изменений в выдаче и внесение соответствующих корректировок'])->render();
-            $commoninfo .= view('reports.xml.paragraph')->render();
+            //$commoninfo .= view('reports.xml.paragraph')->render();
         }
 
         $generalStatistic['prevDay'] = $dataOutput["prevDay"];

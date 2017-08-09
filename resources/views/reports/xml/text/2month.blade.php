@@ -25,5 +25,3 @@
 @include('reports.xml.listRow', ['val' => 'Проверка наличия орфографических ошибок и опечаток в текстах, title и description;'])
 @include('reports.xml.listRow', ['val' => 'Проверка склейки зеркал сайта (с www и без, а также дублей страниц);'])
 @include('reports.xml.listRow', ['val' => 'Проверка корректности настройки каноничных страниц для документов с пагинацией.'])
-
-@include('reports.xml.paragraph', ['val' => ''])

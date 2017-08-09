@@ -1,5 +1,9 @@
 @php
-    $statement = 'В период с ' . $prevDay . ' по ' . $today . ' мы ' . ($dop == 1) ? 'также' : '' . ' проводили ' . ($dop == 1) ? 'повторный' : '' . ' анализ текущей ссылочной массы:';
+    $statement = 'В период с ' . $prevDay . ' по ' . $today . ' мы ';
+    $statement .= ($dop == 1) ? 'также' : '';
+    $statement .= ' проводили ';
+    $statement .= ($dop == 1) ? 'повторный' : '';
+    $statement .= ' анализ текущей ссылочной массы:';
 @endphp
 
 @include('reports.xml.paragraph', ['val' => $statement])
@@ -11,5 +15,3 @@
 @include('reports.xml.listRow', ['val' => 'Проверка индексации страниц-доноров;'])
 @include('reports.xml.listRow', ['val' => 'Анализ ссылочной массы конкурентов;'])
 @include('reports.xml.listRow', ['val' => 'Сбор анкор-листа.'])
-
-@include('reports.xml.paragraph', ['val' => ''])

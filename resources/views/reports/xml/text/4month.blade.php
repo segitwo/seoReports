@@ -19,5 +19,3 @@
 @include('reports.xml.listRow', ['val' => 'Проверка расстановки дат индексации и приоритетов в карте сайта;'])
 @include('reports.xml.listRow', ['val' => 'Проверка актуальности карты сайта;'])
 @include('reports.xml.listRow', ['val' => 'Поиск запрещенных к индексации страниц в карте сайта.'])
-
-@include('reports.xml.paragraph', ['val' => ''])

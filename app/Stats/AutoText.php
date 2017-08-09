@@ -173,7 +173,9 @@ class AutoText {
     public function getSupportText($support = []){
         $outputList = "";
         if(count($support)){
-            $outputList = view('reports.xml.paragraph', ["val" => ""])->render() . view('reports.xml.paragraph', ["val" => "В рамках плановых работ по контент-сопровождению:"])->render();
+            $outputList =
+                view('reports.xml.paragraph', ["val" => ""])->render() .
+                view('reports.xml.paragraph', ["val" => "В рамках плановых работ по контент-сопровождению:"])->render();
         } else {
             return "";
         }
