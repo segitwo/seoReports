@@ -308,7 +308,7 @@ class ReportController extends Controller
 
     function generatePreview(Request $request){
 
-        $today = Carbon::parse($request->input('date'));
+        /*$today = Carbon::parse($request->input('date'));
 
         $siteKey = $request->input('siteid');
         $rinkingKey = $request->input('se_ranking');
@@ -345,7 +345,8 @@ class ReportController extends Controller
 
         $statsData['timeData'] = ['totals' => $resultData["totals"], "rows" => $timeRows];
 
-        return view('reports.html.index', $statsData);
+        return view('reports.html.index', $statsData);*/
+        return view('reports.html.index');
     }
 
     public function makeLineChart($lines, $name, $unicId, Carbon $today){

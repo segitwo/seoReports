@@ -1,4 +1,4 @@
-@if(count($conversionsCharts) > 0)
+@if(isset($conversionsCharts) && count($conversionsCharts) > 0)
     <w:p w:rsidR="00104A38" w:rsidRDefault="00104A38" w:rsidP="00104A38">
         <w:pPr>
             <w:spacing w:after="0" w:line="240" w:lineRule="auto" />
