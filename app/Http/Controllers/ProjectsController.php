@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\Stats\SERanking;
 use App\Stats\YMetric;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProjectsController extends Controller
 {
@@ -86,9 +88,8 @@ class ProjectsController extends Controller
         $project = Project::findOrFail($id);
 
         $project->name = $request->get('name');
-        $project->url = $request->get('url');
-        $project->metric = $request->get('metric');
-        $project->se_ranking = $request->get('se_ranking');
+        $project->region = $request->get('region');
+        $project->report_day = $request->get('report_day');
 
         $project->save();
 
@@ -124,21 +125,20 @@ class ProjectsController extends Controller
         ]);
         $ranking = [];
         foreach ($rankingList as $site) {
-            $ranking[$site->name] = $site->id;
+            $ranking[$site->title] = $site->id;
         }
 
         //Сайты из метрики
         $countersList = YMetric::getMetricsList();
         $list = [];
         foreach ($countersList->counters as $counter) {
-            if(isset($ranking[$counter->site])) {
+            if(isset($ranking[$counter->site]) && !in_array($counter->id, $projects)) {
 
                 $list[] = [
                     'id' => $counter->id,
                     'name' => $counter->name,
                     'site' => $counter->site,
-                    'se_ranking' => $ranking[$counter->site],
-                    'added' => (in_array($counter->id, $projects)) ? true : false
+                    'se_ranking' => $ranking[$counter->site]
                 ];
             }
 

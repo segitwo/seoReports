@@ -30,28 +30,38 @@ class ReportController extends Controller
         return view('reports.create', $data);
     }
 
+    function setup($id){
+        $project = Project::find($id);
+        return view('reports.setup')->with('project', $project);
+    }
+
     function create(ReportFormRequest $request){
 
         $siteKey = $request->input('siteid');
         $rinkingKey = $request->input('se_ranking');
 
-
         $today = Carbon::parse($request->input('date'));
 
-        $dataOutput["sitename"] = $request->input('sitename');
-        $dataOutput["regionName"] = $request->input('regionName');
-        $dataOutput["today"] = $today->format('d.m.Y');
-
         $prevDay = clone $today;
-
         $prevDay->modify('-1 month');
         $prevDay->format('d-m-Y');
 
+        $dataOutput["today"] = $today->format('d.m.Y');
         $dataOutput["prevDay"] = $prevDay->format('d.m.Y');
+
+        $dataOutput["sitename"] = $request->input('sitename');
+        $dataOutput["regionName"] = $request->input('regionName');
+
+        //Если регион был незаполнен в настройках то записываем полученное значение.
+        $project = Project::find($request->input('id'));
+        if(!$project->region){
+            $project->region = $request->input('regionName');
+            $project->save();
+        }
 
         $MetrikData = new MetricStats($siteKey, $rinkingKey, $today);
 
-        //Общая посещаемость сайта--------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //Общая посещаемость сайта-------------------------------------------------------------------------------------
         $dataOutput["totalVisitsTable"] = $MetrikData->getTotalVisitsData();
 
         //Глубина просмотров
@@ -403,57 +413,64 @@ class ReportController extends Controller
 
     public function makeSourcesLineChart($lines, $unicId, Carbon $today){
 
-        $prevDay = clone $today;
-        $prevDay->modify('-1 month');
+        //Если к концу отчетной даты количество переходов уменьшилось, то не показываем график. Улыбаемся и машем =)
+        $firstVal = current($lines['Переходы из поисковых систем']);
+        $lastVal = end($lines['Переходы из поисковых систем']);
+        //if(($firstVal * 1.1) < $lastVal){
+            $prevDay = clone $today;
+            $prevDay->modify('-1 month');
 
-        $daysInterval = $today->diff($prevDay)->days;
+            $daysInterval = $today->diff($prevDay)->days;
 
-        $axis = [];
-        for($i = 0; $i <= $daysInterval; $i ++){
-            if(!($i%7)){
-                $axis[] = $prevDay->format('d.m.Y');
-            } else {
-                $axis[] = '';
+            $axis = [];
+            for($i = 0; $i <= $daysInterval; $i ++){
+                if(!($i%7)){
+                    $axis[] = $prevDay->format('d.m.Y');
+                } else {
+                    $axis[] = '';
+                }
+                $prevDay->modify('+1 day');
             }
-            $prevDay->modify('+1 day');
-        }
 
-        $data = new Data();
+            $data = new Data();
 
-        foreach ($lines as $key => $line) {
-            $data->addPoints($line, $key);
-            $data->setSerieWeight($key, 0.2);
-        }
+            foreach ($lines as $key => $line) {
+                $data->addPoints($line, $key);
+                $data->setSerieWeight($key, 0.2);
+            }
 
-        $data->addPoints($axis, "Labels");
-        $data->setSerieDescription("Labels", "Months");
-        $data->setAbscissa("Labels");
-        $data->setPalette("Labels", ["R"=>229,"G"=>11,"B"=>11]);
+            $data->addPoints($axis, "Labels");
+            $data->setSerieDescription("Labels", "Months");
+            $data->setAbscissa("Labels");
+            $data->setPalette("Labels", ["R"=>229,"G"=>11,"B"=>11]);
 
-        /* Create the 1st chart */
-        $chart = new Image(800, 350, $data);
-        $chart->setFontProperties(array("FontName"=>"../fonts/calibri.ttf","FontSize"=>10));
-        $chart->setGraphArea(40,30,580,320);
+            /* Create the 1st chart */
+            $chart = new Image(800, 350, $data);
+            $chart->setFontProperties(array("FontName"=>"../fonts/calibri.ttf","FontSize"=>10));
+            $chart->setGraphArea(40,30,580,320);
 
-        $chart->drawScale(
-            [
-                "CycleBackground"=>TRUE,
-                "GridR"=>0,
-                "GridG"=>0,
-                "GridB"=>0,
-                "GridAlpha"=>10,
-                "Factors"=>array(8),
-                "Mode" => SCALE_MODE_START0
-            ]
-        );
+            $chart->drawScale(
+                [
+                    "CycleBackground"=>TRUE,
+                    "GridR"=>0,
+                    "GridG"=>0,
+                    "GridB"=>0,
+                    "GridAlpha"=>10,
+                    "Factors"=>array(8),
+                    "Mode" => SCALE_MODE_START0
+                ]
+            );
 
-        $chart->drawLineChart(["DisplayValues" => false, "DisplayColor" => DISPLAY_AUTO]);
-        $chart->setShadow(false);
+            $chart->drawLineChart(["DisplayValues" => false, "DisplayColor" => DISPLAY_AUTO]);
+            $chart->setShadow(false);
 
-        /* Write the legend */
-        $chart->drawLegend(600, 30, ["Style" => LEGEND_NOBORDER, "Mode" => LEGEND_VERTICAL, "Family" => LEGEND_FAMILY_LINE]);
-        //$chart->autoOutput("image8");
-        $chart->render(app_path('Stats/' . $unicId . '/word/media/image8.png'));
+            /* Write the legend */
+            $chart->drawLegend(600, 30, ["Style" => LEGEND_NOBORDER, "Mode" => LEGEND_VERTICAL, "Family" => LEGEND_FAMILY_LINE]);
+            //$chart->autoOutput("image8");
+            $chart->render(app_path('Stats/' . $unicId . '/word/media/image8.png'));
+        //}
+
+
     }
 
     private function makeTotalVisitsChart(array $hits, $unicId){

@@ -12,50 +12,62 @@
 */
 
 Route::get('/', [
-    'as' => 'reports.create',
-    'uses' => 'ReportController@index'
+    /*'as' => 'reports.create',
+    'uses' => 'ReportController@index'*/
 ]);
 
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('/', function () {
+        return redirect()->route('projects.index');
+    });
 
-Route::get('projects/metrics', [
-    'as' => 'metrics',
-    'uses' => 'ProjectsController@metricsList'
-]);
+    Route::get('report/{project}', [
+        'as' => 'report.setup',
+        'uses' => 'ReportController@setup'
+    ]);
 
-Route::resource('projects', 'ProjectsController');
+    Route::get('projects/metrics', [
+        'as' => 'metrics',
+        'uses' => 'ProjectsController@metricsList'
+    ]);
 
-Route::post('create', [
-    'as' => 'report_create',
-    'uses' => 'ReportController@create'
-]);
+    Route::resource('projects', 'ProjectsController');
 
-Route::post('get_auto_text', [
-    'as' => 'get_auto_text',
-    'uses' => 'ReportController@getAutoText'
-]);
+    Route::post('create', [
+        'as' => 'report_create',
+        'uses' => 'ReportController@create'
+    ]);
 
-Route::post('generate_preview', [
-    'as' => 'generate_preview',
-    'uses' => 'ReportController@generatePreview'
-]);
+    Route::post('get_auto_text', [
+        'as' => 'get_auto_text',
+        'uses' => 'ReportController@getAutoText'
+    ]);
 
-Route::get('oauth', [
-    'as' => 'oauth',
-    'uses' => 'OAuth@makeToken'
-]);
+    Route::post('generate_preview', [
+        'as' => 'generate_preview',
+        'uses' => 'ReportController@generatePreview'
+    ]);
 
-Route::get('oauth/partner', [
-    'as' => 'oauth.pertner',
-    'uses' => 'OAuth@makePartnerToken'
-]);
+    Route::get('oauth', [
+        'as' => 'oauth',
+        'uses' => 'OAuth@makeToken'
+    ]);
 
-Route::get('oauth/seranking', [
-    'as' => 'oauth.seranking',
-    'uses' => 'OAuth@mekeSERankingToken'
-]);
+    Route::get('oauth/partner', [
+        'as' => 'oauth.pertner',
+        'uses' => 'OAuth@makePartnerToken'
+    ]);
 
-Route::get('chart', [
-    'as' => 'chart',
-    'uses' => 'ReportController@makeChart'
-]);
+    Route::get('oauth/seranking', [
+        'as' => 'oauth.seranking',
+        'uses' => 'OAuth@mekeSERankingToken'
+    ]);
+
+    Route::get('chart', [
+        'as' => 'chart',
+        'uses' => 'ReportController@makeChart'
+    ]);
+});
+
+Auth::routes();
 

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="text-center">Список сайтов</h2>
+        <h4>Список сайтов</h4>
         @if (Session::has('message'))
             <div class="alert alert-success" role="alert">{{ Session::get('message') }}</div>
         @endif
@@ -16,7 +16,7 @@
                         <th>Название</th>
                         <th>URL</th>
                         <th>Метрика</th>
-                        <th>Действия</th>
+                        <th class="text-right"></th>
                     </tr>
                     <ul>
                         @foreach ($projects as $project)
@@ -33,6 +33,6 @@
 
         <!-- Button trigger modal -->
         {{-- <a type="button" class="btn btn-primary btn-lg" href="{{ route('projects.create') }}">Добавить сайт</a> --}}
-        <a type="button" class="btn btn-primary btn-lg" href="{{ route('metrics') }}">Добавить сайт</a>
+        <a type="button" class="btn btn-info btn-sm" href="{{ route('metrics') }}">Добавить сайт</a>
     </div>
 @endsection

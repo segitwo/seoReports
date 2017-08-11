@@ -284,6 +284,7 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
     );
 
     public static $classMap = array (
+        'AddRegionAndDateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_09_142755_add_region_and_date_to_project.php',
         'AddSerankingAndLastupdateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -315,6 +316,7 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
         'App\\Stats\\MetrikData' => __DIR__ . '/../..' . '/app/Stats/MetrikData.php',
         'App\\Stats\\SERanking' => __DIR__ . '/../..' . '/app/Stats/SERanking.php',
         'App\\Stats\\Word' => __DIR__ . '/../..' . '/app/Stats/Word.php',
+        'App\\Stats\\YGoals' => __DIR__ . '/../..' . '/app/Stats/YGoals.php',
         'App\\Stats\\YMarket' => __DIR__ . '/../..' . '/app/Stats/YMarket.php',
         'App\\Stats\\YMetric' => __DIR__ . '/../..' . '/app/Stats/YMetric.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',

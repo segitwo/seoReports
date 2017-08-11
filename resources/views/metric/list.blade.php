@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="text-center">Список метрик</h2>
+        <h4>Список метрик</h4>
 
         @if (count($list) > 0)
             <div class="table-responsive" id="sitesTable">
@@ -14,11 +14,10 @@
                         <th>URL</th>
                         <th></th>
                     </tr>
-                    <ul>
-                        @foreach ($list as $project)
-                            @include('partials.metric_row', ['project' => $project])
-                        @endforeach
-                    </ul>
+
+                    @foreach ($list as $project)
+                        @include('partials.metric_row', ['project' => $project])
+                    @endforeach
 
                     </tbody>
                 </table>

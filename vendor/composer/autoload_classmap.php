@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddRegionAndDateToProject' => $baseDir . '/database/migrations/2017_08_09_142755_add_region_and_date_to_project.php',
     'AddSerankingAndLastupdateToProject' => $baseDir . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
@@ -37,6 +38,7 @@ return array(
     'App\\Stats\\MetrikData' => $baseDir . '/app/Stats/MetrikData.php',
     'App\\Stats\\SERanking' => $baseDir . '/app/Stats/SERanking.php',
     'App\\Stats\\Word' => $baseDir . '/app/Stats/Word.php',
+    'App\\Stats\\YGoals' => $baseDir . '/app/Stats/YGoals.php',
     'App\\Stats\\YMarket' => $baseDir . '/app/Stats/YMarket.php',
     'App\\Stats\\YMetric' => $baseDir . '/app/Stats/YMetric.php',
     'App\\User' => $baseDir . '/app/User.php',
