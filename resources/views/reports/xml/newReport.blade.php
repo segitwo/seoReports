@@ -1171,6 +1171,130 @@
         </w:p>
         {!! $autotext !!}
 
+        <w:p w:rsidR="00EA5842" w:rsidRPr="009F50B2" w:rsidRDefault="00EA5842" w:rsidP="00EA5842">
+            <w:pPr>
+                <w:pStyle w:val="3" />
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" />
+                    <w:b w:val="0" />
+                    <w:sz w:val="22" />
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00EA5842" w:rsidRPr="009F50B2" w:rsidRDefault="00EA5842" w:rsidP="00EA5842">
+            <w:pPr>
+                <w:pStyle w:val="3" />
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" />
+                    <w:b w:val="0" />
+                    <w:sz w:val="22" />
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="006E1296" w:rsidRPr="00455139" w:rsidRDefault="006E1296" w:rsidP="006E1296">
+            <w:pPr>
+                <w:jc w:val="both" />
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:b />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:b />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                </w:rPr>
+                <w:t xml:space="preserve">Отчет сдал                                                                                  Отчет принял   </w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="006E1296" w:rsidRPr="00455139" w:rsidRDefault="006E1296" w:rsidP="006E1296">
+            <w:pPr>
+                <w:jc w:val="both" />
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                </w:rPr>
+                <w:t>от исполнителя                                                                          от заказчика</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00D22364" w:rsidRPr="00455139" w:rsidRDefault="006E1296" w:rsidP="004F400D">
+            <w:pPr>
+                <w:jc w:val="both" />
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                    <w:lang w:val="en-US" />
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                </w:rPr>
+                <w:t>_______________________</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                    <w:u w:val="single" />
+                </w:rPr>
+                <w:t>/</w:t>
+            </w:r>
+            <w:proofErr w:type="spellStart" />
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                    <w:u w:val="single" />
+                </w:rPr>
+                <w:t>Варич</w:t>
+            </w:r>
+            <w:proofErr w:type="spellEnd" />
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                    <w:u w:val="single" />
+                </w:rPr>
+                <w:t xml:space="preserve"> М.С.</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00455139">
+                <w:rPr>
+                    <w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri" />
+                    <w:i />
+                    <w:sz w:val="22" />
+                    <w:szCs w:val="22" />
+                </w:rPr>
+                <w:t xml:space="preserve">/                           ______________________/_____________/      </w:t>
+            </w:r>
+        </w:p>
+
+
         <w:p w:rsidR="00561B65" w:rsidRDefault="00561B65" w:rsidP="00561B65" />
         <w:p w:rsidR="00561B65" w:rsidRPr="00561B65" w:rsidRDefault="00561B65" w:rsidP="00561B65" />
         <w:p w:rsidR="00FA7DF9" w:rsidRDefault="00FA7DF9" w:rsidP="00FA7DF9">
