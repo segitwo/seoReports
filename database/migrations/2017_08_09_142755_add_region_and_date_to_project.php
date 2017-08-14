@@ -14,7 +14,7 @@ class AddRegionAndDateToProject extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string('region');
+            $table->string('region')->nullable();
             $table->integer('report_day')->default(1);
         });
     }
