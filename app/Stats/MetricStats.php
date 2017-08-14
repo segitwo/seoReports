@@ -389,7 +389,7 @@ class MetricStats {
             }
 
         }
-dd($output);
+
         return $output;
     }
 
