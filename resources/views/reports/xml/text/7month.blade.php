@@ -28,5 +28,5 @@
 @endphp
 @include('reports.xml.paragraph', ['val' => $statement])
 
-{{ $links }}
+{{ $links or ''}}
 @include('reports.xml.paragraph', ['val' => ''])
