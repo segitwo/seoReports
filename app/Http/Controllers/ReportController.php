@@ -16,6 +16,7 @@ use App\Stats\AutoText;
 use App\Stats\Word;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -35,6 +36,40 @@ class ReportController extends Controller
         return view('reports.setup')->with('project', $project);
     }
 
+    function download(ReportFormRequest $request){
+        $unicId = $this->create($request);
+
+        $file = (app_path('Stats/' . $unicId . '.docx'));
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename='.basename($file));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file));
+
+        readfile($file);
+
+        unlink($file);
+
+        exit();
+    }
+
+    function upload(ReportFormRequest $request){
+        $unicId = $this->create($request);
+
+        $filesystem = new Filesystem();
+        $content = $filesystem->get(app_path('Stats/' . $unicId . '.docx'));
+
+        Storage::disk('dropbox')->put('report.docx', $content);
+
+        $file = (app_path('Stats/' . $unicId . '.docx'));
+        unlink($file);
+        return true;
+    }
+
     function create(ReportFormRequest $request){
 
         $siteKey = $request->input('siteid');
@@ -49,7 +84,7 @@ class ReportController extends Controller
         $dataOutput["today"] = $today->format('d.m.Y');
         $dataOutput["prevDay"] = $prevDay->format('d.m.Y');
 
-        $dataOutput["sitename"] = $request->input('sitename');
+
         $dataOutput["regionName"] = $request->input('regionName');
 
         //Если регион был незаполнен в настройках то записываем полученное значение.
@@ -58,6 +93,9 @@ class ReportController extends Controller
             $project->region = $request->input('regionName');
             $project->save();
         }
+
+        //$dataOutput["sitename"] = $request->input('sitename');
+        $dataOutput["sitename"] = $project->url;
 
         $MetrikData = new MetricStats($siteKey, $rinkingKey, $today);
 
@@ -278,22 +316,25 @@ class ReportController extends Controller
 
         $filesystem->deleteDirectory(app_path('Stats/' . $unicId . '/'));
 
-        $file = (app_path('Stats/' . $unicId . '.docx'));
+        //$file = (app_path('Stats/' . $unicId . '.docx'));
 
-        header('Content-Description: File Transfer');
+        /*header('Content-Description: File Transfer');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment; filename='.basename($file));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($file));
+        header('Content-Length: ' . filesize($file));*/
 
-        readfile($file);
+        $content = $filesystem->get(app_path('Stats/' . $unicId . '.docx'));
+        //Storage::disk('dropbox')->put('report.docx', $content);
 
-        unlink($file);
+        //readfile($file);
 
-        exit();
+        //unlink($file);
+
+        return $unicId;
 
     }
 

@@ -4,7 +4,7 @@
     <div class="container">
         <h4>Формирование отчета</h4>
 
-        {!! Form::open(['route' => 'report_create', 'class' => 'form', 'id' => 'repForm', 'role' => 'form', 'target' => '_blank', 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::open(['route' => 'report_download', 'class' => 'form', 'id' => 'repForm', 'role' => 'form', 'target' => '_blank', 'enctype' => 'multipart/form-data']) !!}
         <div class="row">
             <div class="col-md-6">
                 <input type="hidden" name="id" value="{{ $project->id }}">

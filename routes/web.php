@@ -17,6 +17,7 @@ Route::get('/', [
 ]);
 
 Route::group(['middleware' => 'auth'], function (){
+
     Route::get('/', function () {
         return redirect()->route('projects.index');
     });
@@ -33,9 +34,19 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::resource('projects', 'ProjectsController');
 
-    Route::post('create', [
+    /*Route::post('create', [
         'as' => 'report_create',
         'uses' => 'ReportController@create'
+    ]);*/
+
+    Route::post('download', [
+        'as' => 'report_download',
+        'uses' => 'ReportController@download'
+    ]);
+
+    Route::post('upload', [
+        'as' => 'report_upload',
+        'uses' => 'ReportController@upload'
     ]);
 
     Route::post('get_auto_text', [
@@ -67,6 +78,7 @@ Route::group(['middleware' => 'auth'], function (){
         'as' => 'chart',
         'uses' => 'ReportController@makeChart'
     ]);
+
 });
 
 Auth::routes();

@@ -125,7 +125,7 @@ class ProjectsController extends Controller
         ]);
         $ranking = [];
         foreach ($rankingList as $site) {
-            $ranking[$site->title] = $site->id;
+            $ranking[$site->name] = $site->id;
         }
 
         //Сайты из метрики
@@ -141,8 +141,6 @@ class ProjectsController extends Controller
                     'se_ranking' => $ranking[$counter->site]
                 ];
             }
-
-
         }
 
         return view('metric.list')->with('list', $list);
