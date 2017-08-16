@@ -328,8 +328,10 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
     );
 
     public static $classMap = array (
+        'AddAutogenerateCheckboxToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_15_124214_add_autogenerate_checkbox_to_project.php',
         'AddRegionAndDateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_09_142755_add_region_and_date_to_project.php',
         'AddSerankingAndLastupdateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
+        'App\\Console\\Commands\\GenerateTodaysReports' => __DIR__ . '/../..' . '/app/Console/Commands/GenerateTodaysReports.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -355,6 +357,7 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Report\\Report' => __DIR__ . '/../..' . '/app/Report/Report.php',
         'App\\Stats\\AllPositions' => __DIR__ . '/../..' . '/app/Stats/AllPositions.php',
         'App\\Stats\\AutoText' => __DIR__ . '/../..' . '/app/Stats/AutoText.php',
         'App\\Stats\\MetricStats' => __DIR__ . '/../..' . '/app/Stats/MetricStats.php',

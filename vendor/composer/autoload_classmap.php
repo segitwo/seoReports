@@ -6,8 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddAutogenerateCheckboxToProject' => $baseDir . '/database/migrations/2017_08_15_124214_add_autogenerate_checkbox_to_project.php',
     'AddRegionAndDateToProject' => $baseDir . '/database/migrations/2017_08_09_142755_add_region_and_date_to_project.php',
     'AddSerankingAndLastupdateToProject' => $baseDir . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
+    'App\\Console\\Commands\\GenerateTodaysReports' => $baseDir . '/app/Console/Commands/GenerateTodaysReports.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -33,6 +35,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Report\\Report' => $baseDir . '/app/Report/Report.php',
     'App\\Stats\\AllPositions' => $baseDir . '/app/Stats/AllPositions.php',
     'App\\Stats\\AutoText' => $baseDir . '/app/Stats/AutoText.php',
     'App\\Stats\\MetricStats' => $baseDir . '/app/Stats/MetricStats.php',

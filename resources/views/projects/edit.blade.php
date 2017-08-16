@@ -30,6 +30,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="checkbox">
+                        {!! Form::checkbox('auto', $project->auto, null, ['data-toggle' => 'checkbox']) !!}
+                        Автогенерация
+                    </label>
+                </div>
+
+                <div class="form-group">
                     {!! Form::submit('Обновить', ['class' => 'btn btn-info btn-sm']) !!}
                 </div>
             </div>
