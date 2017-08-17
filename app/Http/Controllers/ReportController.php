@@ -9,11 +9,9 @@ require base_path('vendor/autoload.php');
 use App\Http\Requests\AutoTextRequest;
 use App\Http\Requests\ReportFormRequest;
 use App\Project;
-use App\Report;
+use App\Report\Report;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -35,8 +33,8 @@ class ReportController extends Controller
 
     function download(ReportFormRequest $request){
 
-        $report = new Report\Report();
-        $unicId = $report->create($request);
+        $report = new Report();
+        $unicId = $report->create($request->all());
 
         $file = (app_path('Stats/' . $unicId . '.docx'));
 
@@ -55,22 +53,6 @@ class ReportController extends Controller
 
         exit();
     }
-
-    function upload(ReportFormRequest $request){
-
-        $report = new Report\Report();
-        $unicId = $report->create($request);
-
-        $filesystem = new Filesystem();
-        $content = $filesystem->get(app_path('Stats/' . $unicId . '.docx'));
-
-        Storage::disk('dropbox')->put('report.docx', $content);
-
-        $file = (app_path('Stats/' . $unicId . '.docx'));
-        unlink($file);
-        return true;
-    }
-
 
 
     function getAutoText(AutoTextRequest $request){

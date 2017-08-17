@@ -31,9 +31,14 @@
 
                 <div class="form-group">
                     <label class="checkbox">
-                        {!! Form::checkbox('auto', $project->auto, null, ['data-toggle' => 'checkbox']) !!}
+                        {!! Form::checkbox('auto', 1, $project->auto, ['data-toggle' => 'checkbox']) !!}
                         Автогенерация
                     </label>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('note', 'Куда сохранять') !!}
+                    {!! Form::text('upload_path', null, ['class' => 'form-control', 'placeholder' => '']) !!}
                 </div>
 
                 <div class="form-group">

@@ -20,15 +20,31 @@ use App\Http\Requests\ReportFormRequest;
 use App\Project;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 
 class Report {
 
-    function create(ReportFormRequest $request){
+    function upload($data, $path = ''){
 
-        $siteKey = $request->input('siteid');
-        $rinkingKey = $request->input('se_ranking');
+        $unicId = $this->create($data);
 
-        $today = Carbon::parse($request->input('date'));
+        $filesystem = new Filesystem();
+        $content = $filesystem->get(app_path('Stats/' . $unicId . '.docx'));
+
+        Storage::disk('dropbox')->put($path . '/' . $data['doc_name'] . '.docx', $content);
+
+        $file = (app_path('Stats/' . $unicId . '.docx'));
+        unlink($file);
+        return true;
+    }
+
+
+    function create($requestData){
+
+        $siteKey = $requestData['siteid'];
+        $rinkingKey = $requestData['se_ranking'];
+
+        $today = Carbon::parse($requestData['date']);
 
         $prevDay = clone $today;
         $prevDay->modify('-1 month');
@@ -38,12 +54,12 @@ class Report {
         $dataOutput["prevDay"] = $prevDay->format('d.m.Y');
 
 
-        $dataOutput["regionName"] = $request->input('regionName');
+        $dataOutput["regionName"] = $requestData['regionName'];
 
         //Если регион был незаполнен в настройках то записываем полученное значение.
-        $project = Project::find($request->input('id'));
+        $project = Project::find($requestData['id']);
         if(!$project->region){
-            $project->region = $request->input('regionName');
+            $project->region = $requestData['regionName'];
             $project->save();
         }
 
@@ -91,16 +107,16 @@ class Report {
 
         $autotext = new AutoText($today);
 
-        if (!empty($request->input('period'))) {
+        if (!empty($requestData['period'])) {
             $dataOutput['autotext'] .= $autotext->getAutoText();
         }
 
-        if(!empty($request->input('dop_work'))){
+        if(!empty($requestData['dop_work'])){
             $dataOutput['autotext'] .= $autotext->getAutoText("dop");
         }
 
-        if(!empty($request->input('support'))){
-            $dataOutput['autotext'] .= $autotext->getSupportText($request->input('support'));
+        if(!empty($requestData['support'])){
+            $dataOutput['autotext'] .= $autotext->getSupportText($requestData['support']);
         }
 
         /*-----------------------------------------------------------------------------*/
@@ -169,7 +185,7 @@ class Report {
         /*------------------------------------------------------------------------------------*/
 
         $commoninfo = "";
-        if($request->input('commoninfo')){
+        if(isset($requestData['commoninfo'])){
             $commoninfo = view('reports.xml.paragraph', ['val' => 'Каждый месяц мы продолжаем вести постоянный мониторинг сайта на наличие технических ошибок, вирусов, взломов, нарушений и сбоев со стороны хостинга, наличие дублей и ошибок сканирования. Проводится периодическая проверка позиций сайта, анализ изменений в выдаче и внесение соответствующих корректировок'])->render();
             //$commoninfo .= view('reports.xml.paragraph')->render();
         }
@@ -179,8 +195,8 @@ class Report {
 
         $dataOutput['autotext'] = view('reports.xml.generalStatistic', $generalStatistic)->render() . $dataOutput['autotext'] . $commoninfo;
 
-        if(!empty($request->input('next_work'))){
-            $dataOutput['autotext'] .= $autotext->getNextWorkText($request->input('next_work'));
+        if(!empty($requestData['next_work'])){
+            $dataOutput['autotext'] .= $autotext->getNextWorkText($requestData['next_work']);
         }
 
         $unicId = uniqid();

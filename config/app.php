@@ -179,6 +179,8 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
+
+        Laravelrus\LocalizedCarbon\LocalizedCarbonServiceProvider::class,
     ],
 
     /*
@@ -229,7 +231,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'HTML' => Collective\Html\HtmlFacade::class,
-        'Form'=> Collective\Html\FormFacade::class
+        'Form'=> Collective\Html\FormFacade::class,
+
+        'LocalizedCarbon' => Laravelrus\LocalizedCarbon\LocalizedCarbon::class,
+        'DiffFormatter'   => Laravelrus\LocalizedCarbon\DiffFactoryFacade::class,
 
     ],
 
