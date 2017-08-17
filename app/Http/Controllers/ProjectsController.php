@@ -45,6 +45,8 @@ class ProjectsController extends Controller
         $project->url = $request->get('url');
         $project->metric = $request->get('metric');
         $project->se_ranking = $request->get('se_ranking');
+        $project->auto = $request->get('auto');
+        $project->upload_path = $request->get('upload_path');
 
         $project->save();
 
@@ -90,6 +92,8 @@ class ProjectsController extends Controller
         $project->name = $request->get('name');
         $project->region = $request->get('region');
         $project->report_day = $request->get('report_day');
+        $project->auto = $request->get('auto') ? $request->get('auto') : 0;
+        $project->upload_path = $request->get('upload_path');
 
         $project->save();
 
@@ -141,8 +145,6 @@ class ProjectsController extends Controller
                     'se_ranking' => $ranking[$counter->site]
                 ];
             }
-
-
         }
 
         return view('metric.list')->with('list', $list);
