@@ -45,8 +45,8 @@ class ProjectsController extends Controller
         $project->url = $request->get('url');
         $project->metric = $request->get('metric');
         $project->se_ranking = $request->get('se_ranking');
-        $project->auto = $request->get('auto');
-        $project->upload_path = $request->get('upload_path');
+        $project->auto = $request->get('auto', false);
+        $project->upload_path = $request->get('upload_path', '');
 
         $project->save();
 
