@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('report:send')->everyMinute();
+        $schedule->command('report:send')->dailyAt('09:00');
     }
 
     /**
