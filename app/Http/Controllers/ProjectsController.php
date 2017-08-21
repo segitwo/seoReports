@@ -129,7 +129,7 @@ class ProjectsController extends Controller
         ]);
         $ranking = [];
         foreach ($rankingList as $site) {
-            $ranking[$site->name] = $site->id;
+            $ranking[$site->title] = $site->id;
         }
 
         //Сайты из метрики
