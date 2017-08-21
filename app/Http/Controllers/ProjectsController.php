@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Punycode\idna_convert;
 use App\Stats\SERanking;
 use App\Stats\YMetric;
 use Illuminate\Database\Eloquent\Collection;
@@ -128,8 +129,11 @@ class ProjectsController extends Controller
             'method' => 'sites'
         ]);
         $ranking = [];
+        $idn = new idna_convert();
         foreach ($rankingList as $site) {
-            $ranking[$site->title] = $site->id;
+            $url = (stripos($site->name, 'xn--')!==false) ? $idn->decode($site->name) : $site->name;
+            $url = str_replace(['http://', '/'], '', $url);
+            $ranking[$url] = $site->id;
         }
 
         //Сайты из метрики
