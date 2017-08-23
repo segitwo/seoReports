@@ -24,16 +24,21 @@
                     {!! Form::text('region', null, ['class' => 'form-control', 'placeholder' => '']) !!}
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('note', 'Отчетное число') !!}
-                    {!! Form::number('report_day', null, ['class' => 'form-control', 'max' => '30', 'min' => '1']) !!}
-                </div>
 
+
+
+            </div>
+            <div class="col-md-6">
+
+
+                {!! Form::label('note', 'Начало продвижения') !!}
                 <div class="form-group">
-                    <label class="checkbox">
-                        {!! Form::checkbox('auto', 1, $project->auto, ['data-toggle' => 'checkbox']) !!}
-                        Автогенерация
-                    </label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn" type="button"><span class="fui-calendar"></span></button>
+                        </span>
+                        <input type="text" name="start_date" value="{{ date('d-m-Y', strtotime($project->start_date)) }}" class="form-control timepicker-with-dropdowns datapicker" />
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -42,9 +47,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="checkbox">
+                        {!! Form::checkbox('auto', 1, $project->auto, ['data-toggle' => 'checkbox']) !!}
+                        Автогенерация
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
                     {!! Form::submit('Обновить', ['class' => 'btn btn-info btn-sm']) !!}
                 </div>
             </div>
+
             {{--
             <div class="col-md-6">
                 {!! Form::label('note', 'Структура отчета') !!}

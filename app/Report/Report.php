@@ -108,7 +108,7 @@ class Report {
         $autotext = new AutoText($today);
 
         if (!empty($requestData['period'])) {
-            $dataOutput['autotext'] .= $autotext->getAutoText();
+            $dataOutput['autotext'] .= $autotext->getAutoText('', $requestData);
         }
 
         if(!empty($requestData['dop_work'])){
@@ -116,7 +116,7 @@ class Report {
         }
 
         if(!empty($requestData['support'])){
-            $dataOutput['autotext'] .= $autotext->getSupportText($requestData['support']);
+            $dataOutput['autotext'] .= $autotext->getSupportText($requestData['support'], $requestData['support_text']);
         }
 
         /*-----------------------------------------------------------------------------*/
@@ -149,17 +149,17 @@ class Report {
 
         $generalStatistic["firstHalfText"] = "";
         $generalStatistic["secondMonthText"] = "";
-        if (!empty($_POST['period'])) {
-            $generalStatistic["period"] = $_POST['period'];
+        if (!empty($requestData['period'])) {
+            $generalStatistic["period"] = $requestData['period'];
             if($generalStatistic["grouth"] == "up"){
-                if(in_array($_POST['period'], [2,3,4,5,6])){
+                if(in_array($requestData['period'], [2,3,4,5,6])){
                     $generalStatistic["firstHalf"] = 1;
                     $firstHalfText = ["Как видно", "Из поисковой статистики следует, что", "Мы наблюдаем, что", "Заметно, что", "Мы видим, что"];
                     $rand_key = array_rand($firstHalfText, 1);
                     $generalStatistic["firstHalfText"] = $firstHalfText[$rand_key];
                 }
 
-                if($_POST['period'] == 2){
+                if($requestData['period'] == 2){
                     $generalStatistic["secondMonthText"] = "При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.";
                 }
             }

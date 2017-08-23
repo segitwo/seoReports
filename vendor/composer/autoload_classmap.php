@@ -7,8 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddAutogenerateCheckboxToProject' => $baseDir . '/database/migrations/2017_08_15_124214_add_autogenerate_checkbox_to_project.php',
-    'AddRegionAndDateToProject' => $baseDir . '/database/migrations/2017_08_09_142755_add_region_and_date_to_project.php',
+    'AddRegionToProject' => $baseDir . '/database/migrations/2017_08_22_145044_add_region_to_project.php',
     'AddSerankingAndLastupdateToProject' => $baseDir . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
+    'AddStartDateToProject' => $baseDir . '/database/migrations/2017_08_22_065517_add_start_date_to_project.php',
     'AddUploadPathToProject' => $baseDir . '/database/migrations/2017_08_17_153944_add_upload_path_to_project.php',
     'App\\Console\\Commands\\GenerateTodaysReports' => $baseDir . '/app/Console/Commands/GenerateTodaysReports.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -36,6 +37,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Punycode\\idna_convert' => $baseDir . '/app/Punycode/idna_convert.php',
     'App\\Report\\Report' => $baseDir . '/app/Report/Report.php',
     'App\\Stats\\AllPositions' => $baseDir . '/app/Stats/AllPositions.php',
     'App\\Stats\\AutoText' => $baseDir . '/app/Stats/AutoText.php',

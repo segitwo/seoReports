@@ -44,10 +44,19 @@ class GenerateTodaysReports extends Command
     {
         $today = Carbon::today();
 
-        $projects = Project::where('auto', 1)->where('report_day', intval($today->format('d')))->get();
+        //$projects = Project::where('auto', 1)->where('report_day', intval($today->format('d')))->get();
+
+        $projects = Project::whereDay('start_date',  '=', intval($today->format('d')))->where('auto', 1)->get();
+
+        //SELECT DAYOFMONTH(`start_date`) as `start_date` FROM `projects` WHERE DAYOFMONTH(`start_date`) = 22
 
         $report = new Report();
         foreach ($projects as $project) {
+
+            $period = Carbon::parse($project->start_date)->modify('-1 day')->diffInMonths($today);
+            if(!$period){
+                continue;
+            }
 
             $months = [
                 "January" => "Январь",
@@ -81,7 +90,9 @@ class GenerateTodaysReports extends Command
                 'sitename' => $project->name,
                 'date' => $today->format('d-m-Y'),
                 'regionName' => $project->region,
-                'doc_name' => $docname
+                'doc_name' => $docname,
+                'period' => $period,
+                'next_work' => $period + 1
             ], $project->upload_path . '/' . $today->format('Y'));
         }
 

@@ -334,8 +334,9 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
 
     public static $classMap = array (
         'AddAutogenerateCheckboxToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_15_124214_add_autogenerate_checkbox_to_project.php',
-        'AddRegionAndDateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_09_142755_add_region_and_date_to_project.php',
+        'AddRegionToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_22_145044_add_region_to_project.php',
         'AddSerankingAndLastupdateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_02_075933_add_seranking_and_lastupdate_to_project.php',
+        'AddStartDateToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_22_065517_add_start_date_to_project.php',
         'AddUploadPathToProject' => __DIR__ . '/../..' . '/database/migrations/2017_08_17_153944_add_upload_path_to_project.php',
         'App\\Console\\Commands\\GenerateTodaysReports' => __DIR__ . '/../..' . '/app/Console/Commands/GenerateTodaysReports.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
@@ -363,6 +364,7 @@ class ComposerStaticInitfada6d61bcfe5c46c11bc7a46a428513
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Punycode\\idna_convert' => __DIR__ . '/../..' . '/app/Punycode/idna_convert.php',
         'App\\Report\\Report' => __DIR__ . '/../..' . '/app/Report/Report.php',
         'App\\Stats\\AllPositions' => __DIR__ . '/../..' . '/app/Stats/AllPositions.php',
         'App\\Stats\\AutoText' => __DIR__ . '/../..' . '/app/Stats/AutoText.php',

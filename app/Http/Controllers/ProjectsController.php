@@ -6,6 +6,7 @@ use App\Project;
 use App\Punycode\idna_convert;
 use App\Stats\SERanking;
 use App\Stats\YMetric;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -48,6 +49,7 @@ class ProjectsController extends Controller
         $project->se_ranking = $request->get('se_ranking');
         $project->auto = $request->get('auto', false);
         $project->upload_path = $request->get('upload_path', '');
+        $project->start_date = $request->get('start_date');
 
         $project->save();
 
@@ -92,9 +94,10 @@ class ProjectsController extends Controller
 
         $project->name = $request->get('name');
         $project->region = $request->get('region');
-        $project->report_day = $request->get('report_day');
         $project->auto = $request->get('auto') ? $request->get('auto') : 0;
         $project->upload_path = $request->get('upload_path');
+
+        $project->start_date = Carbon::createFromFormat('d-m-Y', $request->get('start_date'));
 
         $project->save();
 

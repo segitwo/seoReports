@@ -15,7 +15,7 @@ class AutoText {
         $this->prevDay->modify('-1 month');
     }
     
-    public function getAutoText($work = ""){
+    public function getAutoText($work = "", $requestData){
 
         $textPlaceholders = [
             'prevDay' => $this->prevDay->format('d.m.Y'),
@@ -25,9 +25,9 @@ class AutoText {
 
         $textPlaceholders['dop'] = 0;
         if ($work == "") {
-            $period = $_POST['period'];
+            $period = $requestData['period'];
         } else if($work == "dop"){
-            $period = $_POST['dop_work'];
+            $period = $requestData['dop_work'];
             $textPlaceholders['dop'] = 1;
         } else {
             return;
@@ -36,8 +36,8 @@ class AutoText {
         if($period != 0){
             switch($period){
                 case 1:
-                    if(isset($_POST['work'])){
-                        switch($_POST['work']){
+                    if(isset($requestData['work'])){
+                        switch($requestData['work']){
                             case 'Рерайт':
                                 $textPlaceholders['work'] = 'добавлены необходимые вхождения в тексты на страницах:';
                                 break;
@@ -47,8 +47,8 @@ class AutoText {
                         }
                     }
                     
-                    if(isset($_POST['write_text'])){
-                        $support_text_rows = explode("\n", $_POST['write_text']);
+                    if(isset($requestData['write_text'])){
+                        $support_text_rows = explode("\n", $requestData['write_text']);
                         $worklist = "";
                         foreach($support_text_rows as $row){
                             $worklist .= view('reports.xml.listRow', ["val" => $row])->render();
@@ -56,8 +56,8 @@ class AutoText {
                         $textPlaceholders['worklist'] = $worklist;
                     }
                     
-                    if(isset($_POST['hasPositions'])){
-                        switch($_POST['hasPositions']){
+                    if(isset($requestData['hasPositions'])){
+                        switch($requestData['hasPositions']){
                             case 'Новое продвижение':
                                 $textPlaceholders['hasPositions1'] = 'проект только недавно начал продвижение';
                                 $textPlaceholders['hasPositions2'] = 'вывод всех запросов в ТОП-100 с дальнейшим улучшением';
@@ -73,8 +73,8 @@ class AutoText {
                     break;
                     
                 case 2:
-                    if(isset($_POST['work'])){
-                        switch($_POST['work']) {
+                    if(isset($requestData['work'])){
+                        switch($requestData['work']) {
                             case 'Первичный аудит':
                                 return view('reports.xml.text.2month', ['work' => 'В этот период наша работа была направлена на улучшение позиций сайта. Мы провели плановый технический аудит, который в себя включал:'])->render();
                                 break;
@@ -98,8 +98,8 @@ class AutoText {
                     return view('reports.xml.text.6month', $textPlaceholders)->render();
                     break;
                 case 7:
-                    if(isset($_POST['links'])){
-                        $support_text_rows = explode("\n", $_POST['links']);
+                    if(isset($requestData['links'])){
+                        $support_text_rows = explode("\n", $requestData['links']);
                         $worklist = "";
                         foreach($support_text_rows as $row){
                             $worklist .= view('reports.xml.listRow', ["val" => $row])->render();
@@ -170,7 +170,7 @@ class AutoText {
         }
     }
     
-    public function getSupportText($support = []){
+    public function getSupportText($support = [], $supportText = ''){
         $outputList = "";
         if(count($support)){
             $outputList =
@@ -212,8 +212,8 @@ class AutoText {
             }
         }
         
-        if(isset($_POST["support_text"])){
-            $support_text_rows = explode("\n", $_POST['support_text']);
+        if($supportText != ''){
+            $support_text_rows = explode("\n", $supportText);
             $worklist = "";
             foreach($support_text_rows as $row){
                 $worklist .= view('reports.xml.listRow', ["val" => $row])->render();

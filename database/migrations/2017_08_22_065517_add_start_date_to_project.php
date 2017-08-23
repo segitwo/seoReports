@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRegionAndDateToProject extends Migration
+use Carbon\Carbon;
+
+class AddStartDateToProject extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +15,8 @@ class AddRegionAndDateToProject extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->string('region')->nullable();
-            $table->integer('report_day')->default(1);
+        Schema::table('projects', function(Blueprint $table){
+            $table->timestamp('start_date')->useCurrent();
         });
     }
 
@@ -27,8 +28,7 @@ class AddRegionAndDateToProject extends Migration
     public function down()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->dropColumn('region');
-            $table->dropColumn('report_day');
+            $table->dropColumn('start_date');
         });
     }
 }
