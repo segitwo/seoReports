@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-use Carbon\Carbon;
-
 class AddStartDateToProject extends Migration
 {
     /**
@@ -16,7 +14,7 @@ class AddStartDateToProject extends Migration
     public function up()
     {
         Schema::table('projects', function(Blueprint $table){
-            $table->timestamp('start_date')->useCurrent();
+            $table->timestamp('start_date')->default(\Illuminate\Support\Facades\DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 
