@@ -6,8 +6,6 @@ use App\Project;
 use App\Report\Report;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Laravelrus\LocalizedCarbon\LocalizedCarbon;
 
 class GenerateTodaysReports extends Command
 {

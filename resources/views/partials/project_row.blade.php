@@ -4,6 +4,9 @@
     <td>{{$project->url}}</td>
     <td>{{$project->metric}}</td>
     <td class="text-right">
+        @if($project->auto)
+            <span class="mrs fui-time text-info"></span>
+        @endif
         <a class="btn btn-info btn-xs"  href="{{ route('report.setup',  ['project' => $project->id]) }}" >Сгенерировать отчет</a>
         <a class="text-info col-xs-offset-1" href="{{ route('projects.edit',  [$project->id]) }}" >Настроить</a>
     </td>
