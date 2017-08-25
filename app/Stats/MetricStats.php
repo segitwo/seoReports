@@ -486,6 +486,9 @@ class MetricStats {
                         $currentPosition = intval(current($positions)->pos);
 
                         $change = $lastPosition - $currentPosition;
+                        if(!$lastPosition){
+                            $change = abs($change);
+                        }
 
                         $output[$keyWords[$keyword->id]][$key] = ['change' => $change, 'pos' => $currentPosition, 'last_position' => $lastPosition];
                     }
