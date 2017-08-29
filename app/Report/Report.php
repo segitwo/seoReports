@@ -119,70 +119,12 @@ class Report {
             $dataOutput['autotext'] .= $autotext->getSupportText($requestData['support'], $requestData['support_text']);
         }
 
-        /*-----------------------------------------------------------------------------*/
-        $generalStatistic = [];
-        $generalStatistic["firstHalf"] = 0;
-        //текущий месяц
-        $resultData = [];
-        $resultData[] = $MetrikData->getTotalVisitsData();
+        //Комментарий к источникам трафика
+        $generalStatistic = $this->getGeneralStatistic($MetrikData, $prevDay);
+        $generalStatistic['prevDay'] = $dataOutput["prevDay"];
+        $generalStatistic['today'] = $dataOutput["today"];
 
-        //прошлый месяц
-        $prePrevDay = clone $prevDay;
-        $prePrevDay->modify('-1 month');
-        $resultData[] = $MetrikData->getTotalVisitsData([$prePrevDay->format('Y-m-d'), $prevDay->format('Y-m-d')]);
-
-        $generalStatisticChange = $resultData['1']['guests'] - $resultData['0']['guests'];
-        $generalStatistic["prevGuests"] = $resultData['0']['guests'];
-        $generalStatistic["nextGuests"] = $resultData['1']['guests'];
-        $generalStatistic["period"] = 0;
-
-        $generalStatistic["grouth"] = "down";
-        if($generalStatisticChange > 0){
-            $generalStatisticChangePercent = round(($generalStatisticChange * 100) / $resultData['1']['guests'], 2);
-            $generalStatistic["percent"] = $generalStatisticChangePercent;
-            if($generalStatisticChangePercent > 10){
-                $generalStatistic["grouth"] = "up";
-            } else {
-                $generalStatistic["grouth"] = "stable";
-            }
-        }
-
-        $generalStatistic["firstHalfText"] = "";
-        $generalStatistic["secondMonthText"] = "";
-        if (!empty($requestData['period'])) {
-            $generalStatistic["period"] = $requestData['period'];
-            if($generalStatistic["grouth"] == "up"){
-                if(in_array($requestData['period'], [2,3,4,5,6])){
-                    $generalStatistic["firstHalf"] = 1;
-                    $firstHalfText = ["Как видно", "Из поисковой статистики следует, что", "Мы наблюдаем, что", "Заметно, что", "Мы видим, что"];
-                    $rand_key = array_rand($firstHalfText, 1);
-                    $generalStatistic["firstHalfText"] = $firstHalfText[$rand_key];
-                }
-
-                if($requestData['period'] == 2){
-                    $generalStatistic["secondMonthText"] = "При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.";
-                }
-            }
-        }
-
-        $resultData = $MetrikData->getSEData();
-        $generalStatistic["prevSEGuests"] = $resultData["total"][0];
-        $generalStatistic["nextSEGuests"] = $resultData["total"][1];
-
-        $generalStatisticSEChange = $resultData["total"][1] - $resultData["total"][0];
-
-        $generalStatistic["SEgrouth"] = "down";
-        if($generalStatisticSEChange > 0){
-            $generalStatisticChangeSEPercent = round(($generalStatisticSEChange * 100) / $resultData["total"][1], 2);
-            $generalStatistic["SEpercent"] = $generalStatisticChangeSEPercent;
-            if($generalStatisticChangeSEPercent > 10){
-                $generalStatistic["SEgrouth"] = "up";
-            } else {
-                $generalStatistic["SEgrouth"] = "stable";
-            }
-        }
-
-        /*------------------------------------------------------------------------------------*/
+        $dataOutput['generalStatistic'] = view('reports.xml.generalStatistic', $generalStatistic)->render();
 
         $commoninfo = "";
         if(isset($requestData['commoninfo'])){
@@ -190,10 +132,8 @@ class Report {
             //$commoninfo .= view('reports.xml.paragraph')->render();
         }
 
-        $generalStatistic['prevDay'] = $dataOutput["prevDay"];
-        $generalStatistic['today'] = $dataOutput["today"];
 
-        $dataOutput['autotext'] = view('reports.xml.generalStatistic', $generalStatistic)->render() . $dataOutput['autotext'] . $commoninfo;
+        $dataOutput['autotext'] = $dataOutput['autotext'] . $commoninfo;
 
         if(!empty($requestData['next_work'])){
             $dataOutput['autotext'] .= $autotext->getNextWorkText($requestData['next_work']);
@@ -305,6 +245,72 @@ class Report {
 
         return $unicId;
 
+    }
+
+    private function getGeneralStatistic(MetricStats $MetrikData, Carbon $prevDay){
+        $generalStatistic = [];
+        $generalStatistic["firstHalf"] = 0;
+        //текущий месяц
+        $resultData = [];
+        $resultData[] = $MetrikData->getTotalVisitsData();
+
+        //прошлый месяц
+        $prePrevDay = clone $prevDay;
+        $prePrevDay->modify('-1 month');
+        $resultData[] = $MetrikData->getTotalVisitsData([$prePrevDay->format('Y-m-d'), $prevDay->format('Y-m-d')]);
+
+        $generalStatisticChange = $resultData['1']['guests'] - $resultData['0']['guests'];
+        $generalStatistic["prevGuests"] = $resultData['0']['guests'];
+        $generalStatistic["nextGuests"] = $resultData['1']['guests'];
+        $generalStatistic["period"] = 0;
+
+        $generalStatistic["grouth"] = "down";
+        if($generalStatisticChange > 0){
+            $generalStatisticChangePercent = round(($generalStatisticChange * 100) / $resultData['1']['guests'], 2);
+            $generalStatistic["percent"] = $generalStatisticChangePercent;
+            if($generalStatisticChangePercent > 10){
+                $generalStatistic["grouth"] = "up";
+            } else {
+                $generalStatistic["grouth"] = "stable";
+            }
+        }
+
+        $generalStatistic["firstHalfText"] = "";
+        $generalStatistic["secondMonthText"] = "";
+        if (!empty($requestData['period'])) {
+            $generalStatistic["period"] = $requestData['period'];
+            if($generalStatistic["grouth"] == "up"){
+                if(in_array($requestData['period'], [2,3,4,5,6])){
+                    $generalStatistic["firstHalf"] = 1;
+                    $firstHalfText = ["Как видно", "Из поисковой статистики следует, что", "Мы наблюдаем, что", "Заметно, что", "Мы видим, что"];
+                    $rand_key = array_rand($firstHalfText, 1);
+                    $generalStatistic["firstHalfText"] = $firstHalfText[$rand_key];
+                }
+
+                if($requestData['period'] == 2){
+                    $generalStatistic["secondMonthText"] = "При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.";
+                }
+            }
+        }
+
+        $resultData = $MetrikData->getSEData();
+        $generalStatistic["prevSEGuests"] = $resultData["total"][0];
+        $generalStatistic["nextSEGuests"] = $resultData["total"][1];
+
+        $generalStatisticSEChange = $resultData["total"][1] - $resultData["total"][0];
+
+        $generalStatistic["SEgrouth"] = "down";
+        if($generalStatisticSEChange > 0){
+            $generalStatisticChangeSEPercent = round(($generalStatisticSEChange * 100) / $resultData["total"][1], 2);
+            $generalStatistic["SEpercent"] = $generalStatisticChangeSEPercent;
+            if($generalStatisticChangeSEPercent > 10){
+                $generalStatistic["SEgrouth"] = "up";
+            } else {
+                $generalStatistic["SEgrouth"] = "stable";
+            }
+        }
+
+        return $generalStatistic;
     }
 
     public function makeLineChart($lines, $name, $unicId, Carbon $today){

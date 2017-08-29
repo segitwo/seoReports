@@ -336,4 +336,65 @@
     @endforeach
 
     </w:tbl>
+
+    <w:p w:rsidR="00104A38" w:rsidRDefault="00104A38" w:rsidP="00F6228D"/>
+    <w:p w:rsidR="00454DDC" w:rsidRPr="00083FBA" w:rsidRDefault="00454DDC" w:rsidP="00083FBA">
+        <w:pPr>
+            <w:spacing w:line="240" w:lineRule="auto"/>
+            <w:rPr>
+                <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+        </w:pPr>
+        <w:r w:rsidRPr="00083FBA">
+            <w:rPr>
+                <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                <w:b/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+            <w:t>Комментарий: </w:t>
+        </w:r>
+        <w:r w:rsidRPr="00083FBA">
+            <w:rPr>
+                <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+            <w:t xml:space="preserve">Отказом принято считать посещение, в течение которого человек был на одной странице и посвятил ей менее 15 секунд. </w:t>
+        </w:r>
+        <w:r w:rsidR="00083FBA">
+            <w:rPr>
+                <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+            <w:t>Обращаем Ваше внимание на страницы с высоким показателем отказов – им следует уделить особое внимание, как с точки зрения навигации, так и коммерческих факторов. Возможно пользователь не смог найти ответ на свой вопрос или сайт долго загружался.</w:t>
+        </w:r>
+        <w:r w:rsidR="00083FBA">
+            <w:rPr>
+                <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+            <w:br/>
+        </w:r>
+        <w:r w:rsidR="00083FBA">
+            <w:rPr>
+                <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+            <w:br/>
+            <w:t>Для более точного анализа мы проводим комплекс мероприятий, направленный на выявления причин и источником отказов, даем рекомендации по улучшению юзабилити страниц сайта. Для получения аудита обратитесь к менеджеру вашего проекта.</w:t>
+        </w:r>
+    </w:p>
+    <w:p w:rsidR="00454DDC" w:rsidRPr="00D3224D" w:rsidRDefault="00454DDC" w:rsidP="00F6228D">
+        <w:pPr>
+            <w:rPr>
+                <w:lang w:val="en-US"/>
+            </w:rPr>
+        </w:pPr>
+    </w:p>
 @endif

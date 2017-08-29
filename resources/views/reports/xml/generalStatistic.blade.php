@@ -1,42 +1,69 @@
 @php
-    $growthStatement = '';
+    $statement = '';
     switch ($grouth) {
         case 'down':
-            $growthStatement = 'стабилизация трафика сайта';
+            $statement = 'стабилизация трафика сайта';
             break;
         case 'up':
-            $growthStatement = 'хороший рост посещаемости сайта';
+            $statement = 'хороший рост посещаемости сайта';
             break;
         case 'stable':
-            $growthStatement = 'стабилизация трафика сайта';
+            $statement = 'стабилизация трафика сайта';
             break;
     }
 
-    $growthStatement = 'В период с ' . $prevDay  . ' по ' . $today . ' наблюдается ' . $growthStatement . ':';
-@endphp
-@include('reports.xml.paragraph', ['val' => $growthStatement])
+    $statement = 'В период с ' . $prevDay  . ' по ' . $today . ' наблюдается ' . $statement . '. ';
 
-@php
-    $statement = 'Количество переходов пользователей из поисковых систем ';
+    $statement .= 'Количество переходов пользователей из поисковых систем ';
     if($SEgrouth == 'up'){
         $statement .= 'увеличилось на ' . $SEpercent . '% (с ' . $prevSEGuests . ' до ' . $nextSEGuests . ' чел./мес.)';
     } else {
-        $statement .= 'составило ' . $nextSEGuests . ' чел./мес.';
+        $statement .= 'составило ' . $nextSEGuests . ' чел./мес. ';
     }
-@endphp
-@include('reports.xml.listRow', ['val' => $statement])
 
-@php
-    $statement = 'Суммарное количество уникальных пользователей ';
+    $statement .= 'Суммарное количество уникальных пользователей ';
 
     if($grouth == 'up'){
         $statement .= 'увеличилось на ' . $percent . '% (с '  . $prevGuests . ' до ' . $nextGuests .' чел./мес.)';
     } else {
         $statement .= 'составило ' . $nextGuests . ' чел./мес.';
     }
-
 @endphp
-@include('reports.xml.listRow', ['val' => $statement])
+
+<w:p w:rsidR="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+    <w:pPr>
+        <w:rPr>
+            <w:rFonts w:asciiTheme="majorHAnsi" w:hAnsiTheme="majorHAnsi" w:cstheme="majorHAnsi"/>
+        </w:rPr>
+    </w:pPr>
+</w:p>
+<w:p w:rsidR="00454DDC" w:rsidRPr="00083FBA" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+    <w:pPr>
+        <w:rPr>
+            <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+            <w:sz w:val="18"/>
+            <w:szCs w:val="18"/>
+        </w:rPr>
+    </w:pPr>
+    <w:r w:rsidRPr="00083FBA">
+        <w:rPr>
+            <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+            <w:b/>
+            <w:sz w:val="18"/>
+            <w:szCs w:val="18"/>
+        </w:rPr>
+        <w:t>Комментарий:</w:t>
+    </w:r>
+    <w:proofErr w:type="gramEnd"/>
+    <w:r w:rsidRPr="00083FBA">
+        <w:rPr>
+            <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+            <w:sz w:val="18"/>
+            <w:szCs w:val="18"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> {{ $statement }}</w:t>
+    </w:r>
+</w:p>
 
 @php
     $statement = '';
@@ -46,7 +73,9 @@
     $statement .= $secondMonthText;
 
 @endphp
-@include('reports.xml.paragraph', ['val' => $statement])
+@if($statement != '')
+    @include('reports.xml.paragraph', ['val' => $statement])
+@endif
 
 @php
     $statement = '';

@@ -184,7 +184,7 @@
                     <w:szCs w:val="20" />
                     <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF" />
                 </w:rPr>
-                <w:t>Общая посещаемость и поведенческие факторы</w:t>
+                <w:t>Общая посещаемость и поведенческие факторы*</w:t>
             </w:r>
         </w:p>
         <w:p w:rsidR="00157162" w:rsidRDefault="00157162" w:rsidP="00FA7DF9">
@@ -988,19 +988,188 @@
                 </w:rPr>
             </w:pPr>
         </w:p>
-        <w:p w:rsidR="00FA7DF9" w:rsidRDefault="00FA7DF9" w:rsidP="00FA7DF9">
+        <w:p w:rsidR="00454DDC" w:rsidRPr="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
             <w:pPr>
-                <w:spacing w:after="0" w:line="240" w:lineRule="auto" />
+                <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
                 <w:rPr>
-                    <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans" />
-                    <w:color w:val="333333" />
-                    <w:sz w:val="20" />
-                    <w:szCs w:val="20" />
-                    <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF" />
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="21"/>
+                    <w:szCs w:val="21"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:b/>
+                    <w:bCs/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="21"/>
+                    <w:szCs w:val="21"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t>*</w:t>
+            </w:r>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="21"/>
+                    <w:szCs w:val="21"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t xml:space="preserve"> по данным </w:t>
+            </w:r>
+            <w:proofErr w:type="spellStart"/>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="21"/>
+                    <w:szCs w:val="21"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t>Яндекс.Метрика</w:t>
+            </w:r>
+            <w:proofErr w:type="spellEnd"/>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="21"/>
+                    <w:szCs w:val="21"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t> </w:t>
+            </w:r>
+        </w:p>
+
+        <w:p w:rsidR="00454DDC" w:rsidRPr="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+            <w:pPr>
+                <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:lastRenderedPageBreak/>
+                <w:t>Посетители – число уникальных пользователей, посетивших сайт (имевших хотя бы один визит) в отчетном периоде.</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00454DDC" w:rsidRPr="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+            <w:pPr>
+                <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
                 </w:rPr>
             </w:pPr>
         </w:p>
-        @include('reports.xml.breakPage')
+        <w:p w:rsidR="00454DDC" w:rsidRPr="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+            <w:pPr>
+                <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t>Просмотры – число просмотров страниц на сайте за отчетный период, исключая мгновенные обновления страниц («</w:t>
+            </w:r>
+            <w:proofErr w:type="spellStart"/>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t>рефреш</w:t>
+            </w:r>
+            <w:proofErr w:type="spellEnd"/>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t>», когда повторный просмотр той же страницы произошел в течение 15 секунд после первого), при этом возвраты на уже посещенные страницы также засчитываются как просмотр.</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00454DDC" w:rsidRPr="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+            <w:pPr>
+                <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
+        <w:p w:rsidR="00454DDC" w:rsidRPr="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+            <w:pPr>
+                <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+            </w:pPr>
+            <w:r w:rsidRPr="00454DDC">
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:eastAsia="Times New Roman" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:color w:val="232528"/>
+                    <w:sz w:val="20"/>
+                    <w:szCs w:val="20"/>
+                    <w:lang w:eastAsia="ru-RU"/>
+                </w:rPr>
+                <w:t>Визиты - число сеансов взаимодействия посетителей с сайтом, включающих один и более просмотров страницы. Визит прекращается спустя 30 минут отсутствия активности со стороны пользователя.</w:t>
+            </w:r>
+        </w:p>
+        <w:p w:rsidR="00454DDC" w:rsidRDefault="00454DDC" w:rsidP="00454DDC">
+            <w:pPr>
+                <w:rPr>
+                    <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans"/>
+                    <w:b/>
+                    <w:color w:val="333333"/>
+                    <w:sz w:val="24"/>
+                    <w:szCs w:val="20"/>
+                    <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF"/>
+                </w:rPr>
+            </w:pPr>
+        </w:p>
         <w:p w:rsidR="00685116" w:rsidRDefault="00685116" w:rsidP="00685116">
             <w:pPr>
                 <w:spacing w:after="0" w:line="240" w:lineRule="auto" />
@@ -1108,6 +1277,7 @@
                 </w:drawing>
             </w:r>
         </w:p>
+        {!! $generalStatistic !!}
         <w:p w:rsidR="00330ACF" w:rsidRDefault="00330ACF" w:rsidP="00330ACF">
             <w:pPr>
                 <w:pStyle w:val="2" />
