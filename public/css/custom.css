@@ -1,0 +1,68 @@
+
+
+.sortableHolder {
+    padding: 0 10px;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+}
+
+#sortable {
+    padding: 10px 0;
+    position: relative;
+    margin-bottom: 0;
+}
+
+#sortable li {
+    list-style: none;
+    margin-bottom: 4px;
+    width: 100% !important;
+}
+
+.templateBlock .title {
+    padding-right: 30px;
+}
+
+.templateBlock .actions {
+    position: absolute;
+    right: 10px;
+    top: 0;
+
+    height: 100%;
+}
+
+.templateBlock .actions .removeBlock {
+    font-size: 12px;
+    color: red;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.templateBlock {
+    position: relative;
+    background: #f7fafc;
+    padding: 10px 10px 10px 15px;
+
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    cursor: move;
+}
+
+#draggable {
+    padding-left: 0;
+}
+
+#draggable li {
+    list-style: none;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+
+
+#draggable li .templateBlock .actions {
+    display: none;
+}
+
+.ui-draggable-disabled {
+    opacity: 0.5;
+}

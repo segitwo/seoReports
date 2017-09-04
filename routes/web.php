@@ -16,6 +16,8 @@ Route::get('/', [
     'uses' => 'ReportController@index'*/
 ]);
 
+Route::resource('templates', 'TemplateController');
+
 Route::group(['middleware' => 'auth'], function (){
 
     Route::get('/', function () {
