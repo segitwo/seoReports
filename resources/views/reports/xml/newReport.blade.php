@@ -1277,7 +1277,7 @@
                 </w:drawing>
             </w:r>
         </w:p>
-        {!! $generalStatistic !!}
+        {!! $generalStatistic or '' !!}
         <w:p w:rsidR="00330ACF" w:rsidRDefault="00330ACF" w:rsidP="00330ACF">
             <w:pPr>
                 <w:pStyle w:val="2" />
