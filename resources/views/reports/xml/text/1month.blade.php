@@ -2,7 +2,7 @@
     $statement = 'В период с ' . $prevDay . ' по ' . $today . ' мы занимались первичной оптимизацией проекта. Была сформирована стратегия продвижения – выбраны посадочные страницы под продвигаемые запросы, для них написаны и размещены релевантные мета-теги, ' . $work;
 @endphp
 @include('reports.xml.paragraph', ['val' => $statement])
-{{ $worklist }}
+{{ $worklist or '' }}
 @include('reports.xml.paragraph', ['val' => ''])
 @include('reports.xml.paragraph', ['val' => 'Отредактированы служебные файлы .htaccess, robots.txt.'])
 @include('reports.xml.paragraph', ['val' => 'Также была проведена техническая оптимизация сайта для правильной индексации поисковыми системами — сайт добавлен в сервисы:'])

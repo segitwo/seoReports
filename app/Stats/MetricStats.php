@@ -490,11 +490,16 @@ class MetricStats {
                             $change = abs($change);
                         }
 
-                        //По дефолту
-                        $output[$keyWords[$keyword->id]]['Яндекс'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
-                        $output[$keyWords[$keyword->id]]['Google'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
-
                         $output[$keyWords[$keyword->id]][$key] = ['change' => $change, 'pos' => $currentPosition, 'last_position' => $lastPosition];
+
+                        //По дефолту
+                        if(!isset($output[$keyWords[$keyword->id]]['Яндекс'])){
+                            $output[$keyWords[$keyword->id]]['Яндекс'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
+                        }
+
+                        if(!isset($output[$keyWords[$keyword->id]]['Google'])){
+                            $output[$keyWords[$keyword->id]]['Google'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
+                        }
                     }
                 }
             }
