@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTotalVisitsBlocksTable extends Migration
+class CreateSourcesSummariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTotalVisitsBlocksTable extends Migration
      */
     public function up()
     {
-        Schema::create('total_visits_blocks', function (Blueprint $table) {
+        Schema::create('sources_summaries', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('template_block_id')->unsigned();
             $table->foreign('template_block_id')->references('id')->on('template_blocks')->onDelete('cascade');
+            $table->boolean('hide_if_reduce')->default(false);
         });
     }
 
@@ -27,6 +28,6 @@ class CreateTotalVisitsBlocksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('total_visits_blocks');
+        Schema::dropIfExists('sources_summaries');
     }
 }

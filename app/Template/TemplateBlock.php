@@ -10,6 +10,10 @@ class TemplateBlock extends Model
         return $this->hasOne('App\Template\TotalVisitsBlock');
     }
 
+    public function sourcesSummary(){
+        return $this->hasOne('App\Template\SourcesSummary');
+    }
+
     public function template(){
         return $this->belongsTo('App\Template\Template');
     }

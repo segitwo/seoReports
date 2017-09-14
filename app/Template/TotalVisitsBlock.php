@@ -3,19 +3,24 @@
 namespace App\Template;
 
 use App\Stats\YMetric;
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
-class TotalVisitsBlock extends Model
+use CpChart\Data;
+use CpChart\Image;
+
+class TotalVisitsBlock extends TemplateBlockExtension
 {
-    public function templateBlock(){
-        return $this->belongsTo('App\Template\TemplateBlock');
+    public function listProperties()
+    {
+        return [];
     }
 
-    public function getData($days = []){
+    public function getData($siteKey, $rankingKey, Carbon $today, $reportId){
+        parent::getData($siteKey, $rankingKey, $today, $reportId);
 
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'traffic',
-            'days' => $days,
+            'days' => $this->days,
             'sort' => 'ym:s:date'
         ]);
 
@@ -23,31 +28,100 @@ class TotalVisitsBlock extends Model
             return '';
         }
 
-        $resultData = [];
+        $totalVisitsTable = [];
         $totalGuests = 0;
-        $totalVews = 0;
+        $totalViews = 0;
         $totalVisits = 0;
 
         foreach($metricData->data as $idx => $data) {
-
-            //date
-            $dateArray = (array)$data->dimensions[0];
-            $date = new \DateTime($dateArray['name']);
-
-            $metricVals = $data->metrics;
-            $totalGuests += $metricVals["1"];
-            $totalVews += $metricVals["2"];
-            $totalVisits += $metricVals["0"];
+            $metricValues = $data->metrics;
+            $totalGuests += $metricValues["1"];
+            $totalViews += $metricValues["2"];
+            $totalVisits += $metricValues["0"];
 
         }
 
-        if($totalGuests || $totalVews || $totalVisits){
-            //$resultData["periods"][] = $this->montharr[$firstDayInMonth->format("m") - 1] . " (" . $firstDayInMonth->format('d.m') . " – " . $date->format('d.m') . ")";
-            $resultData["guests"] = $totalGuests;
-            $resultData["visits"] = $totalVisits;
-            $resultData["vews"] = $totalVews;
+        if($totalGuests || $totalViews || $totalVisits){
+            $totalVisitsTable["guests"] = $totalGuests;
+            $totalVisitsTable["visits"] = $totalVisits;
+            $totalVisitsTable["views"] = $totalViews;
         }
 
-        return $resultData;
+        $metricData = YMetric::getData($this->siteKey, [
+            'preset' => 'deepness_depth',
+            'dimensions' => 'ym:s:pageViewsInterval',
+            'metric' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
+            'days' => $this->days
+        ]);
+
+        if(!isset($metricData->totals)) {
+            return '';
+        }
+
+        $totals = $metricData->totals;
+        $totals[2] = round($totals[2], 2);
+        $totals[3] = round($totals[3], 2);
+        $totals[4] = gmdate("H:i:s", ceil($totals[4]) % 86400);
+
+        $depthData['totals'] = $totals;
+
+        $this->makeTotalVisitsChart($totalVisitsTable, $reportId);
+        return view('reports.xml.block.totalVisits', ['totalVisitsTable' => $totalVisitsTable, 'depthData' => $depthData])->render();
     }
+
+    private function makeTotalVisitsChart(array $hits, $reportId){
+        $data = new Data();
+        $data->addPoints($hits,"Hits");
+        $data->addPoints(array("Посетители", "Просмотры", "Визиты"),"Labels");
+        $data->setAbscissa("Labels");
+        /* Create the pChart object */
+        $chart = new Image(700,400, $data);
+
+
+        $chart->setFontProperties(array("FontName"=>"../fonts/calibri.ttf","FontSize"=>10));
+
+        /* Где график расположен */
+        $chart->setGraphArea(50,50,680,370);
+
+        $chart->drawScale(
+            [
+                "CycleBackground"=>TRUE,
+                "GridR"=>0,
+                "GridG"=>0,
+                "GridB"=>0,
+                "GridAlpha"=>10,
+                "Factors"=>array(8),
+                "Mode" => SCALE_MODE_START0
+            ]
+        );
+
+        $chart->setShadow(TRUE, [
+            "X"=>1,
+            "Y"=>1,
+            "R"=>255,
+            "G"=>255,
+            "B"=>255,
+            "Alpha"=>10
+        ]);
+
+        $blue = array("R"=>76,"G"=>176,"B"=>160,"Alpha"=>100);
+        $Palette = array("0"=>$blue,"1"=>$blue,"2"=>$blue);
+
+        $chart->drawBarChart(
+            array(
+                "DisplayValues" => TRUE,
+                //"DisplayPos" => LABEL_POS_INSIDE,
+                "OverrideColors"=>$Palette,
+                "DisplayR" => 0,
+                "DisplayG" => 0,
+                "DisplayB" => 0,
+                "Interleave" => 0.5,
+
+            )
+        );
+
+        /* Render the picture (choose the best way) */
+        $chart->render(app_path('Stats/' . $reportId . '/word/media/image4.png'));
+    }
+
 }

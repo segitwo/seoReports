@@ -29,12 +29,15 @@
                 <div class="col-md-5">
                     <h6>Доступные блоки</h6>
                     <ul id="draggable">
-                        @if($blocks->count() > 0)
+                        @if(count($blocks) > 0)
                             @foreach($blocks as $block)
-                                @include('partials.template_block', ['class_key' => $block->name])
+                                @if($block->added)
+                                    @include('partials.template_block', ['block' => $block, 'disabled' => 'disabled', 'class' => 'ui-draggable-disabled'])
+                                @else
+                                    @include('partials.template_block', ['block' => $block, 'disabled' => 'disabled'])
+                                @endif
                             @endforeach
                         @endif
-
                     </ul>
                 </div>
 
@@ -42,10 +45,11 @@
                     <h6>Структура отчета</h6>
                     <div class="sortableHolder">
                         <ul id="sortable">
-                            @if($template->blocks->count() > 0)
-                                @foreach($template->blocks as $block)
-                                    @include('partials.template_block', ['class_key' => $block->class_key])
-                                    {{--<li>@lang('templates.' . $block->class_key)</li> --}}
+                            @if(count($blocks) > 0)
+                                @foreach(collect($blocks)->sortBy('sortIndex') as $block)
+                                    @if($block->added)
+                                        @include('partials.template_block', ['block' => $block])
+                                    @endif
                                 @endforeach
                             @endif
                         </ul>

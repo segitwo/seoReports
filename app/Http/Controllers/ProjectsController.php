@@ -6,6 +6,7 @@ use App\Project;
 use App\Punycode\idna_convert;
 use App\Stats\SERanking;
 use App\Stats\YMetric;
+use App\Template\Template;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -77,8 +78,9 @@ class ProjectsController extends Controller
     public function edit($id)
     {
         $project = Project::find($id);
+        $templates = Template::all();
 
-        return view('projects.edit')->with('project', $project);
+        return view('projects.edit')->with('project', $project)->with('templates', $templates->pluck('name', 'id')->toArray());
     }
 
     /**
@@ -96,7 +98,7 @@ class ProjectsController extends Controller
         $project->region = $request->get('region');
         $project->auto = $request->get('auto') ? $request->get('auto') : 0;
         $project->upload_path = $request->get('upload_path');
-
+        $project->template_id = $request->get('template');
         $project->start_date = Carbon::createFromFormat('d-m-Y', $request->get('start_date'));
 
         $project->save();

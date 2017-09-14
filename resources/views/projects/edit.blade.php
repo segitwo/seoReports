@@ -18,14 +18,14 @@
                     {!! Form::label('note', 'Имя проекта') !!}
                     {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => '']) !!}
                 </div>
-
                 <div class="form-group">
                     {!! Form::label('note', 'Регион продвижения') !!}
                     {!! Form::text('region', null, ['class' => 'form-control', 'placeholder' => '']) !!}
                 </div>
-
-
-
+                <div class="form-group">
+                    {!! Form::label('note', 'Шаблон') !!}
+                    {!! Form::select('template', $templates, $project->template_id, ['class' => 'form-control select select-default select-block']) !!}
+                </div>
 
             </div>
             <div class="col-md-6">
@@ -59,51 +59,13 @@
                 </div>
             </div>
 
-            {{--
-            <div class="col-md-6">
-                {!! Form::label('note', 'Структура отчета') !!}
-                <div class="mbl form-group">
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="support[]" data-toggle="checkbox" value="Общая посещаемость и поведенческие факторы">
-                            Общая посещаемость и поведенческие факторы
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="support[]" data-toggle="checkbox" value="Источники трафика">
-                            Источники трафика
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="support[]" data-toggle="checkbox" value="Страницы с высоким показателем отказов">
-                            Страницы с высоким показателем отказов
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="support[]" data-toggle="checkbox" value="Популярные посадочные страницы из поисковых систем">
-                            Популярные посадочные страницы из поисковых систем
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="support[]" data-toggle="checkbox" value="Фактические позиции сайта">
-                            Фактические позиции сайта
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox">
-                            <input type="checkbox" name="support[]" data-toggle="checkbox" value="Среднии позиции">
-                            Среднии позиции
-                        </label>
-                    </div>
-                </div>
-            </div>
-            --}}
-
             {!! Form::close() !!}
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $("select").select2({dropdownCssClass: 'dropdown-inverse'});
+    </script>
+@endpush

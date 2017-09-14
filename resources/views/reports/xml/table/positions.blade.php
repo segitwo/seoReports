@@ -352,4 +352,17 @@
         {{ $idx++ }}
     @endforeach
 </w:tbl>
+<w:p w:rsidR="00F6228D" w:rsidRPr="00F6228D" w:rsidRDefault="00F6228D" w:rsidP="00F6228D" />
+<w:p w:rsidR="00FA7DF9" w:rsidRPr="00157162" w:rsidRDefault="00FA7DF9" w:rsidP="00561B65">
+    <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto" />
+        <w:rPr>
+            <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans" />
+            <w:color w:val="333333" />
+            <w:sz w:val="20" />
+            <w:szCs w:val="20" />
+            <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF" />
+        </w:rPr>
+    </w:pPr>
+</w:p>
 @endif

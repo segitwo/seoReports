@@ -16,9 +16,11 @@ Route::get('/', [
     'uses' => 'ReportController@index'*/
 ]);
 
-Route::resource('templates', 'TemplateController');
+
 
 Route::group(['middleware' => 'auth'], function (){
+
+    Route::resource('templates', 'TemplateController');
 
     Route::get('/', function () {
         return redirect()->route('projects.index');

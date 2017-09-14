@@ -15,9 +15,9 @@ class MetricStats {
     private $prevDay;
     private $days;
 
-    public function __construct($siteKey, $rinkingKey = "", Carbon $today) {
+    public function __construct($siteKey, $rankingKey = "", Carbon $today) {
         $this->siteKey = $siteKey;
-        $this->rankingKey = $rinkingKey;
+        $this->rankingKey = $rankingKey;
 
         $this->today = $today;
         $this->prevDay = clone $today;

@@ -2,13 +2,13 @@
  * Created by Admin on 01.09.2017.
  */
 $( function() {
-    $( "#sortable" ).sortable({
+    $("#sortable").sortable({
         revert: true,
         stop: function(event, ui) {
             storeSortIndex();
         }
     });
-    $( "#draggable li" ).draggable({
+    $("#draggable li").draggable({
         connectToSortable: "#sortable",
         helper: "clone",
         revert: "invalid",
@@ -19,12 +19,19 @@ $( function() {
             var prevBlock = $(ui.helper.prevObject['0']);
             if(currentBlock.parent()['0'] !== prevBlock.parent()['0']){
                 prevBlock.draggable('option', 'disabled', true);
-
+                currentBlock.removeAttr('style');
                 storeSortIndex();
             }
 
         }
     });
+
+    $('.ui-draggable-disabled').draggable('option', 'disabled', true);
+
+    $('body').on('click', '.toggleProperties', function () {
+        $(this).closest('.templateBlock').toggleClass('open');
+    });
+
     $( "ul, li" ).disableSelection();
 
     $('body').on('click', ".removeBlock", function () {
@@ -34,7 +41,7 @@ $( function() {
         $('[data-name="' + name + '"]').draggable('option', 'disabled', false);
     });
 
-} );
+});
 
 function storeSortIndex(){
     $('#sortable li').each(function () {
@@ -42,4 +49,6 @@ function storeSortIndex(){
         $(this).find('input[name="sortIndex"]').val(index);
         $('#sortable li input').attr('disabled', false);
     });
+
+    //$("#sortable").sortable( "refresh" );
 }

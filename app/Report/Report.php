@@ -8,6 +8,8 @@
 
 namespace App\Report;
 
+use App\Template\Template;
+use App\Template\TemplateBlock;
 use Carbon\Carbon;
 use CpChart\Data;
 use CpChart\Image;
@@ -24,12 +26,24 @@ use Illuminate\Support\Facades\Storage;
 
 class Report {
 
+    private $xmlBlocks;
+    private $filesystem;
+
+    /**
+     * Report constructor.
+     * @param $xmlBlocks
+     */
+    public function __construct()
+    {
+        $this->filesystem = new Filesystem();
+    }
+
+
     function upload($data, $path = ''){
 
         $unicId = $this->create($data);
 
-        $filesystem = new Filesystem();
-        $content = $filesystem->get(app_path('Stats/' . $unicId . '.docx'));
+        $content = $this->filesystem->get(app_path('Stats/' . $unicId . '.docx'));
 
         Storage::disk('dropbox')->put($path . '/' . $data['doc_name'] . '.docx', $content);
 
@@ -38,11 +52,15 @@ class Report {
         return true;
     }
 
+    private function addBlockToReport($xmlBlock){
+        $this->xmlBlocks .= $xmlBlock;
+    }
+
 
     function create($requestData){
 
         $siteKey = $requestData['siteid'];
-        $rinkingKey = $requestData['se_ranking'];
+        $rankingKey = $requestData['se_ranking'];
 
         $today = Carbon::parse($requestData['date']);
 
@@ -63,22 +81,44 @@ class Report {
             $project->save();
         }
 
-        //$dataOutput["sitename"] = $request->input('sitename');
+        if(!$project->template_id){
+            return false;
+        }
+
         $dataOutput["sitename"] = $project->url;
 
-        $MetrikData = new MetricStats($siteKey, $rinkingKey, $today);
+
+        $reportId = uniqid();
+
+        if(!$this->filesystem->copyDirectory(app_path('Stats/word/'), app_path('Stats/' . $reportId . '/'))){return;};
+
+        $template = Template::find($project->template_id);
+        $blocks = $template->blocks->sortBy('sortIndex');
+        if(count($blocks)){
+            foreach ($blocks as $block) {
+                $xmlBlock = $block->getOne($block->class_key)->first()->getData($siteKey, $rankingKey, $today, $reportId);
+                $this->addBlockToReport($xmlBlock);
+            }
+        }
+
+        $dataOutput['blocks'] = $this->xmlBlocks;
+        $this->generateReportDocument($dataOutput, $reportId);
+
+        return $reportId;
+
+        $MetrikData = new MetricStats($siteKey, $rankingKey, $today);
 
         //Общая посещаемость сайта-------------------------------------------------------------------------------------
         $dataOutput["totalVisitsTable"] = $MetrikData->getTotalVisitsData();
 
         //Глубина просмотров
-        $resultData = $MetrikData->getDepthData();
+        /*$resultData = $MetrikData->getDepthData();
         if(!isset($resultData)) {return;}
 
-        $dataOutput['depthData'] = ['totals' => $resultData];
+        $dataOutput['depthData'] = ['totals' => $resultData];*/
 
         //Время на сайте
-        $resultData = $MetrikData->getTimeData();
+        /*$resultData = $MetrikData->getTimeData();
 
         $timeRows = "";
         foreach($resultData["data"] as $key => $data) {
@@ -90,17 +130,17 @@ class Report {
             $timeRows .= view('reports.xml.depthRow', ['data' => $data])->render();
         }
 
-        $dataOutput["timeData"] = ['totals' => $resultData["totals"], "rows" => $timeRows];
+        $dataOutput["timeData"] = ['totals' => $resultData["totals"], "rows" => $timeRows];*/
 
 
         /*Страницы с отказами*/
-        $dataOutput["maxBouncePages"] = $MetrikData->getMaxBouncePages();
+        /*$dataOutput["maxBouncePages"] = $MetrikData->getMaxBouncePages();*/
 
         /*Популярные посадочные страницы*/
-        $dataOutput["mostPopularPages"] = $MetrikData->getMostPopularPages();
+        /*$dataOutput["mostPopularPages"] = $MetrikData->getMostPopularPages();*/
 
         //Позиции
-        $dataOutput["positionRows"] = $MetrikData->getPositionsTable();
+        /*$dataOutput["positionRows"] = $MetrikData->getPositionsTable();*/
 
         //Текст ------------------------------------------------------------------------------------------------------------------------------
         $dataOutput['autotext'] = "";
@@ -143,22 +183,18 @@ class Report {
             $dataOutput['autotext'] .= $autotext->getNextWorkText($requestData['next_work']);
         }
 
-        $unicId = uniqid();
 
-
-        $filesystem = new Filesystem();
-        if(!$filesystem->copyDirectory(app_path('Stats/word/'), app_path('Stats/' . $unicId . '/'))){return;};
 
         /*Визиты ГРАФИК*/
-        $this->makeTotalVisitsChart($dataOutput["totalVisitsTable"], $unicId);
+        //$this->makeTotalVisitsChart($dataOutput["totalVisitsTable"], $unicId);
 
         /*Источники ГРАФИК*/
         $lines = $MetrikData->sourcesSummary();
-        $this->makeSourcesLineChart($lines, $unicId, $today);
+        $this->makeSourcesLineChart($lines, $reportId, $today);
 
         /*Среднии позиции графики*/
 
-        $relsPath = app_path('Stats/' . $unicId . '/word/_rels/document.xml.rels');
+        $relsPath = app_path('Stats/' . $reportId . '/word/_rels/document.xml.rels');
 
         if (file_exists($relsPath)) {
 
@@ -171,7 +207,7 @@ class Report {
                 $imageId = random_int(1000, 9999);
 
                 //создаем график с именем $imageId . '.png'
-                $this->makeLineChart([$key => $line['charts']], $imageId . '.png', $unicId, $today);
+                $this->makeLineChart([$key => $line['charts']], $imageId . '.png', $reportId, $today);
 
                 //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
                 $xmlId = 'rId' . $imageId;
@@ -197,7 +233,7 @@ class Report {
                 $imageId = random_int(1000, 9999);
 
                 //создаем график с именем $imageId . '.png'
-                $this->makeLineChart([$key => $line['charts']], $imageId . '.png', $unicId, $today);
+                $this->makeLineChart([$key => $line['charts']], $imageId . '.png', $reportId, $today);
 
                 //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
                 $xmlId = 'rId' . $imageId;
@@ -216,39 +252,26 @@ class Report {
             exit('Не удалось открыть файл ' . $relsPath);
         }
 
-        $output = view('reports.xml.newReport', $dataOutput)->render();
+        $this->generateReportDocument($dataOutput, $reportId);
+        return $reportId;
+
+    }
+
+    private function generateReportDocument($xmlData, $reportId){
+        $output = view('reports.xml.newReport', $xmlData)->render();
 
         $output = str_replace('<desyatov_mv@mail.ru>', '', $output);
 
         $xml = simplexml_load_string($output);
 
-        $xml->asXML(app_path('Stats/' . $unicId . '/word/document.xml'));
+        $xml->asXML(app_path('Stats/' . $reportId . '/word/document.xml'));
 
-        $w = new Word($unicId . ".docx", $unicId . "/");
+        $w = new Word($reportId . ".docx", $reportId . "/");
         $w->create();
 
-        $filesystem->deleteDirectory(app_path('Stats/' . $unicId . '/'));
+        $this->filesystem->deleteDirectory(app_path('Stats/' . $reportId . '/'));
 
-        //$file = (app_path('Stats/' . $unicId . '.docx'));
-
-        /*header('Content-Description: File Transfer');
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename='.basename($file));
-        header('Content-Transfer-Encoding: binary');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($file));*/
-
-        $content = $filesystem->get(app_path('Stats/' . $unicId . '.docx'));
-        //Storage::disk('dropbox')->put('report.docx', $content);
-
-        //readfile($file);
-
-        //unlink($file);
-
-        return $unicId;
-
+        return true;
     }
 
     private function getGeneralStatistic(MetricStats $MetrikData, Carbon $prevDay){
@@ -379,9 +402,8 @@ class Report {
 
     public function makeSourcesLineChart($lines, $unicId, Carbon $today){
 
-        //Если к концу отчетной даты количество переходов уменьшилось, то не показываем график. Улыбаемся и машем =)
-        $firstVal = current($lines['Переходы из поисковых систем']);
-        $lastVal = end($lines['Переходы из поисковых систем']);
+        //$firstVal = current($lines['Переходы из поисковых систем']);
+        //$lastVal = end($lines['Переходы из поисковых систем']);
         //if(($firstVal * 1.1) < $lastVal){
         $prevDay = clone $today;
         $prevDay->modify('-1 month');
