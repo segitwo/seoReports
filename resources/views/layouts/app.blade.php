@@ -44,7 +44,8 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li><a href="{{ route('projects.index') }}">Проекты</a></li>
+                        <li><a href="{{ route('templates.index') }}">Шаблоны</a></li>                        &nbsp;
                     </ul>
 
                     <!-- Right Side Of Navbar -->
