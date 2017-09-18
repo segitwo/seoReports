@@ -1,6 +1,6 @@
 @php
     $statement = '';
-    switch ($grouth) {
+    switch ($growth) {
         case 'down':
             $statement = 'стабилизация трафика сайта';
             break;
@@ -15,15 +15,15 @@
     $statement = 'В период с ' . $prevDay  . ' по ' . $today . ' наблюдается ' . $statement . '. ';
 
     $statement .= 'Количество переходов пользователей из поисковых систем ';
-    if($SEgrouth == 'up'){
-        $statement .= 'увеличилось на ' . $SEpercent . '% (с ' . $prevSEGuests . ' до ' . $nextSEGuests . ' чел./мес.)';
+    if($SEgrowth == 'up'){
+        $statement .= 'увеличилось на ' . $SEpercent . '% (с ' . $prevSEGuests . ' до ' . $nextSEGuests . ' чел./мес.) ';
     } else {
         $statement .= 'составило ' . $nextSEGuests . ' чел./мес. ';
     }
 
     $statement .= 'Суммарное количество уникальных пользователей ';
 
-    if($grouth == 'up'){
+    if($growth == 'up'){
         $statement .= 'увеличилось на ' . $percent . '% (с '  . $prevGuests . ' до ' . $nextGuests .' чел./мес.)';
     } else {
         $statement .= 'составило ' . $nextGuests . ' чел./мес.';
@@ -87,6 +87,18 @@
     @include('reports.xml.paragraph', ['val' => $statement])
 @endif
 
+<w:p w:rsidR="00330ACF" w:rsidRDefault="00330ACF" w:rsidP="00330ACF">
+    <w:pPr>
+        <w:pStyle w:val="2" />
+        <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF" />
+        <w:spacing w:before="0" w:after="300" />
+        <w:rPr>
+            <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans" />
+            <w:color w:val="333333" />
+            <w:sz w:val="24" />
+        </w:rPr>
+    </w:pPr>
+</w:p>
 
 {{-- [[$xml.P? &val=`[[+period:mod:is=`1`:then=`Сайт`:else=`На данный момент сайт`]] [[+allpPercent:ge=`0.85`:then=`стабильно находится в ТОПе`]] [[+allpPercent:le=`0.85`:and:if=`[[+allpPercent]]`:gt=`0`:then=`уже занял позиции в ТОП-10`]]
 по [[+allpPercent:ge=`0.85`:then=`большинству поисковых запросов`]] [[+allpPercent:le=`0.85`:and:if=`[[+allpPercent]]`:gt=`0`:then=`запросам: [[+allpPhrases10]]`]] в поисковых системах.`]]

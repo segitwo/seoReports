@@ -12,9 +12,9 @@ class PositionsBlock extends TemplateBlockExtension
         return [];
     }
 
-    public function getData($siteKey, $rankingKey, Carbon $today, $reportId)
+    public function getData($requestData, $reportId)
     {
-        parent::getData($siteKey, $rankingKey, $today, $reportId);
+        parent::getData($requestData, $reportId);
 
         //Так как статистика по ключевым словам не содержит поисковой запрос, а только его id, то тащим еще и список запросов.
         $keyWordsData = SERanking::getData($params = [
@@ -68,6 +68,15 @@ class PositionsBlock extends TemplateBlockExtension
                         }
 
                         $output[$keyWords[$keyword->id]][$key] = ['change' => $change, 'pos' => $currentPosition, 'last_position' => $lastPosition];
+
+                        //По дефолту
+                        if(!isset($output[$keyWords[$keyword->id]]['Яндекс'])){
+                            $output[$keyWords[$keyword->id]]['Яндекс'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
+                        }
+
+                        if(!isset($output[$keyWords[$keyword->id]]['Google'])){
+                            $output[$keyWords[$keyword->id]]['Google'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
+                        }
                     }
                 }
             }

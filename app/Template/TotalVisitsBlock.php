@@ -15,8 +15,8 @@ class TotalVisitsBlock extends TemplateBlockExtension
         return [];
     }
 
-    public function getData($siteKey, $rankingKey, Carbon $today, $reportId){
-        parent::getData($siteKey, $rankingKey, $today, $reportId);
+    public function getData($requestData, $reportId){
+        parent::getData($requestData, $reportId);
 
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'traffic',
@@ -29,23 +29,13 @@ class TotalVisitsBlock extends TemplateBlockExtension
         }
 
         $totalVisitsTable = [];
-        $totalGuests = 0;
-        $totalViews = 0;
-        $totalVisits = 0;
 
-        foreach($metricData->data as $idx => $data) {
-            $metricValues = $data->metrics;
-            $totalGuests += $metricValues["1"];
-            $totalViews += $metricValues["2"];
-            $totalVisits += $metricValues["0"];
-
+        if(isset($metricData->totals['0']) || $metricData->totals['1'] || $metricData->totals['2']){
+            $totalVisitsTable["guests"] = $metricData->totals['1'];
+            $totalVisitsTable["visits"] = $metricData->totals['2'];
+            $totalVisitsTable["views"] = $metricData->totals['0'];
         }
 
-        if($totalGuests || $totalViews || $totalVisits){
-            $totalVisitsTable["guests"] = $totalGuests;
-            $totalVisitsTable["visits"] = $totalVisits;
-            $totalVisitsTable["views"] = $totalViews;
-        }
 
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'deepness_depth',

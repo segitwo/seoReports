@@ -21,8 +21,8 @@ class SourcesSummary extends TemplateBlockExtension
         ];
     }
 
-    public function getData($siteKey, $rankingKey, Carbon $today, $reportId){
-        parent::getData($siteKey, $rankingKey, $today, $reportId);
+    public function getData($requestData, $reportId){
+        parent::getData($requestData, $reportId);
 
         $metricData = YMetric::getData($this->siteKey, [
             'dimensions' => 'ym:s:<attribution>TrafficSource',
@@ -37,7 +37,10 @@ class SourcesSummary extends TemplateBlockExtension
 
         $this->makeSourcesLineChart($lines, $reportId, $this->today);
 
-        return view('reports.xml.chart.sourcesSummary')->render();
+        //Комментарий к источникам трафика
+        $comment = $this->makeComment();
+
+        return view('reports.xml.chart.sourcesSummary', ['generalStatistic' => $comment])->render();
     }
 
     private function processDateData($data){
@@ -114,69 +117,103 @@ class SourcesSummary extends TemplateBlockExtension
 
     }
 
-    private function makeComment(MetricStats $MetrikData, Carbon $prevDay){
-        $generalStatistic = [];
-        $generalStatistic["firstHalf"] = 0;
+    private function makeComment(){
+        $sourcesStatistic = [];
+        $sourcesStatistic["firstHalf"] = 0;
+
+        $stats = [];
         //текущий месяц
-        $resultData = [];
-        $resultData[] = $MetrikData->getTotalVisitsData();
+        $stats['current'] = $this->getTotalTraffic($this->days);
 
         //прошлый месяц
-        $prePrevDay = clone $prevDay;
+        $prePrevDay = clone $this->prevDay;
         $prePrevDay->modify('-1 month');
-        $resultData[] = $MetrikData->getTotalVisitsData([$prePrevDay->format('Y-m-d'), $prevDay->format('Y-m-d')]);
+        $stats['previous'] = $this->getTotalTraffic([$prePrevDay->format('Y-m-d'), $this->prevDay->format('Y-m-d')]);
 
-        $generalStatisticChange = $resultData['1']['guests'] - $resultData['0']['guests'];
-        $generalStatistic["prevGuests"] = $resultData['0']['guests'];
-        $generalStatistic["nextGuests"] = $resultData['1']['guests'];
-        $generalStatistic["period"] = 0;
+        $sourcesStatisticChange = $stats['previous']['guests'] - $stats['current']['guests'];
+        $sourcesStatistic['prevGuests'] = $stats['previous']['guests'];
+        $sourcesStatistic['nextGuests'] = $stats['current']['guests'];
+        $sourcesStatistic['period'] = 0;
 
-        $generalStatistic["grouth"] = "down";
-        if($generalStatisticChange > 0){
-            $generalStatisticChangePercent = round(($generalStatisticChange * 100) / $resultData['1']['guests'], 2);
-            $generalStatistic["percent"] = $generalStatisticChangePercent;
-            if($generalStatisticChangePercent > 10){
-                $generalStatistic["grouth"] = "up";
+        $sourcesStatistic['growth'] = 'down';
+        if($sourcesStatisticChange > 0){
+            $sourcesStatisticChangePercent = round(($sourcesStatisticChange * 100) / $stats['previous']['guests'], 2);
+            $sourcesStatistic['percent'] = $sourcesStatisticChangePercent;
+            if($sourcesStatisticChangePercent > 10){
+                $sourcesStatistic['growth'] = 'up';
             } else {
-                $generalStatistic["grouth"] = "stable";
+                $sourcesStatistic['growth'] = 'stable';
             }
         }
 
-        $generalStatistic["firstHalfText"] = "";
-        $generalStatistic["secondMonthText"] = "";
+        $sourcesStatistic['firstHalfText'] = '';
+        $sourcesStatistic['secondMonthText'] = '';
         if (!empty($requestData['period'])) {
-            $generalStatistic["period"] = $requestData['period'];
-            if($generalStatistic["grouth"] == "up"){
+            $sourcesStatistic['period'] = $requestData['period'];
+            if($sourcesStatistic['growth'] == 'up'){
                 if(in_array($requestData['period'], [2,3,4,5,6])){
-                    $generalStatistic["firstHalf"] = 1;
-                    $firstHalfText = ["Как видно", "Из поисковой статистики следует, что", "Мы наблюдаем, что", "Заметно, что", "Мы видим, что"];
+                    $sourcesStatistic['firstHalf'] = 1;
+                    $firstHalfText = ['Как видно', 'Из поисковой статистики следует, что', 'Мы наблюдаем, что', 'Заметно, что', 'Мы видим, что'];
                     $rand_key = array_rand($firstHalfText, 1);
-                    $generalStatistic["firstHalfText"] = $firstHalfText[$rand_key];
+                    $sourcesStatistic['firstHalfText'] = $firstHalfText[$rand_key];
                 }
 
                 if($requestData['period'] == 2){
-                    $generalStatistic["secondMonthText"] = "При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.";
+                    $sourcesStatistic['secondMonthText'] = 'При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.';
                 }
             }
         }
 
-        $resultData = $MetrikData->getSEData();
-        $generalStatistic["prevSEGuests"] = $resultData["total"][0];
-        $generalStatistic["nextSEGuests"] = $resultData["total"][1];
+        $sourcesStatistic['nextSEGuests'] = $this->getTotalSEVisits($this->days);
+        $sourcesStatistic['prevSEGuests'] = $this->getTotalSEVisits([$prePrevDay->format('Y-m-d'), $this->prevDay->format('Y-m-d')]);
 
-        $generalStatisticSEChange = $resultData["total"][1] - $resultData["total"][0];
+        $sourcesStatisticSEChange = $sourcesStatistic['nextSEGuests'] - $sourcesStatistic['prevSEGuests'];
 
-        $generalStatistic["SEgrouth"] = "down";
-        if($generalStatisticSEChange > 0){
-            $generalStatisticChangeSEPercent = round(($generalStatisticSEChange * 100) / $resultData["total"][1], 2);
-            $generalStatistic["SEpercent"] = $generalStatisticChangeSEPercent;
-            if($generalStatisticChangeSEPercent > 10){
-                $generalStatistic["SEgrouth"] = "up";
+        $sourcesStatistic['SEgrowth'] = 'down';
+        if($sourcesStatisticSEChange > 0){
+            $sourcesStatisticChangeSEPercent = round(($sourcesStatisticSEChange * 100) / $sourcesStatistic['nextSEGuests'], 2);
+            $sourcesStatistic['SEpercent'] = $sourcesStatisticChangeSEPercent;
+            if($sourcesStatisticChangeSEPercent > 10){
+                $sourcesStatistic['SEgrowth'] = 'up';
             } else {
-                $generalStatistic["SEgrouth"] = "stable";
+                $sourcesStatistic['SEgrowth'] = 'stable';
             }
         }
 
-        return $generalStatistic;
+        $sourcesStatistic['prevDay'] = $this->prevDay->format('d.m.Y');
+        $sourcesStatistic['today'] = $this->today->format('d.m.Y');
+
+        return view('reports.xml.generalStatistic', $sourcesStatistic)->render();
+        //return $sourcesStatistic;
+    }
+
+    private function getTotalSEVisits($days){
+        $metricData = YMetric::getData($this->siteKey, [
+            'preset' => 'search_engines',
+            'days' => $days,
+            'sort' => 'ym:s:date',
+            'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:date',
+            'filters' => 'ym:s:date!=null',
+            'metric' => 'ym:s:visits'
+        ]);
+
+        return isset($metricData->totals[0]) ? $metricData->totals[0] : [];
+    }
+
+    private function getTotalTraffic($days){
+        $metricData = YMetric::getData($this->siteKey, [
+            'preset' => 'traffic',
+            'days' => $days,
+            'sort' => 'ym:s:date'
+        ]);
+        $resultData = [];
+        if(isset($metricData->totals['0']) || $metricData->totals['1'] || $metricData->totals['2']){
+            $resultData = [
+                'guests' => $metricData->totals['1'],
+                'visits' => $metricData->totals['2'],
+                'views' => $metricData->totals['0']
+            ];
+        }
+        return $resultData;
     }
 }

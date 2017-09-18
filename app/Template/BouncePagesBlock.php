@@ -12,9 +12,9 @@ class BouncePagesBlock extends TemplateBlockExtension
         return [];
     }
 
-    public function getData($siteKey, $rankingKey, Carbon $today, $reportId)
+    public function getData($requestData, $reportId)
     {
-        parent::getData($siteKey, $rankingKey, $today, $reportId);
+        parent::getData($requestData, $reportId);
 
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'content_entrance',

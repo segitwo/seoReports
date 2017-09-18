@@ -166,19 +166,7 @@
         {{-- totalVisits --}}
 
 
-        {!! $generalStatistic or '' !!}
-        <w:p w:rsidR="00330ACF" w:rsidRDefault="00330ACF" w:rsidP="00330ACF">
-            <w:pPr>
-                <w:pStyle w:val="2" />
-                <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF" />
-                <w:spacing w:before="0" w:after="300" />
-                <w:rPr>
-                    <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans" />
-                    <w:color w:val="333333" />
-                    <w:sz w:val="24" />
-                </w:rPr>
-            </w:pPr>
-        </w:p>
+
 
         {!! $blocks or '' !!}
         {{--
@@ -189,23 +177,7 @@
         @include('reports.xml.chart.averageChart', $averageCharts);
          --}}
 
-        <w:p w:rsidR="00561B65" w:rsidRDefault="00561B65" w:rsidP="00561B65" />
-        <w:p w:rsidR="00561B65" w:rsidRPr="00561B65" w:rsidRDefault="00561B65" w:rsidP="00561B65">
-            <w:pPr>
-                <w:pStyle w:val="2" />
-                <w:shd w:val="clear" w:color="auto" w:fill="FFFFFF" />
-                <w:spacing w:before="0" w:after="300" />
-            </w:pPr>
-            <w:r>
-                <w:rPr>
-                    <w:rFonts w:ascii="Open Sans" w:hAnsi="Open Sans" w:cs="Open Sans" />
-                    <w:color w:val="333333" />
-                    <w:sz w:val="24" />
-                </w:rPr>
-                <w:t>Комментарии</w:t>
-            </w:r>
-        </w:p>
-        {!! $autotext or '' !!}
+
 
         <w:p w:rsidR="00EA5842" w:rsidRPr="009F50B2" w:rsidRDefault="00EA5842" w:rsidP="00EA5842">
             <w:pPr>

@@ -33,15 +33,19 @@ abstract class TemplateBlockExtension extends Model
 
     abstract public function listProperties();
 
-    public function getData($siteKey, $rankingKey, Carbon $today, $reportId){
+    public function getData($requestData, $reportId){
+
+        $siteKey = $requestData['siteid'];
+        $rankingKey = $requestData['se_ranking'];
+
         $this->siteKey = $siteKey;
         $this->rankingKey = $rankingKey;
 
-        $this->today = $today;
-        $this->prevDay = clone $today;
+        $this->today = Carbon::parse($requestData['date']);
+        $this->prevDay = clone $this->today;
         $this->prevDay->modify('-1 month');
 
-        $this->days = [$this->prevDay->format('Y-m-d'), $today->format('Y-m-d')];
+        $this->days = [$this->prevDay->format('Y-m-d'), $this->today->format('Y-m-d')];
 
         $this->reportId = $reportId;
     }

@@ -105,3 +105,4 @@
         </w:drawing>
     </w:r>
 </w:p>
+{!! $generalStatistic or '' !!}
