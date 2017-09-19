@@ -2,40 +2,40 @@
 
 @section('content')
     <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Создать шаблон</h4>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <button type="button" class="close fui-cross" data-dismiss="alert"></button>
+                        @foreach($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
         {!! Form::open(['route' => 'templates.store', 'class' => 'form']) !!}
         <div class="row">
             <div class="col-md-6">
-                <h4>Новый шаблон</h4>
 
                 <div class="form-group">
                     {!! Form::label(null, 'Название') !!}
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}
                 </div>
-            </div>
 
+            </div>
         </div>
+
         <div class="row">
             <div class="col-md-5">
                 <h6>Доступные блоки</h6>
                 <ul id="draggable">
-                    <li data-name="TotalVisitsBlock">
-                        <input type="hidden" name="blocks[]" value="TotalVisitsBlock" disabled="disabled">
-                        <div class="templateBlock">
-                            <div class="title">Общая посещаемость и поведенческие фаторы</div>
-                            <div class="actions">
-                                <span class="removeBlock fui-cross"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li data-name="block2">
-                        <input type="hidden" name="blocks[]" value="block2" disabled="disabled">
-                        <div class="templateBlock">
-                            <div class="title">Источники трафика</div>
-                            <div class="actions">
-                                <span class="removeBlock fui-cross"></span>
-                            </div>
-                        </div>
-                    </li>
+                    @if(count($blocks) > 0)
+                        @foreach($blocks as $block)
+                            @include('templates.partials.template_block', ['block' => $block, 'disabled' => 'disabled',])
+                        @endforeach
+                    @endif
                 </ul>
             </div>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ClassMap;
+use App\Http\Requests\TemplateFormRequest;
 use App\Template\{
     Template, TemplateBlock, TemplateBlockExtension, TotalVisitsBlock, SourcesSummary
 };
@@ -30,7 +31,23 @@ class TemplateController extends Controller
      */
     public function create()
     {
-        return view('templates.create');
+
+        //Получаем из таблицы классов коллекцию классов являющихся блоками шаблона
+        $blocks = ClassMap::where('parent_class', '=', 'TemplateBlock')->get();
+
+        //Теперь нужно сформировать коллекцию блоков шаблона для вывода в представление
+        $outputBlocks = [];
+        foreach ($blocks as $block) {
+            //Создаем объект класса для доступа к его свойствам
+            $class = 'App\Template\\' . $block->name;
+            $blockItem = new $class;
+            $blockItem->added = false;
+
+            $outputBlocks[] = $blockItem;
+        }
+
+
+        return view('templates.create')->with('blocks', $outputBlocks);
     }
 
     /**
@@ -39,7 +56,7 @@ class TemplateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TemplateFormRequest $request)
     {
 
         //Создаем шаблон
@@ -124,7 +141,7 @@ class TemplateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TemplateFormRequest $request, $id)
     {
         //Шаблон
         $template = Template::findOrFail($id);

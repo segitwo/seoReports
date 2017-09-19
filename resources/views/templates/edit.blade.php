@@ -5,11 +5,14 @@
         <div class="row">
             <div class="col-md-12">
                 <h4>Редактировать шаблон</h4>
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <button type="button" class="close fui-cross" data-dismiss="alert"></button>
+                        @foreach($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -32,9 +35,9 @@
                         @if(count($blocks) > 0)
                             @foreach($blocks as $block)
                                 @if($block->added)
-                                    @include('partials.template_block', ['block' => $block, 'disabled' => 'disabled', 'class' => 'ui-draggable-disabled'])
+                                    @include('templates.partials.template_block', ['block' => $block, 'disabled' => 'disabled', 'class' => 'ui-draggable-disabled'])
                                 @else
-                                    @include('partials.template_block', ['block' => $block, 'disabled' => 'disabled'])
+                                    @include('templates.partials.template_block', ['block' => $block, 'disabled' => 'disabled'])
                                 @endif
                             @endforeach
                         @endif
@@ -48,7 +51,7 @@
                             @if(count($blocks) > 0)
                                 @foreach(collect($blocks)->sortBy('sortIndex') as $block)
                                     @if($block->added)
-                                        @include('partials.template_block', ['block' => $block])
+                                        @include('templates.partials.template_block', ['block' => $block])
                                     @endif
                                 @endforeach
                             @endif
