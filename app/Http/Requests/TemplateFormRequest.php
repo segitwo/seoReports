@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Template\Template;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TemplateFormRequest extends FormRequest
@@ -23,9 +24,28 @@ class TemplateFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|min:3|unique:templates',
-            'blocks' => 'required'
-        ];
+        $template = Template::find($this->template);
+
+        switch($this->method()) {
+            case 'GET':
+            case 'DELETE': {
+                return [];
+            }
+            case 'POST': {
+                return [
+                    'name' => 'required|min:3|unique:templates',
+                    'blocks' => 'required'
+                ];
+            }
+            case 'PUT':
+            case 'PATCH': {
+                return [
+                    'name' => 'required|min:3|unique:templates,name,' . $template->id,
+                    'blocks' => 'required'
+                ];
+            }
+            default:
+                break;
+        }
     }
 }

@@ -16,7 +16,7 @@
             </div>
         </div>
 
-            {!! Form::model($template, ['method' => 'put', 'route' => ['templates.update', $template->id], 'class' => 'form']) !!}
+            {!! Form::model($template, ['method' => 'put', 'route' => ['template.update', $template->id], 'class' => 'form']) !!}
             <div class="row">
                 <div class="col-md-6">
 

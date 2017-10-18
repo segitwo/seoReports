@@ -11,6 +11,7 @@ use App\Http\Requests\ReportFormRequest;
 use App\Project;
 use App\Report\Report;
 
+use App\Template\Template;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -28,7 +29,9 @@ class ReportController extends Controller
 
     function setup($id){
         $project = Project::find($id);
-        return view('reports.setup')->with('project', $project);
+        $templates = Template::all();
+
+        return view('reports.setup')->with('project', $project)->with('templates', $templates->pluck('name', 'id')->toArray());
     }
 
     function download(ReportFormRequest $request){

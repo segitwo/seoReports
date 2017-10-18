@@ -10,7 +10,12 @@ class PopularPagesBlock extends TemplateBlockExtension
 {
     public function listProperties()
     {
-        return [];
+        return [
+            'limit' => [
+                'type' => 'integer',
+                'value' => 0
+            ]
+        ];
     }
 
     public function getData($requestData, $reportId)

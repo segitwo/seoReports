@@ -15,7 +15,7 @@
                 @endif
             </div>
         </div>
-        {!! Form::open(['route' => 'templates.store', 'class' => 'form']) !!}
+        {!! Form::open(['route' => 'template.store', 'class' => 'form']) !!}
         <div class="row">
             <div class="col-md-6">
 

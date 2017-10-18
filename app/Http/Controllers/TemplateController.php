@@ -74,7 +74,7 @@ class TemplateController extends Controller
             }
         }
 
-        return \Redirect::route('templates.index')->with('message', 'Шаблон создан!');
+        return \Redirect::route('template.index')->with('message', 'Шаблон создан!');
     }
 
     /**
@@ -145,7 +145,8 @@ class TemplateController extends Controller
     {
         //Шаблон
         $template = Template::findOrFail($id);
-
+        $template->name = $request->get('name');
+        $template->save();
         //Список блоков выбранных для шаблона
         $blocks = $request->get('blocks');
 
@@ -192,7 +193,7 @@ class TemplateController extends Controller
             }
         }
 
-        return \Redirect::route('templates.edit', ['id' => $id])->with('message', 'Шаблон обновлен!');
+        return \Redirect::route('template.edit', ['id' => $id])->with('message', 'Шаблон обновлен!');
 
     }
 
@@ -204,7 +205,9 @@ class TemplateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Template::destroy($id);
+
+        return \Redirect::route('template.index')->with('message', 'Шаблон удален!');
     }
 
     //Метод для записи параметров блока

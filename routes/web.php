@@ -20,7 +20,7 @@ Route::get('/', [
 
 Route::group(['middleware' => 'auth'], function (){
 
-    Route::resource('templates', 'TemplateController');
+    Route::resource('template', 'TemplateController');
 
     Route::get('/', function () {
         return redirect()->route('projects.index');

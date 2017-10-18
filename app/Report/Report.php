@@ -89,7 +89,15 @@ class Report {
 
         if(!$this->filesystem->copyDirectory(app_path('Stats/word/'), app_path('Stats/' . $reportId . '/'))){return;};
 
-        $template = Template::find($project->template_id);
+        if(isset($requestData['template'])){
+            $template = Template::find($requestData['template']);
+        }
+
+        if(!$template){
+            $template = Template::find($project->template_id);
+        }
+
+
         $blocks = $template->blocks->sortBy('sortIndex');
         if(count($blocks)){
             foreach ($blocks as $block) {

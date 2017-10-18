@@ -81,3 +81,11 @@
 .ui-draggable-disabled {
     opacity: 0.5;
 }
+
+.actions button {
+    padding: 0;
+    display: inline-block;
+    border: none;
+    background: none;
+    outline: none;
+}

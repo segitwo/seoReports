@@ -13,10 +13,12 @@
     <!-- Styles -->
     {!! HTML::style('dist/css/vendor/bootstrap.min.css') !!}
 
-        {!! HTML::style('dist/css/flat-ui-pro.css') !!}
-        {!! HTML::style('docs/assets/css/docs.css') !!}
+    {!! HTML::style('dist/css/flat-ui-pro.css') !!}
+    {!! HTML::style('docs/assets/css/docs.css') !!}
 
-        <!--[if lt IE 9]>
+    {!! HTML::style('css/custom.css') !!}
+
+    <!--[if lt IE 9]>
     {!! HTML::script('dist/js/vendor/html5shiv.js') !!}
     {!! HTML::script('dist/js/vendor/respond.min.js') !!}
     <![endif]-->
@@ -45,7 +47,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="{{ route('projects.index') }}">Проекты</a></li>
-                        <li><a href="{{ route('templates.index') }}">Шаблоны</a></li>                        &nbsp;
+                        <li><a href="{{ route('template.index') }}">Шаблоны</a></li>                        &nbsp;
                     </ul>
 
                     <!-- Right Side Of Navbar -->

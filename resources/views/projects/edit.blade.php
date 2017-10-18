@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('note', 'Шаблон') !!}
-                    {!! Form::select('template', $templates, $project->template_id, ['class' => 'form-control select select-default select-block']) !!}
+                    {!! Form::select('template', $templates, $project->template_id, ['class' => 'form-control select select-primary', 'data-toggle' => 'select']) !!}
                 </div>
 
             </div>
