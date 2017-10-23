@@ -11,7 +11,16 @@ class AveragePositionsBlock extends TemplateBlockExtension
 {
     public function listProperties()
     {
-        return [];
+        return [
+            'hide_if_reduce' => [
+                'type' => 'select',
+                'value' => [
+                    '0' => __('templates.AveragePositions_0'),
+                    '1' => __('templates.AveragePositions_1'),
+                    '2' => __('templates.AveragePositions_2')
+                ]
+            ]
+        ];
     }
 
     public function getData($requestData, $reportId)
@@ -19,94 +28,107 @@ class AveragePositionsBlock extends TemplateBlockExtension
         parent::getData($requestData, $reportId);
 
 
-        $relsPath = app_path('Stats/' . $reportId . '/word/_rels/document.xml.rels');
+        $relsPath = app_path('Stats/generated/' . $reportId . '/word/_rels/document.xml.rels');
 
-        if (file_exists($relsPath)) {
-
-            $rels = simplexml_load_file($relsPath);
-
-            //Статистика по запросам
-            $keyWordsStat = SERanking::getData($params = [
-                'method' => 'stat',
-                'data' => [
-                    'siteid' => $this->rankingKey,
-                    'dateStart' => $this->prevDay->format('Y-m-d'),
-                    'dateEnd' => $this->today->format('Y-m-d'),
-                ]
-            ]);
-
-            $lines = [];
-            foreach($keyWordsStat as $key => $stat){
-
-                if($stat->seID == 411) {
-                    $key = 'Яндекс';
-                    //} elseif(in_array($stat->seID, [474, 339])) {
-                } else {
-                    $key = 'Google';
-                }
-
-                if(isset($key)){
-                    $region = $stat->region_name;
-
-                    //название региона яндекса SE Ranking не передает, но передает id региона, поэтому тянем так.
-                    if($key == 'Яндекс'){
-
-                        $region = $this->getRegion($stat->regionID);
-                    }
-
-                    $positionsRow = [];
-                    foreach ($stat->keywords as $keyword) {
-                        foreach ($keyword->positions as $k => $position) {
-                            if(isset($positionsRow[$k])){
-                                $positionsRow[$k] += intval($position->pos);
-                            } else {
-                                $positionsRow[$k] = intval($position->pos);
-                            }
-
-                        }
-                    }
-
-                    foreach ($positionsRow as $val) {
-                        $region_key = (isset($region)) ? $key . ' (' . $region . ')' : $key;
-                        $lines[$region_key]['charts'][] = round($val / count($stat->keywords), 2);
-                        $lines[$region_key]['se'] = $key;
-                    }
-                }
-
-            }
-
-            foreach ($lines as $key => $line) {
-
-                //id для названия картинки
-                $imageId = random_int(1000, 9999);
-
-                //создаем график с именем $imageId . '.png'
-                Chart::makeLineChart([$key => $line['charts']], $imageId . '.png', $reportId, $this->today);
-
-                //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
-                $xmlId = 'rId' . $imageId;
-                $relationshipXML = new \SimpleXMLElement('<Relationship/>');
-                $relationshipXML->addAttribute('Type', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image');
-                $relationshipXML->addAttribute('Id', $xmlId);
-                $relationshipXML->addAttribute('Target', 'media/' . $imageId . '.png');
-
-                XMLBuilder::sxml_append($rels, $relationshipXML);
-                $rels->asXml($relsPath);
-
-                //Добавляем график
-                $seKey = $line['se'] == 'Яндекс' ? 'rId31' : 'rId33';
-
-
-                $averageChart[] = ['searchEngine' => $key, 'seKey' => $seKey, 'chartId' => $xmlId];
-            }
-
-            return view('reports.xml.chart.averageChart', ['averageCharts' => $averageChart]);
-        } else {
+        if (!file_exists($relsPath)) {
             exit('Не удалось открыть файл ' . $relsPath);
         }
+
+        $rels = simplexml_load_file($relsPath);
+
+        //Статистика по запросам
+        $keyWordsStat = SERanking::getData($params = [
+            'method' => 'stat',
+            'data' => [
+                'siteid' => $this->rankingKey,
+                'dateStart' => $this->prevDay->format('Y-m-d'),
+                'dateEnd' => $this->today->format('Y-m-d'),
+            ]
+        ]);
+
+        $lines = [];
+        foreach ($keyWordsStat as $key => $stat) {
+
+            if ($stat->seID == 411) {
+                $key = 'Яндекс';
+                //} elseif(in_array($stat->seID, [474, 339])) {
+            } else {
+                $key = 'Google';
+            }
+
+            if (isset($key)) {
+                $region = $stat->region_name;
+
+                //название региона яндекса SE Ranking не передает, но передает id региона, поэтому тянем так.
+                if ($key == 'Яндекс') {
+
+                    $region = $this->getRegion($stat->regionID);
+                }
+
+                $positionsRow = [];
+                foreach ($stat->keywords as $keyword) {
+                    foreach ($keyword->positions as $k => $position) {
+                        if (isset($positionsRow[$k])) {
+                            $positionsRow[$k] += intval($position->pos);
+                        } else {
+                            $positionsRow[$k] = intval($position->pos);
+                        }
+
+                    }
+                }
+
+                foreach ($positionsRow as $val) {
+                    $region_key = (isset($region)) ? $key . ' (' . $region . ')' : $key;
+                    $lines[$region_key]['charts'][] = round($val / count($stat->keywords), 2);
+                    $lines[$region_key]['se'] = $key;
+                }
+            }
+
+        }
+
+        $averageChart = [];
+        foreach ($lines as $key => $line) {
+            $firstPosition = reset($line['charts']);
+            $lastPosition = end($line['charts']);
+
+            //если рост менее 10%, то не показываем график
+            if (($firstPosition * 0.9) < $lastPosition && $requestData['templateBlock']->hide_if_reduce) {
+                //если роста нет, но есть пометка показывать запросы в ТОП10 в любом случае, то не обраываем генерацию
+                if(!($requestData['templateBlock']->hide_if_reduce == 2 && $lastPosition <= 10)){
+                    continue;
+                }
+            }
+
+            //id для названия картинки
+            $imageId = random_int(1000, 9999);
+
+            //создаем график с именем $imageId . '.png'
+            $chart = new Chart();
+            $chart->makeLineChartNegativeDisplay([$key => $line['charts']], $imageId . '.png', $reportId, $this->today);
+
+            //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
+            $xmlId = 'rId' . $imageId;
+            $relationshipXML = new \SimpleXMLElement('<Relationship/>');
+            $relationshipXML->addAttribute('Type', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image');
+            $relationshipXML->addAttribute('Id', $xmlId);
+            $relationshipXML->addAttribute('Target', 'media/' . $imageId . '.png');
+
+            XMLBuilder::sxml_append($rels, $relationshipXML);
+            $rels->asXml($relsPath);
+
+            //Добавляем график
+            $seKey = $line['se'] == 'Яндекс' ? 'rId31' : 'rId33';
+
+
+            $averageChart[] = ['searchEngine' => $key, 'seKey' => $seKey, 'chartId' => $xmlId];
+        }
+
+        return view('reports.xml.chart.averageChart', ['averageCharts' => $averageChart]);
+
     }
 
-    private function getRegion($id){
+    private function getRegion($id)
+    {
         $regions = [
             0 => 'Регионы',
             1 => 'Москва и область',

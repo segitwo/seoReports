@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "234530bbb3802a616556f9c1edf175a8",
+    "content-hash": "0471f01e03ad8dddc58a1bd03f77affa",
     "packages": [
         {
             "name": "benjamincrozat/laravel-dropbox-driver",

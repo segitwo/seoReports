@@ -13,11 +13,10 @@ use Carbon\Carbon;
 use CpChart\Data;
 use CpChart\Image;
 
-final class Chart
+class Chart
 {
 
-    public static function makeLineChart($lines, $name, $unicId, Carbon $today){
-
+    private function processLineChart($lines, Carbon $today){
         $prevDay = clone $today;
         $prevDay->modify('-1 month');
 
@@ -44,51 +43,64 @@ final class Chart
         $data->setSerieDescription("Labels", "Months");
         $data->setAbscissa("Labels");
 
-        /* Create the 1st chart */
+        return $data;
+    }
+
+    private function setDefaultLineChartProperties($data, $scaleSetting = [
+        "CycleBackground"=>TRUE,
+        "GridR"=>0,
+        "GridG"=>0,
+        "GridB"=>0,
+        "GridAlpha"=>10,
+        "Factors"=>array(8)
+    ]){
         $chart = new Image(800, 350, $data);
         $chart->setFontProperties(array("FontName"=>"../fonts/calibri.ttf","FontSize"=>10));
         $chart->setGraphArea(40,30,750,320);
 
-        $chart->drawScale(
-            [
-                "CycleBackground"=>TRUE,
-                "GridR"=>0,
-                "GridG"=>0,
-                "GridB"=>0,
-                "GridAlpha"=>10,
-                "Factors"=>array(8),
-                "Mode" => SCALE_MODE_START0
-            ]
-        );
+        $chart->drawScale($scaleSetting);
 
         $chart->drawLineChart(["DisplayValues" => false, "DisplayColor" => DISPLAY_AUTO]);
         $chart->setShadow(false);
 
+        return $chart;
+    }
+
+    public function makeLineChart($lines, $name, $uniqueId, Carbon $today){
+
+        $data = self::processLineChart($lines, $today);
+
+        $chart = self::setDefaultLineChartProperties($data, [
+                "CycleBackground" => TRUE,
+                "GridR" => 0,
+                "GridG" => 0,
+                "GridB" => 0,
+                "GridAlpha" => 10,
+                "Factors" => array(8),
+                "Mode" => SCALE_MODE_START0
+            ]
+        );
         //$chart->autoOutput("image8");
-        $chart->render(app_path('Stats/' . $unicId . '/word/media/' . $name));
+        $chart->render(app_path('Stats/generated/' . $uniqueId . '/word/media/' . $name));
     }
 
-    /**
-     * Chart constructor.
-     */
-    private function __construct()
-    {
+    public function makeLineChartNegativeDisplay($lines, $name, $uniqueId, Carbon $today){
+
+        $data = self::processLineChart($lines, $today);
+        $data->negateValues(array_keys($lines));
+        $data->setAxisDisplay(0,AXIS_FORMAT_CUSTOM,[$this, "NegateValuesDisplay"]);
+
+        $chart = self::setDefaultLineChartProperties($data);
+
+        $chart->render(app_path('Stats/generated/' . $uniqueId . '/word/media/' . $name));
     }
 
-    private function __sleep()
-    {
-        // TODO: Implement __sleep() method.
+    public function NegateValuesDisplay($Value) {
+        if ( $Value == VOID ) {
+            return VOID;
+        } else {
+            return -$Value;
+        }
     }
-
-    private function __wakeup()
-    {
-        // TODO: Implement __wakeup() method.
-    }
-
-    private function __clone()
-    {
-        // TODO: Implement __clone() method.
-    }
-
 
 }

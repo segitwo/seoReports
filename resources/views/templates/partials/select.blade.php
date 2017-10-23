@@ -1,0 +1,1 @@
+{!! Form::select($propertyName . '[' . $property . ']', $values, $value, ['data-toggle' => 'select', 'class' => 'form-control select select-default mrs mbm']) !!}

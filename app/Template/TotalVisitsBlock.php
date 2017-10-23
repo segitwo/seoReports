@@ -111,7 +111,7 @@ class TotalVisitsBlock extends TemplateBlockExtension
         );
 
         /* Render the picture (choose the best way) */
-        $chart->render(app_path('Stats/' . $reportId . '/word/media/image4.png'));
+        $chart->render(app_path('Stats/generated/' . $reportId . '/word/media/image4.png'));
     }
 
 }

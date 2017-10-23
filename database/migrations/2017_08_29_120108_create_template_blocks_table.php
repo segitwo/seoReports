@@ -20,7 +20,7 @@ class CreateTemplateBlocksTable extends Migration
             $table->integer('sortIndex')->default(0);
             $table->string('class_key')->nullable();
             $table->integer('template_id')->unsigned();
-            $table->foreign('template_id')->references('id')->on('templates')->onDelete('cascade');
+            $table->foreign('template_id')->references('id')->on('templates');
             $table->timestamps();
         });
     }

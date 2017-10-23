@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 require base_path('vendor/autoload.php');
 
 
-
 use App\Http\Requests\AutoTextRequest;
 use App\Http\Requests\ReportFormRequest;
 use App\Project;
@@ -17,7 +16,8 @@ use Illuminate\Http\Request;
 class ReportController extends Controller
 {
 
-    function index(){
+    function index()
+    {
 
         $data = [];
         $projects = Project::all();
@@ -27,14 +27,16 @@ class ReportController extends Controller
         return view('reports.create', $data);
     }
 
-    function setup($id){
+    function setup($id)
+    {
         $project = Project::find($id);
         $templates = Template::all();
 
         return view('reports.setup')->with('project', $project)->with('templates', $templates->pluck('name', 'id')->toArray());
     }
 
-    function download(ReportFormRequest $request){
+    function download(ReportFormRequest $request)
+    {
 
         $report = new Report();
         $unicId = $report->create($request->all());
@@ -43,7 +45,7 @@ class ReportController extends Controller
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename='.basename($file));
+        header('Content-Disposition: attachment; filename=' . basename($file));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
@@ -58,11 +60,12 @@ class ReportController extends Controller
     }
 
 
-    function getAutoText(AutoTextRequest $request){
+    function getAutoText(AutoTextRequest $request)
+    {
 
         $period = !empty($request->get('period')) ? $request->get('period') : $request->get('dop_work');
 
-        switch($period){
+        switch ($period) {
             case 1:
                 return view('reports.autotext.month1')->render();
                 break;
@@ -77,7 +80,8 @@ class ReportController extends Controller
         }
     }
 
-    function generatePreview(Request $request){
+    function generatePreview(Request $request)
+    {
 
         /*$today = Carbon::parse($request->input('date'));
 

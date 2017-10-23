@@ -19,7 +19,7 @@ class ConversionsBlock extends TemplateBlockExtension
     {
         parent::getData($requestData, $reportId);
 
-        $relsPath = app_path('Stats/' . $reportId . '/word/_rels/document.xml.rels');
+        $relsPath = app_path('Stats/generated/' . $reportId . '/word/_rels/document.xml.rels');
 
         $conversionsCharts = [];
 
@@ -71,7 +71,8 @@ class ConversionsBlock extends TemplateBlockExtension
                 $imageId = random_int(1000, 9999);
 
                 //создаем график с именем $imageId . '.png'
-                Chart::makeLineChart([$key => $line['charts']], $imageId . '.png', $reportId, $this->today);
+                $chart = new Chart();
+                $chart->makeLineChart([$key => $line['charts']], $imageId . '.png', $reportId, $this->today);
 
                 //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
                 $xmlId = 'rId' . $imageId;

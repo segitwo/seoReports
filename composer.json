@@ -10,8 +10,8 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
-        "szymach/c-pchart": "^3.0",
-        "laravelrus/localized-carbon": "dev-master"
+        "laravelrus/localized-carbon": "dev-master",
+        "szymach/c-pchart": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

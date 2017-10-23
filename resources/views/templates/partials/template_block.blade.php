@@ -15,6 +15,10 @@
 
                     @if($property['type'] == 'boolean')
                         @include('templates.partials.checkbox', ['propertyName' => class_basename($block), 'property' => $key, 'value' => $property['value']])
+                    @elseif($property['type'] == 'integer')
+                        @include('templates.partials.number', ['propertyName' => class_basename($block), 'property' => $key, 'value' => $property['value']])
+                    @elseif($property['type'] == 'select')
+                        @include('templates.partials.select', ['propertyName' => class_basename($block), 'property' => $key, 'value' => $property['value'], 'values' => $property['values']])
                     @endif
                 @endforeach
             </div>

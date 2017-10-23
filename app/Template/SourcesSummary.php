@@ -111,7 +111,7 @@ class SourcesSummary extends TemplateBlockExtension
         /* Write the legend */
         $chart->drawLegend(600, 30, ["Style" => LEGEND_NOBORDER, "Mode" => LEGEND_VERTICAL, "Family" => LEGEND_FAMILY_LINE]);
         //$chart->autoOutput("image8");
-        $chart->render(app_path('Stats/' . $unicId . '/word/media/image8.png'));
+        $chart->render(app_path('Stats/generated/' . $unicId . '/word/media/image8.png'));
         //}
 
 

@@ -24,7 +24,8 @@ use App\Project;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 
-class Report {
+class Report
+{
 
     private $xmlBlocks;
     private $filesystem;
@@ -39,25 +40,27 @@ class Report {
     }
 
 
-    function upload($data, $path = ''){
+    function upload($data, $path = '')
+    {
 
         $unicId = $this->create($data);
 
-        $content = $this->filesystem->get(app_path('Stats/' . $unicId . '.docx'));
+        $content = $this->filesystem->get(app_path('Stats/generated/' . $unicId . '.docx'));
 
         Storage::disk('dropbox')->put($path . '/' . $data['doc_name'] . '.docx', $content);
 
-        $file = (app_path('Stats/' . $unicId . '.docx'));
+        $file = (app_path('Stats/generated/' . $unicId . '.docx'));
         unlink($file);
         return true;
     }
 
-    private function addBlockToReport($xmlBlock){
+    private function addBlockToReport($xmlBlock)
+    {
         $this->xmlBlocks .= $xmlBlock;
     }
 
-
-    function create($requestData){
+    function create($requestData)
+    {
 
         $today = Carbon::parse($requestData['date']);
 
@@ -73,12 +76,12 @@ class Report {
 
         //Если регион был незаполнен в настройках то записываем полученное значение.
         $project = Project::find($requestData['id']);
-        if(!$project->region){
+        if (!$project->region) {
             $project->region = $requestData['regionName'];
             $project->save();
         }
 
-        if(!$project->template_id){
+        if (!$project->template_id) {
             return false;
         }
 
@@ -87,21 +90,24 @@ class Report {
 
         $reportId = uniqid();
 
-        if(!$this->filesystem->copyDirectory(app_path('Stats/word/'), app_path('Stats/' . $reportId . '/'))){return;};
+        if (!$this->filesystem->copyDirectory(app_path('Stats/word/'), app_path('Stats/generated/' . $reportId . '/'))) {
+            return;
+        };
 
-        if(isset($requestData['template'])){
+        if (isset($requestData['template'])) {
             $template = Template::find($requestData['template']);
         }
 
-        if(!$template){
+        if (!$template) {
             $template = Template::find($project->template_id);
         }
 
 
         $blocks = $template->blocks->sortBy('sortIndex');
-        if(count($blocks)){
+        if (count($blocks)) {
             foreach ($blocks as $block) {
-                $xmlBlock = $block->getOne($block->class_key)->first()->getData($requestData, $reportId);
+                $requestData['templateBlock'] = $templateBlock = $block->getOne($block->class_key)->first();
+                $xmlBlock = $templateBlock->getData($requestData, $reportId);
                 $this->addBlockToReport($xmlBlock);
             }
         }
@@ -113,24 +119,26 @@ class Report {
 
     }
 
-    private function generateReportDocument($xmlData, $reportId){
+    private function generateReportDocument($xmlData, $reportId)
+    {
         $output = view('reports.xml.newReport', $xmlData)->render();
 
-        $output = str_replace('<desyatov_mv@mail.ru>', '', $output);
+        //$output = str_replace('<desyatov_mv@mail.ru>', '', $output);
 
         $xml = simplexml_load_string($output);
 
-        $xml->asXML(app_path('Stats/' . $reportId . '/word/document.xml'));
+        $xml->asXML(app_path('Stats/generated/' . $reportId . '/word/document.xml'));
 
-        $w = new Word($reportId . ".docx", $reportId . "/");
+        $w = new Word($reportId . ".docx", 'generated/' . $reportId . "/");
         $w->create();
 
-        $this->filesystem->deleteDirectory(app_path('Stats/' . $reportId . '/'));
+        $this->filesystem->deleteDirectory(app_path('Stats/generated/' . $reportId . '/'));
 
         return true;
     }
 
-    private function getGeneralStatistic(MetricStats $MetrikData, Carbon $prevDay){
+    private function getGeneralStatistic(MetricStats $MetrikData, Carbon $prevDay)
+    {
         $generalStatistic = [];
         $generalStatistic["firstHalf"] = 0;
         //текущий месяц
@@ -142,17 +150,17 @@ class Report {
         $prePrevDay->modify('-1 month');
         $resultData[] = $MetrikData->getTotalVisitsData([$prePrevDay->format('Y-m-d'), $prevDay->format('Y-m-d')]);
 
-        if(isset($resultData['1']['guests'])){
+        if (isset($resultData['1']['guests'])) {
             $generalStatisticChange = $resultData['1']['guests'] - $resultData['0']['guests'];
             $generalStatistic["prevGuests"] = $resultData['0']['guests'];
             $generalStatistic["nextGuests"] = $resultData['1']['guests'];
             $generalStatistic["period"] = 0;
 
             $generalStatistic["grouth"] = "down";
-            if($generalStatisticChange > 0){
+            if ($generalStatisticChange > 0) {
                 $generalStatisticChangePercent = round(($generalStatisticChange * 100) / $resultData['1']['guests'], 2);
                 $generalStatistic["percent"] = $generalStatisticChangePercent;
-                if($generalStatisticChangePercent > 10){
+                if ($generalStatisticChangePercent > 10) {
                     $generalStatistic["grouth"] = "up";
                 } else {
                     $generalStatistic["grouth"] = "stable";
@@ -163,15 +171,15 @@ class Report {
             $generalStatistic["secondMonthText"] = "";
             if (!empty($requestData['period'])) {
                 $generalStatistic["period"] = $requestData['period'];
-                if($generalStatistic["grouth"] == "up"){
-                    if(in_array($requestData['period'], [2,3,4,5,6])){
+                if ($generalStatistic["grouth"] == "up") {
+                    if (in_array($requestData['period'], [2, 3, 4, 5, 6])) {
                         $generalStatistic["firstHalf"] = 1;
                         $firstHalfText = ["Как видно", "Из поисковой статистики следует, что", "Мы наблюдаем, что", "Заметно, что", "Мы видим, что"];
                         $rand_key = array_rand($firstHalfText, 1);
                         $generalStatistic["firstHalfText"] = $firstHalfText[$rand_key];
                     }
 
-                    if($requestData['period'] == 2){
+                    if ($requestData['period'] == 2) {
                         $generalStatistic["secondMonthText"] = "При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.";
                     }
                 }
@@ -179,17 +187,17 @@ class Report {
 
             $resultData = $MetrikData->getSEData();
 
-            if(isset($resultData["total"][1])){
+            if (isset($resultData["total"][1])) {
                 $generalStatistic["prevSEGuests"] = $resultData["total"][0];
                 $generalStatistic["nextSEGuests"] = $resultData["total"][1];
 
                 $generalStatisticSEChange = $resultData["total"][1] - $resultData["total"][0];
 
                 $generalStatistic["SEgrouth"] = "down";
-                if($generalStatisticSEChange > 0){
+                if ($generalStatisticSEChange > 0) {
                     $generalStatisticChangeSEPercent = round(($generalStatisticSEChange * 100) / $resultData["total"][1], 2);
                     $generalStatistic["SEpercent"] = $generalStatisticChangeSEPercent;
-                    if($generalStatisticChangeSEPercent > 10){
+                    if ($generalStatisticChangeSEPercent > 10) {
                         $generalStatistic["SEgrouth"] = "up";
                     } else {
                         $generalStatistic["SEgrouth"] = "stable";

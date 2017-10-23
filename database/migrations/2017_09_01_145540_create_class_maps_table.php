@@ -15,9 +15,46 @@ class CreateClassMapsTable extends Migration
     {
         Schema::create('class_maps', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('parent_class');
         });
+
+        DB::table('class_maps')->insert(
+            [
+                [
+                    'name' => 'TotalVisitsBlock',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'SourcesSummary',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'BouncePagesBlock',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'PopularPagesBlock',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'PositionsBlock',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'ConversionsBlock',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'AveragePositionsBlock',
+                    'parent_class' => 'TemplateBlock'
+                ],
+                [
+                    'name' => 'AutoCommentBlock',
+                    'parent_class' => 'TemplateBlock'
+                ]
+            ]
+        );
     }
 
     /**

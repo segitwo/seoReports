@@ -25,6 +25,7 @@ abstract class TemplateBlockExtension extends Model
 
         $properties = $this->listProperties();
         foreach ($properties as $key => $property) {
+            $properties[$key]['values'] = $property['value'];
             $properties[$key]['value'] = $this->getAttribute($key);
         }
 
