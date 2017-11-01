@@ -79,7 +79,7 @@ class AveragePositionsBlock extends TemplateBlockExtension
 
                 foreach ($positionsRow as $val) {
                     $region_key = (isset($region)) ? $key . ' (' . $region . ')' : $key;
-                    $lines[$region_key]['charts'][] = round($val / count($stat->keywords), 2);
+                    $lines[$region_key]['charts'][] = $val / count($stat->keywords);
                     $lines[$region_key]['se'] = $key;
                 }
             }
