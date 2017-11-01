@@ -2,6 +2,7 @@
 
 namespace App\Stats;
 
+use App\Project;
 use Carbon\Carbon;
 
 class AutoText {
@@ -20,6 +21,7 @@ class AutoText {
         $textPlaceholders = [
             'prevDay' => $this->prevDay->format('d.m.Y'),
             'today' => $this->today->format('d.m.Y'),
+            'work' => ''
         ];
 
 
@@ -46,7 +48,7 @@ class AutoText {
                                 break;
                         }
                     }
-                    
+
                     if(isset($requestData['write_text'])){
                         $support_text_rows = explode("\n", $requestData['write_text']);
                         $worklist = "";
@@ -55,7 +57,7 @@ class AutoText {
                         }
                         $textPlaceholders['worklist'] = $worklist;
                     }
-                    
+
                     if(isset($requestData['hasPositions'])){
                         switch($requestData['hasPositions']){
                             case 'Новое продвижение':
@@ -68,10 +70,10 @@ class AutoText {
                                 break;
                         }
                     }
-                    
+
                     return view('reports.xml.text.1month', $textPlaceholders)->render();
                     break;
-                    
+
                 case 2:
                     if(isset($requestData['work'])){
                         switch($requestData['work']) {
@@ -106,7 +108,7 @@ class AutoText {
                         }
                         $textPlaceholders['links'] = $worklist;
                     }
-                    
+
                     return view('reports.xml.text.7month', $textPlaceholders)->render();
                     break;
                 case 8:
@@ -128,8 +130,15 @@ class AutoText {
         }
     }
     
-    public function getNextWorkText($work = 0){
+    public function getNextWorkText($request){
+        $project = Project::find($request['id']);
+        $projectYearsOld = Carbon::parse($project->start_date)->modify('-1 day')->diffInYears(Carbon::today());
+
+        $work = $request['next_work'];
         switch($work){
+            case 1:
+                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем проведение " . $projectYearsOld ? 'повторного' : '' . " технического аудита сайта с целью выявления ошибок связанных с текущими программными настройками, корректностью использования редиректов, наличием битых ссылок, отказоустойчивостью, склейкой зеркал и проч. Техническая сторона сайта имеет сильное влияние на эффективное функционирование ресурса, а также на быстроту и качество его продвижения в поисковых системах."])->render();
+                break;
             case 2:
                 return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем провести работы по устранению выявленных ошибок в ходе технического аудита и улучшению видимости сайта в поисковых системах по продвигаемым ключевым словам."])->render();
                 break;
@@ -137,7 +146,7 @@ class AutoText {
                 return view('reports.xml.paragraph', ["val" => "В следующем периоде мы планируем провести полную проверку текущей индексации сайта в поисковых системах с целью выявления уязвимостей, своевременного их устранения. Данные работы положительно повлияют на скорость обновления страниц в индексе и, как следствие, обеспечат рост позиций."])->render();
                 break;
             case 4:
-                return view('reports.xml.paragraph', ["val" => "Каждый месяц мы продолжаем вести постоянный мониторинг сайта на наличие технических ошибок, вирусов, взломов, нарушений и сбоев со стороны хостинга, наличие дублей и ошибок сканирования. Проводится периодическая проверка позиций сайта, анализ изменений в выдаче и внесение соответствующих корректировок."])->render();
+                return view('reports.xml.paragraph', ["val" => "В следующем периоде мы планируем провести проверку текущей ссылочной массы сайта и его конкурентов в ТОП-10, определить динамику изменения, проверить анкор-лист и основные показатели сайтов-доноров."])->render();
 
                 break;
             case 5:
@@ -167,6 +176,11 @@ class AutoText {
             case 12:
                 return view('reports.xml.paragraph', ["val" => "В последующих месяцах мы планируем планомерное внедрение дополнительной семантики на сайт для увеличения видимости сайта по всему пулу тематических релевантных запросов. Прирост дополнительного релевантного трафика должен положительно повлиять на рост позиций сайта по продвигаемым ключевым запросам."])->render();
                 break;
+            case 13:
+                return view('reports.xml.paragraph', ["val" => "Каждый месяц мы продолжаем вести постоянный мониторинг сайта на наличие технических ошибок, вирусов, взломов, нарушений и сбоев со стороны хостинга, наличие дублей и ошибок сканирования. Проводится периодическая проверка позиций сайта, анализ изменений в выдаче и внесение соответствующих корректировок."])->render();
+                break;
+
+
         }
     }
     

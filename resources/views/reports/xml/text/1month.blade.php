@@ -25,19 +25,6 @@
 
 @include('reports.xml.paragraph', ['val' => ''])
 
-<w:p w:rsidR="00B35318" w:rsidRDefault="002524E9" w:rsidP="002524E9">
-    <w:pPr>
-        <w:rPr>
-            <w:lang w:val="en-US" />
-        </w:rPr>
-    </w:pPr>
-    <w:proofErr w:type="spellStart" />
-    <w:r>
-        <w:rPr>
-            <w:lang w:val="en-US" />
-        </w:rPr>
-        <w:t>Поскольку {{ $hasPositions1 }}, основной нашей задачей сейчас является {{ $hasPositions2 }}.</w:t>
-    </w:r>
-    <w:proofErr w:type="spellEnd" />
-</w:p>
+@include('reports.xml.paragraph', ['val' => 'Поскольку ' . $hasPositions1 . ', основной нашей задачей сейчас является ' . $hasPositions2 . '.'])
+
 @include('reports.xml.paragraph', ['val' => ''])

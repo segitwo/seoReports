@@ -16,7 +16,7 @@
 
     $statement .= 'Количество переходов пользователей из поисковых систем ';
     if($SEgrowth == 'up'){
-        $statement .= 'увеличилось на ' . $SEpercent . '% (с ' . $prevSEGuests . ' до ' . $nextSEGuests . ' чел./мес.) ';
+        $statement .= 'увеличилось на ' . $SEpercent . '% (с ' . $prevSEGuests . ' до ' . $nextSEGuests . ' чел./мес.). ';
     } else {
         $statement .= 'составило ' . $nextSEGuests . ' чел./мес. ';
     }

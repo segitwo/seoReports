@@ -161,6 +161,8 @@ $(document).ready(function(){
     
     // Now let's align datepicker with the prepend button
     datepickerSelector2.datepicker('widget').css({'margin-left': -datepickerSelector2.prev('.input-group-btn').find('.btn').outerWidth()});
+
+    $("select[name='period'], select[name='dop_work']").change();
 });
 
 function checkReqVals(){

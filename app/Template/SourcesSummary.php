@@ -10,7 +10,7 @@ use CpChart\Image;
 
 class SourcesSummary extends TemplateBlockExtension
 {
-    protected $casts = ['show_if_grown' => 'boolean'];
+    protected $casts = ['hide_if_reduce' => 'boolean'];
 
     public function listProperties(){
         return [

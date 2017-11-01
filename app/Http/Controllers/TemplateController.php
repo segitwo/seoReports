@@ -115,9 +115,15 @@ class TemplateController extends Controller
 
                 $blockItem = $blockObject->getOne($block->name)->first();
 
-                //Вытаскиваем из родительского блока значение sortIndex чтобы по нему сортировать
-                $blockItem->sortIndex = $blockItem->templateBlock->sortIndex;
-                $blockItem->added = true;
+                if($blockItem){
+                    //Вытаскиваем из родительского блока значение sortIndex чтобы по нему сортировать
+                    $blockItem->sortIndex = $blockItem->templateBlock->sortIndex;
+                    $blockItem->added = true;
+                } else {
+                    $blockObject->delete();
+                }
+
+
             } else {
                 //Иначе создаем объект класса для доступа к его свойствам
                 $class = 'App\Template\\' . $block->name;

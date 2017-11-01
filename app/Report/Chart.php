@@ -22,6 +22,14 @@ class Chart
 
         $daysInterval = $today->diff($prevDay)->days;
 
+        foreach ($lines[key($lines)] as &$value) {
+            $value = round($value);
+        }
+        unset($value);
+
+        reset($lines);
+        $lines[key($lines)] = array_pad(current($lines), -$daysInterval, 0);
+
         $axis = [];
         for($i = 0; $i <= $daysInterval; $i ++){
             if(!($i%7)){
@@ -98,6 +106,8 @@ class Chart
     public function NegateValuesDisplay($Value) {
         if ( $Value == VOID ) {
             return VOID;
+        } elseif ($Value == 0) {
+            return 0;
         } else {
             return -$Value;
         }

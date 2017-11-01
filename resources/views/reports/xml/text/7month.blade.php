@@ -1,6 +1,6 @@
 @php
     $statement = 'В этом периоде наша работа была ';
-    $statement .= ($dop == 1) ? 'также' : '' . ' направлена на ';
+    $statement .= ($dop == 1) ? 'также направлена на ' : '' . 'направлена на ';
     $statement .= ($dop == 1) ? 'проверку и корректировку' : 'формирование и внедрение';
     $statement .= ' анкор-листа на страницы ресурса:';
 @endphp
@@ -22,8 +22,8 @@
 @include('reports.xml.paragraph', ['val' => $statement])
 
 @php
-    $statement = 'Мы ';
-    $statement .= ($dop == 1) ? 'также' : '';
+    $statement = 'Мы';
+    $statement .= ($dop == 1) ? ' также' : '';
     $statement .= ' зарегистрировали сайт в справочниках и тематических каталогах для формирования естественного ссылочного окружения:';
 @endphp
 @include('reports.xml.paragraph', ['val' => $statement])

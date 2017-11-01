@@ -22,6 +22,7 @@ class YMetric
         $days = isset($params['days']) ? $params['days'] : '';
         $attribution = isset($params['attribution']) ? '&attribution=' . $params['attribution'] : '';
         $sort = isset($params['sort']) ? '&sort=' . $params['sort'] : '';
+        $percentage = isset($params['percentage']) ? '&percentage=' . $params['percentage'] : '';
 
         if(is_array($days)){
             $today = $days[1];
@@ -31,7 +32,7 @@ class YMetric
             $daysAgo = date ('Ymd', time() - 86400 * ($days - 1));
         }
 
-        $metrika_url = 'https://api-metrika.yandex.ru/stat/v1/data' . $link . '?id=' . $siteKey . $sort . '&pretty=1&date1=' . $daysAgo . '&date2=' . $today . '&limit=1000' . $group . $preset . $attribution . $dimensions . $metric . $filters . '&oauth_token=AQAAAAAFr1TtAANPEBXXD8EmGk0ymRXroOa0etg';
+        $metrika_url = 'https://api-metrika.yandex.ru/stat/v1/data' . $link . '?id=' . $siteKey . $sort . $percentage . '&pretty=1&date1=' . $daysAgo . '&date2=' . $today . '&limit=1000' . $group . $preset . $attribution . $dimensions . $metric . $filters . '&oauth_token=AQAAAAAFr1TtAANPEBXXD8EmGk0ymRXroOa0etg';
         $metrika = (new self)->curlData($metrika_url);
 
         return json_decode($metrika);

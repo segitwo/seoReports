@@ -12,7 +12,6 @@
         @if(count($block->listProperties()))
             <div class="panel-body">
                 @foreach($block->getProperties() as $key => $property)
-
                     @if($property['type'] == 'boolean')
                         @include('templates.partials.checkbox', ['propertyName' => class_basename($block), 'property' => $key, 'value' => $property['value']])
                     @elseif($property['type'] == 'integer')

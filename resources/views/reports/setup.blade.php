@@ -33,7 +33,7 @@
                 {!! Form::label('note', 'Работы по продвижению') !!}
                 <div class="mbl form-group">
                     <select name="period" data-action="{{ route('get_auto_text') }}" class="form-control select select-primary" data-toggle="select">
-                        <option value="0">Больше года</option>
+                        <!--option value="0">Больше года</option-->
                         <option value="1">1 месяц</option>
                         <option value="2">2 месяц | Тех.аудит</option>
                         <option value="3">3 месяц | Работа по тех.аудиту</option>
@@ -48,10 +48,10 @@
                         <option value="12">12 месяц | Анализ семантики</option>
                     </select>
                 </div>
-                <label class="checkbox">
+                <!--label class="checkbox">
                     <input type="checkbox" data-toggle="checkbox" name="commoninfo" value="1">
                     Общая информация
-                </label>
+                </label-->
 
                 <div class="row">
                     <div class="center-block" id="autoTextPeriod"></div>
@@ -129,9 +129,10 @@
                 <div class="mbl form-group">
                     <select name="next_work" class="form-control select select-primary" data-toggle="select">
                         <option value="0">нет</option>
+                        <option value="1">Тех.аудит</option>
                         <option value="2">Работа по тех.аудиту</option>
                         <option value="3">Индексация</option>
-                        <option value="4">Общая информация</option>
+                        <option value="4">Ссылочная масса</option>
                         <option value="5">PR</option>
                         <option value="6">PR и Анкоры</option>
                         <option value="7">Срез Я&G</option>
@@ -140,6 +141,7 @@
                         <option value="10">Маркетинговый аудит</option>
                         <option value="11">Анализ семантики</option>
                         <option value="12">Доп.семантика</option>
+                        <option value="13">Общая информация</option>
                     </select>
                 </div>
 

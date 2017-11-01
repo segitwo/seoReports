@@ -95,7 +95,8 @@
         </w:tc>
         <w:tc>
             <w:tcPr>
-                <w:tcW w:w="850" w:type="dxa" />
+                <!--<w:tcW w:w="850" w:type="dxa" />-->
+                <w:tcW w:w="1842" w:type="dxa" />
                 <w:shd w:val="clear" w:color="auto" w:fill="D9E2F3" w:themeFill="accent5" w:themeFillTint="33" />
                 <w:vAlign w:val="center" />
             </w:tcPr>
@@ -119,7 +120,8 @@
         </w:tc>
         <w:tc>
             <w:tcPr>
-                <w:tcW w:w="993" w:type="dxa" />
+                <!--<w:tcW w:w="993" w:type="dxa" />-->
+                <w:tcW w:w="2127" w:type="dxa" />
                 <w:shd w:val="clear" w:color="auto" w:fill="D9E2F3" w:themeFill="accent5" w:themeFillTint="33" />
                 <w:vAlign w:val="center" />
             </w:tcPr>
@@ -141,7 +143,7 @@
                 </w:r>
             </w:p>
         </w:tc>
-        <w:tc>
+        <!--w:tc>
             <w:tcPr>
                 <w:tcW w:w="992" w:type="dxa" />
                 <w:shd w:val="clear" w:color="auto" w:fill="D9E2F3" w:themeFill="accent5" w:themeFillTint="33" />
@@ -188,7 +190,7 @@
                     <w:t>Время на сайте</w:t>
                 </w:r>
             </w:p>
-        </w:tc>
+        </w:tc-->
     </w:tr>
 
 
@@ -246,7 +248,8 @@
             </w:tc>
             <w:tc>
                 <w:tcPr>
-                    <w:tcW w:w="850" w:type="dxa" />
+                    <!--<w:tcW w:w="850" w:type="dxa" />-->
+                    <w:tcW w:w="1842" w:type="dxa" />
                     <w:vAlign w:val="center" />
                 </w:tcPr>
                 <w:p w:rsidR="00F6228D" w:rsidRPr="00F6228D" w:rsidRDefault="00F6228D" w:rsidP="00F6228D">
@@ -270,7 +273,8 @@
             </w:tc>
             <w:tc>
                 <w:tcPr>
-                    <w:tcW w:w="993" w:type="dxa" />
+                    <!--<w:tcW w:w="993" w:type="dxa" />-->
+                    <w:tcW w:w="2127" w:type="dxa" />
                     <w:vAlign w:val="center" />
                 </w:tcPr>
                 <w:p w:rsidR="00F6228D" w:rsidRPr="00F6228D" w:rsidRDefault="00F6228D" w:rsidP="00F6228D">
@@ -289,7 +293,7 @@
                     </w:r>
                 </w:p>
             </w:tc>
-            <w:tc>
+            <!--w:tc>
                 <w:tcPr>
                     <w:tcW w:w="992" w:type="dxa" />
                     <w:vAlign w:val="center" />
@@ -331,7 +335,7 @@
                         <w:t>{{ $row['5'] or '' }}</w:t>
                     </w:r>
                 </w:p>
-            </w:tc>
+            </w:tc-->
         </w:tr>
     @endforeach
 
@@ -362,7 +366,7 @@
                 <w:sz w:val="18"/>
                 <w:szCs w:val="18"/>
             </w:rPr>
-            <w:t xml:space="preserve">Отказом принято считать посещение, в течение которого человек был на одной странице и посвятил ей менее 15 секунд. </w:t>
+            <w:t xml:space="preserve"> Отказом принято считать посещение, в течение которого человек был на одной странице и посвятил ей менее 15 секунд. </w:t>
         </w:r>
         <w:r w:rsidR="00083FBA">
             <w:rPr>
