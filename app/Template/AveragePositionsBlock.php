@@ -68,10 +68,11 @@ class AveragePositionsBlock extends TemplateBlockExtension
                 $positionsRow = [];
                 foreach ($stat->keywords as $keyword) {
                     foreach ($keyword->positions as $k => $position) {
+                        $position = intval($position->pos) > 0 ? intval($position->pos) : 100;
                         if (isset($positionsRow[$k])) {
-                            $positionsRow[$k] += intval($position->pos);
+                            $positionsRow[$k] += $position;
                         } else {
-                            $positionsRow[$k] = intval($position->pos);
+                            $positionsRow[$k] = $position;
                         }
 
                     }
