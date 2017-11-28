@@ -130,7 +130,7 @@ class SourcesSummary extends TemplateBlockExtension
         $prePrevDay->modify('-1 month');
         $stats['previous'] = $this->getTotalTraffic([$prePrevDay->format('Y-m-d'), $this->prevDay->format('Y-m-d')]);
 
-        $sourcesStatisticChange = $stats['previous']['guests'] - $stats['current']['guests'];
+        $sourcesStatisticChange = $stats['current']['guests'] - $stats['previous']['guests'];
         $sourcesStatistic['prevGuests'] = $stats['previous']['guests'];
         $sourcesStatistic['nextGuests'] = $stats['current']['guests'];
         $sourcesStatistic['period'] = 0;
