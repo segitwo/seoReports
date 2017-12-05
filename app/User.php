@@ -101,4 +101,13 @@ class User extends Authenticatable
     {
         return (bool) ! $this->codes->count();
     }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
+
+    public function oAuthToken(){
+        return $this->hasOne('App\Token');
+    }
 }

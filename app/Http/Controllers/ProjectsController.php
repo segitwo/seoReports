@@ -133,6 +133,11 @@ class ProjectsController extends Controller
         $rankingList = SERanking::getData($params = [
             'method' => 'sites'
         ]);
+
+        if(isset($rankingList['error'])){
+            return $rankingList['error'];
+        }
+
         $ranking = [];
         $idn = new idna_convert();
         foreach ($rankingList as $site) {

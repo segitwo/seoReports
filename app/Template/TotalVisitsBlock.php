@@ -40,7 +40,7 @@ class TotalVisitsBlock extends TemplateBlockExtension
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'deepness_depth',
             'dimensions' => 'ym:s:pageViewsInterval',
-            'metric' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
+            'metrics' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
             'days' => $this->days
         ]);
 

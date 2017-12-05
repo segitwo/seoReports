@@ -6,7 +6,7 @@
         @if (Session::has('message'))
             <div class="alert alert-success" role="alert">{{ Session::get('message') }}</div>
         @endif
-
+        <a href="{{ route('oauth.make_ym_code') }}" class="btn btn-success btn-xs">Добавить аккаунт Яндекс</a>
         @if (count($projects) > 0)
             <div class="table-responsive" id="sitesTable">
                 <table class="table table-striped">

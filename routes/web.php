@@ -63,9 +63,14 @@ Route::group(['middleware' => 'auth'], function (){
         'uses' => 'ReportController@generatePreview'
     ]);
 
-    Route::get('oauth', [
-        'as' => 'oauth',
-        'uses' => 'OAuth@makeToken'
+    Route::get('oauth/make_ym_code', [
+        'as' => 'oauth.make_ym_code',
+        'uses' => 'OAuth@makeYMCode'
+    ]);
+
+    Route::get('oauth/make_ym_token', [
+        'as' => 'oauth.make_ym_token',
+        'uses' => 'OAuth@makeYMToken'
     ]);
 
     Route::get('oauth/partner', [
@@ -75,7 +80,7 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::get('oauth/seranking', [
         'as' => 'oauth.seranking',
-        'uses' => 'OAuth@mekeSERankingToken'
+        'uses' => 'OAuth@makeSERankingToken'
     ]);
 
     Route::get('chart', [
@@ -83,6 +88,15 @@ Route::group(['middleware' => 'auth'], function (){
         'uses' => 'ReportController@makeChart'
     ]);
 
+    Route::get('settings', [
+        'as' => 'settings',
+        'uses' => 'SettingsController@index'
+    ]);
+
+    Route::post('settings/update', [
+        'as' => 'settings.update',
+        'uses' => 'SettingsController@update'
+    ]);
 });
 
 Auth::routes();
