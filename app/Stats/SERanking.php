@@ -58,7 +58,7 @@ class SERanking {
 
         if(isset($result['token'])){
             $user->oAuthToken->se_token = $result['token'];
-            $user->save();
+            $user->oAuthToken->save();
             return [
                 'message' => 'Токен обновлен',
                 'status' => '1'
