@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Profile;
+use App\Token;
 use App\User;
 use App\RegistrationToken;
 use Illuminate\Http\Request;
@@ -313,6 +314,7 @@ class RegisterController extends Controller
         ]);
 
         $this->user->profile()->save(new Profile());
+        $this->user->oAuthToken()->save(new Token());
         $this->registered();
     }
 }
