@@ -181,6 +181,8 @@ return [
         BC\Laravel\DropboxDriver\ServiceProvider::class,
 
         Laravelrus\LocalizedCarbon\LocalizedCarbonServiceProvider::class,
+
+        Kitano\Aktiv8me\Aktiv8meServiceProvider::class,
     ],
 
     /*

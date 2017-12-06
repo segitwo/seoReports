@@ -63,9 +63,14 @@ Route::group(['middleware' => 'auth'], function (){
         'uses' => 'ReportController@generatePreview'
     ]);
 
-    Route::get('oauth', [
-        'as' => 'oauth',
-        'uses' => 'OAuth@makeToken'
+    Route::get('oauth/make_ym_code', [
+        'as' => 'oauth.make_ym_code',
+        'uses' => 'OAuth@makeYMCode'
+    ]);
+
+    Route::get('oauth/make_ym_token', [
+        'as' => 'oauth.make_ym_token',
+        'uses' => 'OAuth@makeYMToken'
     ]);
 
     Route::get('oauth/partner', [
@@ -75,7 +80,7 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::get('oauth/seranking', [
         'as' => 'oauth.seranking',
-        'uses' => 'OAuth@mekeSERankingToken'
+        'uses' => 'OAuth@makeSERankingToken'
     ]);
 
     Route::get('chart', [
@@ -83,7 +88,21 @@ Route::group(['middleware' => 'auth'], function (){
         'uses' => 'ReportController@makeChart'
     ]);
 
+    Route::get('settings', [
+        'as' => 'settings',
+        'uses' => 'SettingsController@index'
+    ]);
+
+    Route::post('settings/update', [
+        'as' => 'settings.update',
+        'uses' => 'SettingsController@update'
+    ]);
 });
 
 Auth::routes();
 
+
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/aktiv8me/verify/{token}', '\App\Http\Controllers\Auth\RegisterController@verify')->name('register.verify');
+Route::get('/aktiv8me/resend', '\App\Http\Controllers\Auth\RegisterController@resend');
+Route::post('/aktiv8me/resend', '\App\Http\Controllers\Auth\RegisterController@resend')->name('register.resend');

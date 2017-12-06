@@ -87,7 +87,7 @@ class MetricStats {
             'sort' => 'ym:s:date',
             'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:date',
             'filters' => 'ym:s:date!=null',
-            'metric' => 'ym:s:visits'
+            'metrics' => 'ym:s:visits'
         ]);
         //'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:lastSearchEngine,ym:s:lastSearchPhrase,ym:s:date',
         //dd($metricData->data);
@@ -209,7 +209,7 @@ class MetricStats {
         $metricData = YMetric::getData($this->siteKey, [
             'preset' => 'deepness_depth',
             'dimensions' => 'ym:s:pageViewsInterval',
-            'metric' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
+            'metrics' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
             'days' => $this->days
         ]);
 
@@ -231,7 +231,7 @@ class MetricStats {
         $metricData = YMetric::getData($this->siteKey, [
             'dimensions' => 'ym:s:<attribution>TrafficSource',
             'days' => $this->days,
-            'metric' => 'ym:s:visits',
+            'metrics' => 'ym:s:visits',
             'link' => '/bytime',
             'group' => 'day',
             'attribution' => 'last'
@@ -259,7 +259,7 @@ class MetricStats {
             'preset' => 'content_entrance',
             'dimensions' => 'ym:s:startURLHash',
             'days' => $this->days,
-            'metric' => 'ym:s:visits,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
+            'metrics' => 'ym:s:visits,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
         ]);
 
         $output = [];
@@ -285,7 +285,7 @@ class MetricStats {
             'preset' => 'content_entrance',
             'dimensions' => 'ym:s:startURLHash',
             'days' => $this->days,
-            'metric' => 'ym:s:visits',
+            'metrics' => 'ym:s:visits',
             'sort' => 'ym:s:visits'
         ]);
 
@@ -308,7 +308,7 @@ class MetricStats {
             'preset' => 'deepness_time',
             'dimensions' => 'ym:s:visitDurationInterval',
             'days' => $this->days,
-            'metric' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:avgVisitDurationSeconds',
+            'metrics' => 'ym:s:visits,ym:s:pageviews,ym:s:bounceRate,ym:s:avgVisitDurationSeconds',
         ]);
 
         $resultData = [];
@@ -403,12 +403,12 @@ class MetricStats {
 
             $conversion = YMetric::getData($this->siteKey, [
                 'days' => $this->days,
-                'metric' => 'ym:s:goal' . $goal->id . 'conversionRate',
+                'metrics' => 'ym:s:goal' . $goal->id . 'conversionRate',
             ]);
 
             $goalReaches = YMetric::getData($this->siteKey, [
                 'days' => $this->days,
-                'metric' => 'ym:s:goal' . $goal->id . 'reaches',
+                'metrics' => 'ym:s:goal' . $goal->id . 'reaches',
             ]);
 
             if($conversion->totals['0'] == 0 && $goalReaches->totals['0'] == 0){

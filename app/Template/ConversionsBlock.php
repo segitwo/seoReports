@@ -33,12 +33,12 @@ class ConversionsBlock extends TemplateBlockExtension
             foreach ($golas->goals as $goal) {
                 $conversion = YMetric::getData($this->siteKey, [
                     'days' => $this->days,
-                    'metric' => 'ym:s:goal' . $goal->id . 'conversionRate',
+                    'metrics' => 'ym:s:goal' . $goal->id . 'conversionRate',
                 ]);
 
                 $goalReaches = YMetric::getData($this->siteKey, [
                     'days' => $this->days,
-                    'metric' => 'ym:s:goal' . $goal->id . 'reaches',
+                    'metrics' => 'ym:s:goal' . $goal->id . 'reaches',
                 ]);
 
                 if ($conversion->totals['0'] == 0 && $goalReaches->totals['0'] == 0) {

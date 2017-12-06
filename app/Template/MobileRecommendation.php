@@ -85,7 +85,7 @@ class MobileRecommendation extends TemplateBlockExtension
             'preset' => 'tech_devices',
             'dimensions' => 'ym:s:deviceCategory',
             'days' => $days,
-            'metric' => 'ym:s:visits'
+            'metrics' => 'ym:s:visits'
         ]);
 
         $devices = [

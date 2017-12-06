@@ -27,7 +27,7 @@ class SourcesSummary extends TemplateBlockExtension
         $metricData = YMetric::getData($this->siteKey, [
             'dimensions' => 'ym:s:<attribution>TrafficSource',
             'days' => $this->days,
-            'metric' => 'ym:s:visits',
+            'metrics' => 'ym:s:visits',
             'link' => '/bytime',
             'group' => 'day',
             'attribution' => 'last'
@@ -194,7 +194,7 @@ class SourcesSummary extends TemplateBlockExtension
             'sort' => 'ym:s:date',
             'dimensions' => 'ym:s:lastSearchEngineRoot,ym:s:date',
             'filters' => 'ym:s:date!=null',
-            'metric' => 'ym:s:visits'
+            'metrics' => 'ym:s:visits'
         ]);
 
         return isset($metricData->totals[0]) ? $metricData->totals[0] : [];

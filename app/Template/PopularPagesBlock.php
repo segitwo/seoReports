@@ -26,7 +26,7 @@ class PopularPagesBlock extends TemplateBlockExtension
             'preset' => 'content_entrance',
             'dimensions' => 'ym:s:startURLHash',
             'days' => $this->days,
-            'metric' => 'ym:s:visits',
+            'metrics' => 'ym:s:visits',
             'sort' => 'ym:s:visits'
         ]);
 

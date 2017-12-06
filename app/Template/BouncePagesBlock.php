@@ -29,7 +29,7 @@ class BouncePagesBlock extends TemplateBlockExtension
             'preset' => 'content_entrance',
             'dimensions' => 'ym:s:startURLHash',
             'days' => $this->days,
-            'metric' => 'ym:s:visits,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
+            'metrics' => 'ym:s:visits,ym:s:bounceRate,ym:s:pageDepth,ym:s:avgVisitDurationSeconds',
         ]);
 
         $min_visits = $requestData['templateBlock']->min_visits ? $requestData['templateBlock']->min_visits : 0;
