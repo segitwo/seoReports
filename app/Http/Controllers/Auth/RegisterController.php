@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Profile;
 use App\User;
 use App\RegistrationToken;
 use Illuminate\Http\Request;
@@ -311,6 +312,7 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
+        $this->user->profile()->save(new Profile());
         $this->registered();
     }
 }
