@@ -15,7 +15,7 @@
     $statement = 'В период с ' . $prevDay  . ' по ' . $today . ' наблюдается ' . $statement . '. ';
 
     $statement .= 'Количество переходов пользователей из поисковых систем ';
-    if($SEgrowth == 'up'){
+    if($SEgrowth == 'up' && !$new){
         $statement .= 'увеличилось на ' . $SEpercent . '% (с ' . $prevSEGuests . ' до ' . $nextSEGuests . ' чел./мес.). ';
     } else {
         $statement .= 'составило ' . $nextSEGuests . ' чел./мес. ';
@@ -23,7 +23,7 @@
 
     $statement .= 'Суммарное количество уникальных пользователей ';
 
-    if($growth == 'up'){
+    if($growth == 'up' && !$new){
         $statement .= 'увеличилось на ' . $percent . '% (с '  . $prevGuests . ' до ' . $nextGuests .' чел./мес.)';
     } else {
         $statement .= 'составило ' . $nextGuests . ' чел./мес.';
