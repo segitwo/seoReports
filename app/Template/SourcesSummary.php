@@ -134,6 +134,7 @@ class SourcesSummary extends TemplateBlockExtension
         $sourcesStatistic['prevGuests'] = $stats['previous']['guests'];
         $sourcesStatistic['nextGuests'] = $stats['current']['guests'];
         $sourcesStatistic['period'] = 0;
+        $sourcesStatistic['new'] = 0;
 
         $sourcesStatistic['growth'] = 'down';
 
