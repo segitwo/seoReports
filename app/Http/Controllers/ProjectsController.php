@@ -134,8 +134,12 @@ class ProjectsController extends Controller
             'method' => 'sites'
         ]);
 
-        if(isset($rankingList['error'])){
-            return $rankingList['error'];
+        if(isset($rankingList->error)){
+            return $rankingList->error;
+        }
+
+        if(isset($rankingList->message)){
+            return $rankingList->message;
         }
 
         $ranking = [];

@@ -8,32 +8,27 @@ use Illuminate\Support\Facades\Auth;
 class SERanking {
 
     public static function getData($params){
-        $user = Auth::user();
-        if(is_object($user) && $user instanceof User){
-            if ($user->oAuthToken && $user->oAuthToken->se_token) {
-                if(!$params['token'] = $user->oAuthToken->se_token){
-                    return \Redirect::route('oauth/seranking');
-                }
-                //$params['token'] = '612ea230b747859754f193d879e18e9e';
-                if(isset($params['data'])){
-                    $params['data'] = json_encode(
-                        $params['data']
-                    );
-                }
 
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL,"http://online.seranking.com/structure/clientapi/v2.php");
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $result = curl_exec ($ch);
-                curl_close ($ch);
-
-                return json_decode($result);
-            }
-
+        if(!self::checkToken()) {
             return ['error' => 'Нет подключения к SE Ranking'];
         }
+
+        if(isset($params['data'])){
+            $params['data'] = json_encode(
+                $params['data']
+            );
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,"http://online.seranking.com/structure/clientapi/v2.php");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec ($ch);
+        curl_close ($ch);
+
+        return json_decode($result);
+
     }
 
     public static function makeToken(){
@@ -72,4 +67,38 @@ class SERanking {
 
     }
 
+    public static function checkToken(){
+        $user = Auth::user();
+        $error = 0;
+        if(is_object($user) && $user instanceof User){
+            if ($user->oAuthToken && $user->oAuthToken->se_token) {
+
+                $params = [
+                    'method' => 'getBalance'
+                ];
+
+                if(!$params['token'] = $user->oAuthToken->se_token){
+                    $error = 1;
+                }
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL,"http://online.seranking.com/structure/clientapi/v2.php");
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $result = curl_exec ($ch);
+                curl_close ($ch);
+
+                $result = json_decode($result, 1);
+
+                if(isset($result['message'])){
+                    $error = 1;
+                }
+            } else {
+                $error = 1;
+            }
+        }
+
+        return $error;
+    }
 }
