@@ -134,7 +134,7 @@ class ProjectsController extends Controller
             'method' => 'sites'
         ]);
 
-        if(isset($rankingList->error)){
+        if(is_array($rankingList) && isset($rankingList->error)){
             return $rankingList->error;
         }
 
