@@ -28,7 +28,7 @@ class Chart
         unset($value);
 
         reset($lines);
-        $lines[key($lines)] = array_pad(current($lines), -$daysInterval, 0);
+        $lines[key($lines)] = array_pad(current($lines), -$daysInterval, current($lines)['0']);
 
         $axis = [];
         for($i = 0; $i <= $daysInterval; $i ++){

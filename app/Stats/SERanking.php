@@ -9,9 +9,12 @@ class SERanking {
 
     public static function getData($params){
 
-        if(!self::checkToken()) {
-            return ['error' => 'Нет подключения к SE Ranking'];
+        $user = Auth::user();
+        if (!$user->oAuthToken || !$user->oAuthToken->se_token) {
+            return (object)['error' => 'Нет подключения к SE Ranking'];
         }
+
+        $params['token'] = $user->oAuthToken->se_token;
 
         if(isset($params['data'])){
             $params['data'] = json_encode(
@@ -67,38 +70,36 @@ class SERanking {
 
     }
 
-    public static function checkToken(){
-        $user = Auth::user();
-        $error = 0;
-        if(is_object($user) && $user instanceof User){
-            if ($user->oAuthToken && $user->oAuthToken->se_token) {
+    /*public static function checkToken(User $user){
+        $hasToken = true;
 
-                $params = [
-                    'method' => 'getBalance'
-                ];
+        if ($user->oAuthToken && $user->oAuthToken->se_token) {
 
-                if(!$params['token'] = $user->oAuthToken->se_token){
-                    $error = 1;
-                }
+            $params = [
+                'method' => 'getBalance'
+            ];
 
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL,"http://online.seranking.com/structure/clientapi/v2.php");
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $result = curl_exec ($ch);
-                curl_close ($ch);
-
-                $result = json_decode($result, 1);
-
-                if(isset($result['message'])){
-                    $error = 1;
-                }
-            } else {
-                $error = 1;
+            if(!$params['token'] = $user->oAuthToken->se_token){
+                $hasToken = false;
             }
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,"http://online.seranking.com/structure/clientapi/v2.php");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = curl_exec ($ch);
+            curl_close ($ch);
+
+            $result = json_decode($result, 1);
+
+            if(isset($result['message'])){
+                $hasToken = false;
+            }
+        } else {
+            $hasToken = false;
         }
 
-        return $error;
-    }
+        return $hasToken;
+    }*/
 }
