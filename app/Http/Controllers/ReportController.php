@@ -13,6 +13,7 @@ use App\Report\Report;
 use App\Stats\SERanking;
 use App\Template\Template;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -38,7 +39,7 @@ class ReportController extends Controller
 
     function download(ReportFormRequest $request)
     {
-        if(!SERanking::checkToken()){
+        if(!SERanking::checkToken(Auth::user())){
             return 'Нет подключения к SE Ranking';
         }
         $report = new Report();
