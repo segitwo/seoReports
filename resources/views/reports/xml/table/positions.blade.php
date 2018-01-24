@@ -249,7 +249,7 @@
                             <w:lang w:val="en-US" w:eastAsia="ru-RU" />
                         </w:rPr>
                         <w:t>
-                            @if($row['Яндекс']['change'] != 0 && $row['Яндекс']['change'] == $row['Яндекс']['pos'])
+                            @if($row['Яндекс']['change'] != 0 && $row['Яндекс']['last_position'] == 0 && $row['Яндекс']['pos'] != 0 )
                                 new
                             @elseif($row['Яндекс']['change'] != 0 && $row['Яндекс']['pos'] != 0)
                                 {{ $row['Яндекс']['change'] }}
@@ -338,8 +338,7 @@
                             <w:lang w:val="en-US" w:eastAsia="ru-RU" />
                         </w:rPr>
                         <w:t>
-
-                            @if($row['Google']['change'] != 0 && $row['Google']['change'] == $row['Google']['pos'])
+                            @if($row['Google']['change'] != 0 && $row['Google']['last_position'] == 0 && $row['Google']['pos'] != 0 )
                                 new
                             @elseif($row['Google']['change'] != 0 && $row['Google']['pos'] != 0)
                                 {{ $row['Google']['change'] }}

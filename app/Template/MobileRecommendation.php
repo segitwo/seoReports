@@ -35,7 +35,7 @@ class MobileRecommendation extends TemplateBlockExtension
                 'metric' => 'ym:s:visits,ym:s:bounceRate'
             ]);
 
-            $bounceRate = round($bounceRateData->totals[1], 2);
+            $bounceRate = round($bounceRateData->totals[2], 2);
 
             $mobilePercent = $this->getMobilePercentFromYM();
 

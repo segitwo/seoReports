@@ -136,24 +136,21 @@ class SourcesSummary extends TemplateBlockExtension
         $sourcesStatistic['period'] = 0;
         $sourcesStatistic['new'] = 0;
 
-        $sourcesStatistic['growth'] = 'down';
+        //Если до этого количество посетителей было нулевое, то значение прироста будет равно бесконечности
+        if($stats['previous']['guests'] > 0){
+            $sourcesStatisticChangePercent = round(($sourcesStatisticChange * 100) / $stats['previous']['guests'], 2);
+        } else {
+            $sourcesStatisticChangePercent = 100;
+            $sourcesStatistic['new'] = 1;
+        }
+        $sourcesStatistic['percent'] = $sourcesStatisticChangePercent;
 
-        if($sourcesStatisticChange > 0){
-            //Если до этого количество посетителей было нулевое, то значение прироста будет равно бесконечности
-            if($stats['previous']['guests'] > 0){
-                $sourcesStatisticChangePercent = round(($sourcesStatisticChange * 100) / $stats['previous']['guests'], 2);
-            } else {
-                $sourcesStatisticChangePercent = 100;
-                $sourcesStatistic['new'] = 1;
-            }
-
-            $sourcesStatistic['percent'] = $sourcesStatisticChangePercent;
-
-            if($sourcesStatisticChangePercent > 10){
-                $sourcesStatistic['growth'] = 'up';
-            } else {
-                $sourcesStatistic['growth'] = 'stable';
-            }
+        if($sourcesStatisticChangePercent > 10){
+            $sourcesStatistic['growth'] = 'up';
+        } elseif ($sourcesStatisticChangePercent > -10) {
+            $sourcesStatistic['growth'] = 'stable';
+        } else {
+            $sourcesStatistic['growth'] = 'down';
         }
 
         $sourcesStatistic['firstHalfText'] = '';

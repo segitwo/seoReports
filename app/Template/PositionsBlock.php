@@ -42,8 +42,7 @@ class PositionsBlock extends TemplateBlockExtension
 
         $output = [];
 
-        
-        foreach($keyWordsStat as $stat){
+        foreach(array_slice($keyWordsStat, 0, 2) as $stat){
             if($stat->seID == 411) {
                 $key = 'Яндекс';
                 //} elseif(in_array($stat->seID, [474, 339, 454])) {
@@ -80,7 +79,6 @@ class PositionsBlock extends TemplateBlockExtension
                     }
                 }
             }
-
         }
 
         return view('reports.xml.table.positions', ['positionRows' => $output])->render();

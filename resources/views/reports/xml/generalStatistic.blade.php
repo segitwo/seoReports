@@ -2,7 +2,7 @@
     $statement = '';
     switch ($growth) {
         case 'down':
-            $statement = 'стабилизация трафика сайта';
+            $statement = 'снижение трафика в связи с сезонностью';
             break;
         case 'up':
             $statement = 'хороший рост посещаемости сайта';

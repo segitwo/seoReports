@@ -366,7 +366,7 @@ class MetricStats {
                     //$mRegion = YMarket::getRegion($stat->regionID);
                     //$region = $mRegion->regions['0']->name;
 
-                    $region = $this->getRegion($stat->regionID);
+                    $region = self::getRegion($stat->regionID);
                 }
 
                 $positionsRow = [];
@@ -590,7 +590,7 @@ class MetricStats {
         return $newArr;
     }
 
-    private function getRegion($id){
+    public static function getRegion($id){
         $regions = [
             0 => 'Регионы',
             1 => 'Москва и область',
