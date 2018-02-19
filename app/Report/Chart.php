@@ -136,7 +136,6 @@ class Chart
     }
 
     public function makeAxis($data){
-
         $axis = [];
         $labelsLimit = 5;
         if(count($data) > $labelsLimit){
@@ -147,6 +146,8 @@ class Chart
                     $axis[] = '';
                 }
             }
+        } else {
+            $axis = array_map(function ($array) {return Carbon::createFromFormat('Y-m-d', $array['date'])->format('d.m.Y');}, $data);
         }
         return $axis;
     }
