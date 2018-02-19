@@ -92,9 +92,31 @@ class Chart
         $chart->render(app_path('Stats/generated/' . $uniqueId . '/word/media/' . $name));
     }
 
-    public function makeLineChartNegativeDisplay($lines, $name, $uniqueId, Carbon $today){
+    public function makeLineChartData($lines, $axis){
 
-        $data = self::processLineChart($lines, $today);
+        foreach ($lines[key($lines)] as &$value) {
+            $value = round($value);
+        }
+        unset($value);
+        reset($lines);
+
+
+        $data = new Data();
+
+        foreach ($lines as $key => $line) {
+            $data->addPoints($line, $key);
+            $data->setSerieWeight($key, 0.4);
+        }
+
+        $data->addPoints($axis, "Labels");
+        $data->setSerieDescription("Labels", "Months");
+        $data->setAbscissa("Labels");
+
+        return $data;
+    }
+
+    public function makeLineChartNegativeDisplay($lines, Data $data, $name, $uniqueId){
+
         $data->negateValues(array_keys($lines));
         $data->setAxisDisplay(0,AXIS_FORMAT_CUSTOM,[$this, "NegateValuesDisplay"]);
 
@@ -111,6 +133,38 @@ class Chart
         } else {
             return -(round($Value, 1));
         }
+    }
+
+    public function makeAxis($data){
+
+        $axis = [];
+        $labelsLimit = 5;
+        if(count($data) > $labelsLimit){
+            foreach ($data as $idx => $dataItem) {
+                if($idx % floor(count($data) / $labelsLimit)){
+                    $axis[] = Carbon::createFromFormat('Y-m-d', $dataItem['date'])->format('d.m.Y');
+                } else {
+                    $axis[] = '';
+                }
+            }
+        }
+        return $axis;
+    }
+
+    public function padChartData($lines, Carbon $today)
+    {
+        $prevDay = clone $today;
+        $prevDay->modify('-1 month');
+
+        $daysInterval = $today->diff($prevDay)->days;
+
+        foreach ($lines[key($lines)] as &$value) {
+            $value = round($value);
+        }
+        unset($value);
+
+        reset($lines);
+        $lines[key($lines)] = array_pad(current($lines), -$daysInterval, current($lines)['0']);
     }
 
 }

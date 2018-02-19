@@ -47,6 +47,7 @@ class AveragePositionsBlock extends TemplateBlockExtension
         ]);
 
         $lines = [];
+        $positionsRow = [];
         foreach ($keyWordsStat as $key => $stat) {
 
             if ($stat->seID == 411) {
@@ -65,22 +66,23 @@ class AveragePositionsBlock extends TemplateBlockExtension
                     $region = $this->getRegion($stat->regionID);
                 }
 
-                $positionsRow = [];
                 foreach ($stat->keywords as $keyword) {
                     foreach ($keyword->positions as $k => $position) {
+                        $positionsRow[$k]['date'] = $position->date;
                         $position = intval($position->pos) > 0 ? intval($position->pos) : 100;
-                        if (isset($positionsRow[$k])) {
-                            $positionsRow[$k] += $position;
+
+                        if (isset($positionsRow[$k]['pos'])) {
+                            $positionsRow[$k]['pos'] += $position;
                         } else {
-                            $positionsRow[$k] = $position;
+                            $positionsRow[$k]['pos'] = $position;
                         }
 
                     }
                 }
 
-                foreach ($positionsRow as $val) {
+                foreach ($positionsRow as $positionsRowData) {
                     $region_key = (isset($region)) ? $key . ' (' . $region . ')' : $key;
-                    $lines[$region_key]['charts'][] = $val / count($stat->keywords);
+                    $lines[$region_key]['charts'][] = $positionsRowData['pos'] / count($stat->keywords);
                     $lines[$region_key]['se'] = $key;
                 }
             }
@@ -105,7 +107,10 @@ class AveragePositionsBlock extends TemplateBlockExtension
 
             //создаем график с именем $imageId . '.png'
             $chart = new Chart();
-            $chart->makeLineChartNegativeDisplay([$key => $line['charts']], $imageId . '.png', $reportId, $this->today);
+            $axis = $chart->makeAxis($positionsRow);
+            $data = $chart->makeLineChartData([$key => $line['charts']], $axis);
+
+            $chart->makeLineChartNegativeDisplay([$key => $line['charts']], $data, $imageId . '.png', $reportId);
 
             //Создаем в document.xml.rels отношение где привязываем изображение с графиком идентийкатору.
             $xmlId = 'rId' . $imageId;
