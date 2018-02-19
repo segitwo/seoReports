@@ -141,7 +141,7 @@ class Chart
         $labelsLimit = 5;
         if(count($data) > $labelsLimit){
             foreach ($data as $idx => $dataItem) {
-                if($idx % floor(count($data) / $labelsLimit)){
+                if(!($idx % floor(count($data) / $labelsLimit))){
                     $axis[] = Carbon::createFromFormat('Y-m-d', $dataItem['date'])->format('d.m.Y');
                 } else {
                     $axis[] = '';
