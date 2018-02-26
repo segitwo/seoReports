@@ -58,9 +58,9 @@ class SourcesSummary extends TemplateBlockExtension
 
     public function makeSourcesLineChart($lines, $unicId, Carbon $today){
 
-        $firstVal = current($lines['Переходы из поисковых систем']);
+        /*$firstVal = current($lines['Переходы из поисковых систем']);
         $lastVal = end($lines['Переходы из поисковых систем']);
-        //if(($firstVal * 1.1) < $lastVal){
+        //if(($firstVal * 1.1) < $lastVal){*/
         $prevDay = clone $today;
         $prevDay->modify('-1 month');
 

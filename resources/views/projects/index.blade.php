@@ -15,7 +15,7 @@
                         <th>ID</th>
                         <th>Название</th>
                         <th>URL</th>
-                        <th>Метрика</th>
+                        <th>Заметка</th>
                         <th class="text-right"></th>
                     </tr>
                     <ul>

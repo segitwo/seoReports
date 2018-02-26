@@ -6,6 +6,26 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('input[name="_token"]').val()
         }
     });
+
+    $('body').on('click', '#sitesTable a.old', function () {
+        return confirm('У проекта старая заметка, вы уверены что хотите ее использовать в новом отчете?');
+    });
+
+    $('.noteForm textarea').on('change keyup paste', function() {
+        var thisForm = $(this).closest('.noteForm');
+        window.clearTimeout(thisForm.data("timeout"));
+        thisForm.data("timeout", setTimeout(function () {
+            $.ajax({
+                type: thisForm.attr('method'),
+                url: thisForm.attr('action'),
+                data: thisForm.serializeArray(),
+                dataType: 'json'
+            }).done(function(data) {
+                thisForm.siblings('.noteUpdated').removeClass('old').text(data.updated_at);
+                thisForm.closest('tr').find('a.old').removeClass('old');
+            });
+        }, 500));
+    });
     
     checkReqVals();
     $("input, select").change(function(){

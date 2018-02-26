@@ -293,4 +293,20 @@ class AutoText {
         
         return $resultData;
     }
+
+    public function getNoteText($request){
+        $project = Project::find($request['id']);
+        $output = "";
+        if($project->note->text){
+            $text = preg_split("/\r\n|\n|\r/", $project->note->text);
+            foreach ($text as $paragraph) {
+                $output .= view('reports.xml.listRow', ["val" => $paragraph])->render();
+            }
+        }
+
+
+        return empty($output)? '' : view('reports.xml.paragraph', ["val" => "Также в этом месяце выполнены следующие работы:"])->render()
+            . $output . view('reports.xml.paragraph', ["val" => ""])->render();
+
+    }
 }

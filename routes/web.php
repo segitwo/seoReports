@@ -97,6 +97,11 @@ Route::group(['middleware' => 'auth'], function (){
         'as' => 'settings.update',
         'uses' => 'SettingsController@update'
     ]);
+
+    Route::post('note/update', [
+        'as' => 'note_update',
+        'uses' => 'NoteController@update'
+    ]);
 });
 
 Auth::routes();
