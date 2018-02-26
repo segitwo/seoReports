@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Note;
 use App\Project;
 use App\Punycode\idna_convert;
 use App\Stats\SERanking;
@@ -21,7 +22,9 @@ class ProjectsController extends Controller
      */
     public function index()
     {
+        $this->createNotesForProjects(Project::all());
         $projects = Project::all();
+
         return view('projects.index')->with('projects', $projects);
     }
 
@@ -166,5 +169,15 @@ class ProjectsController extends Controller
         }
 
         return view('metric.list')->with('list', $list);
+    }
+
+    private function createNotesForProjects($projects){
+
+        foreach ($projects as $project) {
+            if(!count($project->note)){
+                $note = new Note();
+                $project->note()->save($note);
+            }
+        }
     }
 }

@@ -72,7 +72,7 @@ class YMetric
         curl_setopt ($ch, CURLOPT_TIMEOUT, 60);
         //curl_setopt ($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-        $metrika = curl_exec ($ch);
+        $metrika = curl_exec($ch);
         curl_close($ch);
 
         return $metrika;
