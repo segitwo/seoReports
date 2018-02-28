@@ -24,15 +24,12 @@ class AutoText {
             'work' => ''
         ];
 
-
+        $period = $requestData['period'];
         $textPlaceholders['dop'] = 0;
-        if ($work == "") {
-            $period = $requestData['period'];
-        } else if($work == "dop"){
+
+        if($work == "dop"){
             $period = $requestData['dop_work'];
             $textPlaceholders['dop'] = 1;
-        } else {
-            return;
         }
 
         if($period != 0){
@@ -41,10 +38,10 @@ class AutoText {
                     if(isset($requestData['work'])){
                         switch($requestData['work']){
                             case 'Рерайт':
-                                $textPlaceholders['work'] = 'добавлены необходимые вхождения в тексты на страницах:';
+                                $textPlaceholders['work'] = __('text.work_rewrite');
                                 break;
                             default:
-                                $textPlaceholders['work'] = 'написаны и размещены уникальные тексты на страницах:';
+                                $textPlaceholders['work'] = __('text.work_default');
                                 break;
                         }
                     }
@@ -61,12 +58,12 @@ class AutoText {
                     if(isset($requestData['hasPositions'])){
                         switch($requestData['hasPositions']){
                             case 'Новое продвижение':
-                                $textPlaceholders['hasPositions1'] = 'проект только недавно начал продвижение';
-                                $textPlaceholders['hasPositions2'] = 'вывод всех запросов в ТОП-100 с дальнейшим улучшением';
+                                $textPlaceholders['hasPositions1'] = __('text.positions_new_1');
+                                $textPlaceholders['hasPositions2'] = __('text.positions_new_1');
                                 break;
                             case 'Есть позиции':
-                                $textPlaceholders['hasPositions1'] = 'у сайта уже есть определенные позиции';
-                                $textPlaceholders['hasPositions2'] = 'корректировка оптимизации посадочных страниц для улучшения видимости проекта';
+                                $textPlaceholders['hasPositions1'] = __('text.positions_old_1');
+                                $textPlaceholders['hasPositions2'] = __('text.positions_old_2');
                                 break;
                         }
                     }
@@ -78,10 +75,10 @@ class AutoText {
                     if(isset($requestData['work'])){
                         switch($requestData['work']) {
                             case 'Первичный аудит':
-                                return view('reports.xml.text.2month', ['work' => 'В этот период наша работа была направлена на улучшение позиций сайта. Мы провели плановый технический аудит, который в себя включал:'])->render();
+                                return view('reports.xml.text.2month', ['work' => __('text.first_audit')])->render();
                                 break;
                             case 'Вторичный аудит':
-                                return view('reports.xml.text.2month', ['work' => 'В этом месяце наши работы были направлены на улучшение позиций отстающих запросов. С этой целью на сайте проводились следующие работы:'])->render();
+                                return view('reports.xml.text.2month', ['work' => __('text.second_audit')])->render();
                                 break;
                         }
                     }
@@ -132,53 +129,52 @@ class AutoText {
     
     public function getNextWorkText($request){
         $project = Project::find($request['id']);
-        $projectYearsOld = Carbon::parse($project->start_date)->modify('-1 day')->diffInYears(Carbon::today());
+        $projectLife = Carbon::parse($project->start_date)->modify('-1 day')->diffInYears(Carbon::today());
 
         $work = $request['next_work'];
         switch($work){
             case 1:
-                $str = $projectYearsOld ? 'повторного' : '';
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем проведение " . $str . " технического аудита сайта с целью выявления ошибок связанных с текущими программными настройками, корректностью использования редиректов, наличием битых ссылок, отказоустойчивостью, склейкой зеркал и проч. Техническая сторона сайта имеет сильное влияние на эффективное функционирование ресурса, а также на быстроту и качество его продвижения в поисковых системах."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_1', [
+                    'repeat' => $projectLife ? __('text.repeat') : ''
+                ])])->render();
                 break;
             case 2:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем провести работы по устранению выявленных ошибок в ходе технического аудита и улучшению видимости сайта в поисковых системах по продвигаемым ключевым словам."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_2')])->render();
                 break;
             case 3:
-                return view('reports.xml.paragraph', ["val" => "В следующем периоде мы планируем провести полную проверку текущей индексации сайта в поисковых системах с целью выявления уязвимостей, своевременного их устранения. Данные работы положительно повлияют на скорость обновления страниц в индексе и, как следствие, обеспечат рост позиций."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_3')])->render();
                 break;
             case 4:
-                return view('reports.xml.paragraph', ["val" => "В следующем периоде мы планируем провести проверку текущей ссылочной массы сайта и его конкурентов в ТОП-10, определить динамику изменения, проверить анкор-лист и основные показатели сайтов-доноров."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_4')])->render();
 
                 break;
             case 5:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем провести работы по анализу внутренней и внешней перелинковки, поиска путей улучшения показателя статического веса на продвигаемых страницах с целью роста позиций по продвигаемым ключевым словам."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_5')])->render();
 
                 break;
             case 6:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем провести работы по составлению анкор-листа, а также его внедрение на сайт для создания корректной внутренней перелинковки; поиск и составления white-листа качественных внешних доноров и размещение внешних естественных ссылок на сайт, что позволит увеличить релевантность продвигаемых страниц и будет способствовать улучшению уже достигнутых результатов."])->render();
-
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_6')])->render();
                 break;
             case 7:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце наша работа будет направлена на анализ текущего положения поисковых фраз в выдаче поисковых систем, корректировка необходимых заголовков, мета-тегов, проверка и, при необходимости, корректировка оптимизации текста для улучшения видимости сайта в поисковых системах по продвигаемым ключевым словам."])->render();
-
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_7')])->render();
                 break;
             case 8:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем провести работы по устранению выявленных ошибок в ходе поискового аудита и улучшению видимости сайта в поисковых системах по продвигаемым ключевым словам."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_8')])->render();
                 break;
             case 9:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем провести работу со сниппетами (текстовыми описаниями в поисковой выдаче), для того чтобы сайт имел максимальную кликабельность (%CTR), формирование и управление микроразметкой сайта в выдаче, а также проведению дополнительных работ по улучшению отстающих запросов."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_9')])->render();
                 break;
             case 10:
-                return view('reports.xml.paragraph', ["val" => "В следующем периоде мы планируем проведение маркетингового аудита сайта для отслеживания тенденций поведения посетителя, поиска узких мест, развития функциональности сайта на основе этих данных, для оценки эффективности seo-кампании и выявлении проблемных мест в структуре, навигации и контенте сайта. Это очень важный этап работы с сайтом, в ходе которого мы даем рекомендации по улучшению ресурса."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_10')])->render();
                 break;
             case 11:
-                return view('reports.xml.paragraph', ["val" => "В следующем месяце мы планируем проведение анализа семантики, которую получает ресурс из естественной поисковой выдачи. Это позволит проанализировать эффективность продвижение по выбранным ключевым направлениям, а также даст возможность собрать дополнительную семантику для сайта с целью улучшение видимости ресурса в выдаче."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_11')])->render();
                 break;
             case 12:
-                return view('reports.xml.paragraph', ["val" => "В последующих месяцах мы планируем планомерное внедрение дополнительной семантики на сайт для увеличения видимости сайта по всему пулу тематических релевантных запросов. Прирост дополнительного релевантного трафика должен положительно повлиять на рост позиций сайта по продвигаемым ключевым запросам."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_12')])->render();
                 break;
             case 13:
-                return view('reports.xml.paragraph', ["val" => "Каждый месяц мы продолжаем вести постоянный мониторинг сайта на наличие технических ошибок, вирусов, взломов, нарушений и сбоев, наличие дублей и ошибок сканирования. Проводится периодическая проверка позиций сайта, анализ изменений в выдаче и внесение соответствующих корректировок."])->render();
+                return view('reports.xml.paragraph', ["val" => __('text.next_work_13')])->render();
                 break;
 
 
@@ -186,14 +182,12 @@ class AutoText {
     }
     
     public function getSupportText($support = [], $supportText = ''){
-        $outputList = "";
-        if(count($support)){
-            $outputList =
-                view('reports.xml.paragraph', ["val" => ""])->render() .
-                view('reports.xml.paragraph', ["val" => "В рамках плановых работ по контент-сопровождению:"])->render();
-        } else {
-            return "";
-        }
+
+        if(!count($support)){return "";}
+
+        $outputList =
+            view('reports.xml.paragraph', ["val" => ""])->render() .
+            view('reports.xml.paragraph', ["val" => "В рамках плановых работ по контент-сопровождению:"])->render();
         
         if(in_array('Отзывы на сайте', $support) && in_array('Отзывы на стор. ресурсе', $support)){
             unset($support[array_search('Отзывы на сайте', $support)]);
@@ -204,36 +198,36 @@ class AutoText {
         foreach($support as $supp){
             switch($supp) {
                 case "Обратная связь":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Проверена работоспособность формы обратной связи и скорость реакции персонала на заявку с сайта;"])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_feedback')])->render();
                     break;
                 case "Новости":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Согласованы и размещены новости;"])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_news')])->render();
                     break;
                 case "Статьи":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Написана и размещена тематическая статья;"])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_articles')])->render();
                     break;
                 case "Фотогалерея":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Размещены фотографии в фотогалерею;"])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_photos')])->render();
                     break;
                 case "Отзывы на сайте":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Написаны и размещены отзывы на сайте."])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_reviews')])->render();
                     break;
                 case "Отзывы на стор. ресурсе":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Написаны и размещены отзывы на сторонних ресурсах."])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_side_reviews')])->render();
                     break;
                 case "Отзывы везде":
-                    $outputList .= view('reports.xml.listRow', ["val" => "Написаны и размещены отзывы на сайте и на сторонних ресурсах."])->render();
+                    $outputList .= view('reports.xml.listRow', ["val" => __('text.support_all_reviews')])->render();
                     break;
             }
         }
-        
+
         if($supportText != ''){
             $support_text_rows = explode("\n", $supportText);
             $worklist = "";
             foreach($support_text_rows as $row){
                 $worklist .= view('reports.xml.listRow', ["val" => $row])->render();
             }
-            $worklist = view('reports.xml.paragraph', ["val" => ""])->render() . view('reports.xml.paragraph', ["val" => "Список:"])->render() . $worklist;
+            $worklist = view('reports.xml.paragraph', ["val" => ""])->render() . view('reports.xml.paragraph', ["val" => __('text.support_list_title')])->render() . $worklist;
         }
 
         return $outputList . $worklist . view('reports.xml.paragraph', ["val" => ""])->render();
@@ -305,7 +299,7 @@ class AutoText {
         }
 
 
-        return empty($output)? '' : view('reports.xml.paragraph', ["val" => "Также в этом месяце выполнены следующие работы:"])->render()
+        return empty($output)? '' : view('reports.xml.paragraph', ["val" => __('text.note_title')])->render()
             . $output . view('reports.xml.paragraph', ["val" => ""])->render();
 
     }

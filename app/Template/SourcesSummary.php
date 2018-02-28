@@ -160,13 +160,19 @@ class SourcesSummary extends TemplateBlockExtension
             if($sourcesStatistic['growth'] == 'up'){
                 if(in_array($requestData['period'], [2,3,4,5,6])){
                     $sourcesStatistic['firstHalf'] = 1;
-                    $firstHalfText = ['Как видно', 'Из поисковой статистики следует, что', 'Мы наблюдаем, что', 'Заметно, что', 'Мы видим, что'];
+                    $firstHalfText = [
+                        __('text.sources_first_half_rand_1'),
+                        __('text.sources_first_half_rand_2'),
+                        __('text.sources_first_half_rand_3'),
+                        __('text.sources_first_half_rand_4'),
+                        __('text.sources_first_half_rand_5')
+                    ];
                     $rand_key = array_rand($firstHalfText, 1);
                     $sourcesStatistic['firstHalfText'] = $firstHalfText[$rand_key];
                 }
 
                 if($requestData['period'] == 2){
-                    $sourcesStatistic['secondMonthText'] = 'При грамотной настройке сайта в поисковой выдаче сильно растет количество фраз, по которым сайт могут находить пользователи.';
+                    $sourcesStatistic['secondMonthText'] = __('text.sources_second_month_text');
                 }
             }
         }

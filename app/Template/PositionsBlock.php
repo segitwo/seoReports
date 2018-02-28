@@ -25,10 +25,7 @@ class PositionsBlock extends TemplateBlockExtension
         ]);
 
         //Приводим к виду ['id запроса' => 'Имя запроса']
-        $keyWords = [];
-        foreach ($keyWordsData as $data) {
-            $keyWords[$data->id] = $data->name;
-        }
+        $keyWords = array_column($keyWordsData, 'name', 'id');
 
         //Статистика по запросам
         $keyWordsStat = SERanking::getData($params = [
@@ -43,40 +40,34 @@ class PositionsBlock extends TemplateBlockExtension
         $output = [];
 
         foreach(array_slice($keyWordsStat, 0, 2) as $stat){
-            if($stat->seID == 411) {
-                $key = 'Яндекс';
-                //} elseif(in_array($stat->seID, [474, 339, 454])) {
-            } else {
-                $key = 'Google';
-            }
 
-            if(isset($key)){
-                foreach ($stat->keywords as $keyword) {
-                    if(isset($keyWords[$keyword->id])){
+            $key = ($stat->seID == 411) ? 'Яндекс' : 'Google';
 
-                        $positions = $keyword->positions;
+            foreach ($stat->keywords as $keyword) {
+                if(isset($keyWords[$keyword->id])){
 
-                        reset($positions);
-                        $lastPosition = intval(current($positions)->pos);
-                        end($positions);
-                        $currentPosition = intval(current($positions)->pos);
-
-                        $change = $lastPosition - $currentPosition;
-                        if(!$lastPosition){
-                            $change = abs($change);
-                        }
-
-                        $output[$keyWords[$keyword->id]][$key] = ['change' => $change, 'pos' => $currentPosition, 'last_position' => $lastPosition];
-
-                        //По дефолту
-                        if(!isset($output[$keyWords[$keyword->id]]['Яндекс'])){
-                            $output[$keyWords[$keyword->id]]['Яндекс'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
-                        }
-
-                        if(!isset($output[$keyWords[$keyword->id]]['Google'])){
-                            $output[$keyWords[$keyword->id]]['Google'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
-                        }
+                    //По дефолту
+                    if(!isset($output[$keyWords[$keyword->id]]['Яндекс'])){
+                        $output[$keyWords[$keyword->id]]['Яндекс'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
                     }
+
+                    if(!isset($output[$keyWords[$keyword->id]]['Google'])){
+                        $output[$keyWords[$keyword->id]]['Google'] = ['change' => 0, 'pos' => 0, 'last_position' => 0];
+                    }
+
+                    $positions = $keyword->positions;
+                    if(!count($positions)){continue;}
+
+                    $lastPosition = intval(reset($positions)->pos);
+                    $currentPosition = intval(end($positions)->pos);
+                    $change = $lastPosition - $currentPosition;
+                    $change = ($lastPosition) ? $change : abs($change);
+
+                    $output[$keyWords[$keyword->id]][$key] = [
+                        'change' => $change,
+                        'pos' => $currentPosition,
+                        'last_position' => $lastPosition
+                    ];
                 }
             }
         }

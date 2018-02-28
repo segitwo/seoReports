@@ -41,34 +41,29 @@ class MobileRecommendation extends TemplateBlockExtension
 
             switch ($monthsInterval - $start_month){
                 case 0:
-                    $text = 'В этом месяце из всех посетителей сайта, ' . $mobilePercent . '% перешли с мобильных устройств.' .
-                    'На данный момент сайт не адаптирован под мобильные телефоны и планшеты — информацию приходится ' .
-                    'увеличивать для прочтения, что весьма неудобно. В итоге показатель отказов (быстрых закрытий сайта) ' .
-                    'мобильных пользователей составляет ' . $bounceRate . '%. Это существенный показатель, ' .
-                    'учитывая, что ушедшие пользователи могли бы стать вашими клиентами.';
-                    $output .= view('reports.xml.paragraph', ['val' => $text])->render();
+                    $output .= view('reports.xml.paragraph', ['val' => __('text.mobile_recomendation_1', [
+                        'percent' => $mobilePercent,
+                        'bounceRate' => $bounceRate
+                    ])])->render();
 
-                    $text = 'В результатах поисковой выдачи на мобильных устройствах позиции нашего проекта могут ' .
-                    'занижаться поисковыми системами. Чтобы привлечь дополнительный трафик, увеличить число посетителей ' .
-                    'сайта и клиентов за счет пользователей телефонов и планшетов, настоятельно рекомендуем вам адаптировать сайт под мобильные устройства.';
-                    $output .= view('reports.xml.paragraph', ['val' => $text])->render();
+                    $output .= view('reports.xml.paragraph', ['val' => __('text.mobile_recomendation_2')])->render();
                     break;
                 case 1:
-                    $text = 'В этом месяце из всех посетителей сайта, ' . $mobilePercent . '% перешли с мобильных устройств. ' .
-                    'На данный момент сайт все еще не адаптирован под мобильные телефоны и планшеты — информацию ' .
-                    'приходится увеличивать для прочтения. Показатель отказов (быстрых закрытий сайта) мобильных пользователей составляет ' . $bounceRate . '%.';
-                    $output .= view('reports.xml.paragraph', ['val' => $text])->render();
+                    $output .= view('reports.xml.paragraph', ['val' => __('text.mobile_recomendation_3', [
+                        'percent' => $mobilePercent,
+                        'bounceRate' => $bounceRate
+                    ])])->render();
                     break;
                 default:
 
                     $mobilePercent_last = $this->getMobilePercentFromYM([(clone $this->prevDay)->modify('-1 month')->format('Y-m-d'), $this->prevDay->format('Y-m-d')]);
 
                     if($mobilePercent_last < $mobilePercent){
-                        $text = 'За последние два месяца переходы с мобильных устройств увеличились с  ' . $mobilePercent_last . '% до ' . $mobilePercent . '%. ' .
-                            'Это говорит о том, что доля мобильных пользователей сайта растет. На данный момент сайт все еще не ' .
-                            'адаптирован под мобильные телефоны и планшеты — информацию приходится увеличивать для прочтения. ' .
-                            'Показатель отказов (быстрых закрытий сайта) мобильных пользователей составляет ' . $bounceRate . '%.';
-                        $output .= view('reports.xml.paragraph', ['val' => $text])->render();
+                        $output .= view('reports.xml.paragraph', ['val' => __('text.mobile_recomendation_default', [
+                            'mobilePercent_last' => $mobilePercent_last,
+                            'mobilePercent' => $mobilePercent,
+                            'bounceRate' => $bounceRate
+                        ])])->render();
                     }
 
                     break;
