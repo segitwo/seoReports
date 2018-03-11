@@ -2,16 +2,16 @@
 
 namespace App\Stats;
 
+use Illuminate\Support\Facades\Auth;
+
 class YGoals {
 
     public static function getList($id){
-
-        $metrika_url = 'https://api-metrika.yandex.ru/management/v1/counter/' . $id . '/goals?oauth_token=AQAAAAAFr1TtAANPEBXXD8EmGk0ymRXroOa0etg';
+        $user = Auth::user();
+        $metrika_url = 'https://api-metrika.yandex.ru/management/v1/counter/' . $id . '/goals?oauth_token=' . $user->oAuthToken->ym_token;
         $list = (new self)->curlData($metrika_url);
 
         return json_decode($list);
-
-        //https://api-metrika.yandex.ru/management/v1/counter/31247848/goals?oauth_token=AQAAAAAFr1TtAANPEBXXD8EmGk0ymRXroOa0etg
     }
 
     private function curlData($metrika_url){

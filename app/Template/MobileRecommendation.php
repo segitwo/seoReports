@@ -91,8 +91,12 @@ class MobileRecommendation extends TemplateBlockExtension
         foreach ($devicesData->data as $data) {
             $devices[$data->dimensions[0]->id] = $data->metrics[0];
         }
+        if($devicesData->totals[0]){
+            return round((($devices['tablet'] + $devices['mobile']) / $devicesData->totals[0]) * 100, 2);
+        } else {
+            return 0;
+        }
 
-        return round((($devices['tablet'] + $devices['mobile']) / $devicesData->totals[0]) * 100, 2);
     }
 
 
