@@ -59,7 +59,7 @@ class AutoText {
                         switch($requestData['hasPositions']){
                             case 'Новое продвижение':
                                 $textPlaceholders['hasPositions1'] = __('text.positions_new_1');
-                                $textPlaceholders['hasPositions2'] = __('text.positions_new_1');
+                                $textPlaceholders['hasPositions2'] = __('text.positions_new_2');
                                 break;
                             case 'Есть позиции':
                                 $textPlaceholders['hasPositions1'] = __('text.positions_old_1');
