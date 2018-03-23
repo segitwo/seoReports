@@ -20,6 +20,15 @@
                         <input type="text" name="date" value="{{ Carbon\Carbon::now()->format('d-m-Y') }}" class="form-control timepicker-with-dropdowns datapicker" />
                     </div>
                 </div>
+                {!! Form::label('note', 'Сравнить с датой') !!}
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn" type="button"><span class="fui-calendar"></span></button>
+                        </span>
+                        <input type="text" name="prev_date" value="{{ Carbon\Carbon::now()->subMonth(1)->format('d-m-Y') }}" class="form-control timepicker-with-dropdowns datapicker" />
+                    </div>
+                </div>
 
                 <div class="form-group">
                     {!! Form::label('note', 'Шаблон') !!}

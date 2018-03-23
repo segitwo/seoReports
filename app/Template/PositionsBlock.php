@@ -71,7 +71,7 @@ class PositionsBlock extends TemplateBlockExtension
                 }
             }
         }
-
+        ksort($output);
         return view('reports.xml.table.positions', ['positionRows' => $output])->render();
     }
 

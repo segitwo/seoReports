@@ -42,12 +42,19 @@ abstract class TemplateBlockExtension extends Model
         $this->siteKey = $siteKey;
         $this->rankingKey = $rankingKey;
 
-        $this->today = Carbon::parse($requestData['date']);
-        $this->prevDay = clone $this->today;
-        $this->prevDay->modify('-1 month');
+        if(empty($this->prevDay) || empty($this->today)){
+            $this->today = Carbon::parse($requestData['date']);
+            $this->prevDay = clone $this->today;
+            $this->prevDay->modify('-1 month');
+        }
 
         $this->days = [$this->prevDay->format('Y-m-d'), $this->today->format('Y-m-d')];
 
         $this->reportId = $reportId;
+    }
+
+    public function setDates(Carbon $prevDay, Carbon $today){
+        $this->prevDay = $prevDay;
+        $this->today = $today;
     }
 }

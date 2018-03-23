@@ -10,6 +10,7 @@ namespace App\Report;
 
 use App\Template\Template;
 use App\Template\TemplateBlock;
+use App\Template\TemplateBlockExtension;
 use Carbon\Carbon;
 use CpChart\Data;
 use CpChart\Image;
@@ -64,9 +65,17 @@ class Report
 
         $today = Carbon::parse($requestData['date']);
 
-        $prevDay = clone $today;
-        $prevDay->modify('-1 month');
-        $prevDay->format('d-m-Y');
+        if(isset($requestData['prev_date'])){
+            $prevDay = Carbon::parse($requestData['prev_date']);
+        } else {
+            $prevDay = clone $today;
+            $prevDay->modify('-1 month');
+            $prevDay->format('d-m-Y');
+        }
+
+        if($today < $prevDay){
+            die('Текущая дата не может быть меньше предыдущей');
+        }
 
         $dataOutput["today"] = $today->format('d.m.Y');
         $dataOutput["prevDay"] = $prevDay->format('d.m.Y');
@@ -106,9 +115,15 @@ class Report
         $blocks = $template->blocks->sortBy('sortIndex');
         if (count($blocks)) {
             foreach ($blocks as $block) {
-                $requestData['templateBlock'] = $templateBlock = $block->getOne($block->class_key)->first();
-                $xmlBlock = $templateBlock->getData($requestData, $reportId);
-                $this->addBlockToReport($xmlBlock);
+                $templateBlock = $block->getOne($block->class_key)->first();
+                if($templateBlock instanceof TemplateBlockExtension){
+                    $templateBlock->setDates($prevDay, $today);
+                    $requestData['templateBlock'] = $templateBlock;
+
+                    $xmlBlock = $templateBlock->getData($requestData, $reportId);
+                    $this->addBlockToReport($xmlBlock);
+                }
+
             }
         }
 
@@ -122,8 +137,6 @@ class Report
     private function generateReportDocument($xmlData, $reportId)
     {
         $output = view('reports.xml.newReport', $xmlData)->render();
-
-        //$output = str_replace('<desyatov_mv@mail.ru>', '', $output);
 
         $xml = simplexml_load_string($output);
 
